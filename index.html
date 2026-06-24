@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=2.0, user-scalable=yes" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>数学大拔河</title>
     <style>
         :root {
@@ -930,195 +930,80 @@
             font-weight: 700;
         }
 
-        /* 横屏适配 */
-        @media (orientation: landscape) and (max-height: 700px) {
-            .layout {
-                grid-template-columns: 260px 1fr 260px;
-                gap: 16px;
-            }
-            .question-text {
-                font-size: 26px;
-                min-height: 80px;
-                padding: 10px 8px;
-            }
-            .team-body {
-                padding: 10px;
-                gap: 8px;
-            }
-            .team-header {
-                font-size: 18px;
-                padding: 8px 12px;
-            }
-            .score-dot {
-                font-size: 18px;
-                min-width: 32px;
-                height: 32px;
-            }
-            .arena-stat .value {
-                font-size: 32px;
-            }
-            .timer {
-                font-size: 28px;
-            }
-            .pad-btn,
-            .choice-btn {
-                min-height: 56px;
-                font-size: 20px;
-            }
-            .answer-screen {
-                font-size: 28px;
-                min-height: 50px;
-            }
-            .player {
-                width: 80px;
-                height: 120px;
-            }
-            .team-group {
-                gap: 24px;
-            }
-            .arena-stage {
-                min-height: 260px;
+        /* 横屏优化 */
+        @media (orientation: landscape) and (max-height: 500px) {
+            .app {
+                height: calc(100dvh - 20px);
+                padding: 6px 12px 8px;
             }
             .topbar {
                 margin-bottom: 8px;
             }
-            .app {
-                padding: 8px;
-            }
-            .pill-btn {
-                padding: 8px 12px;
-                font-size: 14px;
-            }
-            .timer-config input {
-                width: 44px;
-            }
-            .feedback {
-                font-size: 14px;
-                min-height: 24px;
-            }
-            .status-pill {
-                padding: 6px 12px;
-                font-size: 13px;
-            }
-        }
-
-        @media (orientation: landscape) and (max-height: 500px) {
             .layout {
-                grid-template-columns: 200px 1fr 200px;
-                gap: 10px;
+                grid-template-columns: 280px minmax(280px, 1fr) 280px;
+                gap: 12px;
             }
             .question-text {
-                font-size: 20px;
-                min-height: 64px;
-                padding: 6px 6px;
-            }
-            .team-body {
-                padding: 6px;
-                gap: 4px;
-            }
-            .team-header {
-                font-size: 14px;
-                padding: 4px 8px;
-            }
-            .score-dot {
-                font-size: 14px;
-                min-width: 24px;
-                height: 24px;
-            }
-            .arena-stat .value {
                 font-size: 24px;
+                min-height: 60px;
+                padding: 8px 6px;
             }
-            .timer {
-                font-size: 22px;
+            .answer-screen {
+                font-size: 26px;
+                min-height: 40px;
             }
             .pad-btn,
             .choice-btn {
                 min-height: 44px;
-                font-size: 16px;
+                font-size: 20px;
             }
-            .answer-screen {
-                font-size: 22px;
-                min-height: 40px;
+            .team-body {
+                padding: 8px;
+                gap: 6px;
             }
-            .player {
-                width: 60px;
-                height: 90px;
+            .team-header {
+                padding: 6px 12px;
+                font-size: 18px;
             }
-            .team-group {
-                gap: 16px;
-            }
-            .arena-stage {
-                min-height: 180px;
-            }
-            .topbar {
-                margin-bottom: 4px;
-            }
-            .app {
-                padding: 4px;
-            }
-            .toolbar {
-                gap: 4px;
-            }
-            .pill-btn {
-                padding: 4px 8px;
-                font-size: 11px;
-            }
-            .timer-config input {
-                width: 36px;
-                font-size: 14px;
-            }
-            .timer-controls button {
-                width: 24px;
-                height: 24px;
-                font-size: 14px;
-            }
-            .feedback {
-                font-size: 12px;
-                min-height: 20px;
-            }
-            .status-pill {
-                padding: 4px 8px;
-                font-size: 11px;
+            .score-dot {
+                min-width: 30px;
+                height: 30px;
+                font-size: 18px;
             }
             .arena-top {
-                padding: 10px 12px;
-                gap: 8px;
+                padding: 8px 12px;
             }
-            .arena {
-                padding: 6px;
-                gap: 8px;
+            .arena-stat .value {
+                font-size: 28px;
             }
-            .choice-actions button {
-                min-height: 36px;
-                font-size: 14px;
+            .timer {
+                font-size: 26px;
             }
-            .numeric-pad {
-                gap: 4px;
+            .player {
+                width: 70px;
+                height: 105px;
             }
-            .pad-btn {
-                min-height: 36px;
-                font-size: 14px;
+            .team-group {
+                gap: 20px;
             }
-            .choice-btn {
-                min-height: 36px;
-                font-size: 14px;
-                padding: 4px 8px;
+            .team-group.left {
+                left: calc(50% - 200px + var(--group-shift, 0px));
             }
-            .floating-controls {
-                left: 8px;
-                bottom: 8px;
-                padding: 4px;
-                gap: 4px;
+            .team-group.right {
+                right: calc(50% - 200px - var(--group-shift, 0px));
             }
-            .control-btn {
-                min-width: 28px;
-                height: 28px;
-                padding: 0 6px;
-                font-size: 14px;
+            .arena-stage {
+                min-height: 200px;
             }
-            .control-btn.label {
-                min-width: 48px;
-                font-size: 11px;
+            .ground {
+                bottom: 60px;
+            }
+            .rope-wrap {
+                top: 50%;
+            }
+            .status-pill {
+                padding: 4px 10px;
+                font-size: 13px;
             }
         }
 
@@ -1222,7 +1107,6 @@
 <body>
     <div class="viewport">
         <div class="app">
-            <button class="pill-btn" id="helpBtn" style="position: absolute; right: 14px; top: 14px; z-index: 10;">帮助</button>
             <div class="topbar">
                 <div class="toolbar">
                     <label class="pill-btn timer-config" for="countdownInput">
@@ -1241,6 +1125,7 @@
             </div>
 
             <div class="layout">
+                <!-- 蓝队（左） -->
                 <section class="card team-card left" id="teamA">
                     <div class="team-header blue">
                         <span id="nameDisplayA">蓝队</span>
@@ -1257,6 +1142,7 @@
                     </div>
                 </section>
 
+                <!-- 竞技场 -->
                 <section class="card arena">
                     <div class="arena-top">
                         <div class="arena-stat">
@@ -1295,6 +1181,7 @@
                     </div>
                 </section>
 
+                <!-- 红队（右） -->
                 <section class="card team-card right" id="teamB">
                     <div class="team-header red">
                         <span id="nameDisplayB">红队</span>
@@ -1377,28 +1264,6 @@
                     <div class="bank-list" id="bankList"></div>
                 </div>
             </div>
-        </div>
-    </div>
-
-    <div class="settings-modal" id="helpModal">
-        <div class="settings-panel" style="width: min(420px, 100%); text-align: center; padding: 32px 24px;">
-            <h2 style="margin-top: 0; margin-bottom: 20px; font-size: 28px;">🧮 数学大拔河</h2>
-            <p style="font-size: 16px; line-height: 1.6; margin-bottom: 8px; color: var(--text);">📚 练习内容：</p>
-            <p style="font-size: 15px; line-height: 1.8; color: var(--muted); margin-bottom: 16px;">
-                ✅ 100以内不进位加法<br>
-                ✅ 100以内不退位减法<br>
-                ✅ 20以内进位加法<br>
-                ✅ 20以内退位减法
-            </p>
-            <p style="font-size: 16px; line-height: 1.6; margin-bottom: 12px; color: var(--text);">更多教学工具 小红书/抖音搜索 <strong>AI小灵光</strong></p>
-            <p style="font-size: 16px; line-height: 1.6; margin-bottom: 24px; color: var(--text);">支持定制课件</p>
-
-            <div style="display: flex; align-items: center; justify-content: space-between; background: #f3f7fb; padding: 14px 18px; border-radius: 16px; margin-bottom: 28px; box-shadow: inset 0 0 0 2px #e8eef5;">
-                <span style="font-size: 18px; font-weight: 900; color: #1f8fff;">微信: aixiaolingguang</span>
-                <button class="pill-btn primary" id="copyWechatBtn" style="padding: 8px 16px; font-size: 14px; box-shadow: none;">复制微信</button>
-            </div>
-
-            <button class="pill-btn" id="closeHelpBtn" style="width: 100%; font-size: 18px; padding: 14px;">关闭</button>
         </div>
     </div>
 
@@ -1623,11 +1488,7 @@
             clearBatchBtn: document.getElementById("clearBatchBtn"),
             bankList: document.getElementById("bankList"),
             exportBankBtn: document.getElementById("exportBankBtn"),
-            clearBankBtn: document.getElementById("clearBankBtn"),
-            helpBtn: document.getElementById("helpBtn"),
-            helpModal: document.getElementById("helpModal"),
-            closeHelpBtn: document.getElementById("closeHelpBtn"),
-            copyWechatBtn: document.getElementById("copyWechatBtn")
+            clearBankBtn: document.getElementById("clearBankBtn")
         };
 
         function formatTime(seconds) {
@@ -1905,6 +1766,14 @@
                 return;
             }
             await element.requestFullscreen();
+            // 尝试锁定横屏（部分浏览器支持）
+            try {
+                if (screen.orientation && screen.orientation.lock) {
+                    await screen.orientation.lock('landscape');
+                }
+            } catch (e) {
+                // 忽略不支持的情况
+            }
         }
 
         function updateFullscreenButtonText() {
@@ -2409,24 +2278,6 @@
             if (event.target === els.settingsModal) {
                 els.settingsModal.classList.remove("show");
             }
-        });
-
-        els.helpBtn.addEventListener("click", () => els.helpModal.classList.add("show"));
-        els.closeHelpBtn.addEventListener("click", () => els.helpModal.classList.remove("show"));
-        els.helpModal.addEventListener("click", (e) => {
-            if (e.target === els.helpModal) els.helpModal.classList.remove("show");
-        });
-
-        els.copyWechatBtn.addEventListener("click", () => {
-            navigator.clipboard.writeText("aixiaolingguang").then(() => {
-                const originalText = els.copyWechatBtn.textContent;
-                els.copyWechatBtn.textContent = "✅ 已复制!";
-                setTimeout(() => {
-                    els.copyWechatBtn.textContent = originalText;
-                }, 2000);
-            }).catch(err => {
-                alert("复制失败，请手动复制微信：aixiaolingguang");
-            });
         });
 
         document.addEventListener("fullscreenchange", updateFullscreenButtonText);
