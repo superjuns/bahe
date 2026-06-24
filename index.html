@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>数学大拔河</title>
     <style>
+        /* ===== 样式与之前完全一致 ===== */
         :root {
             --bg: #e9edf2;
             --panel: #ffffff;
@@ -21,22 +22,16 @@
             --radius: 22px;
             --ui-scale: 1;
         }
-
-        * {
-            box-sizing: border-box;
-        }
-
+        * { box-sizing: border-box; }
         body {
             margin: 0;
             font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
             color: var(--text);
-            background:
-                radial-gradient(circle at top, #f8fbff 0, #eef3f8 28%, var(--bg) 78%);
+            background: radial-gradient(circle at top, #f8fbff 0, #eef3f8 28%, var(--bg) 78%);
             min-height: 100vh;
             min-height: 100dvh;
             overflow: hidden;
         }
-
         .viewport {
             position: fixed;
             inset: 0;
@@ -46,19 +41,8 @@
             padding: 18px;
             overflow: hidden;
         }
-
-        button,
-        input,
-        textarea,
-        select {
-            font: inherit;
-        }
-
-        button {
-            border: 0;
-            cursor: pointer;
-        }
-
+        button, input, textarea, select { font: inherit; }
+        button { border: 0; cursor: pointer; }
         .app {
             width: min(1480px, calc((100vw - 40px) / var(--ui-scale)));
             height: min(920px, calc((100dvh - 36px) / var(--ui-scale)));
@@ -70,7 +54,6 @@
             transition: transform 0.16s ease;
             position: relative;
         }
-
         .topbar {
             display: flex;
             align-items: center;
@@ -78,13 +61,11 @@
             gap: 12px;
             margin-bottom: 14px;
         }
-
         .toolbar {
             display: flex;
             gap: 10px;
             flex-wrap: wrap;
         }
-
         .pill-btn {
             background: #fff;
             color: var(--text);
@@ -93,12 +74,10 @@
             box-shadow: 0 6px 16px rgba(22, 42, 74, 0.12);
             font-weight: 700;
         }
-
         .pill-btn.primary {
             background: linear-gradient(135deg, var(--blue), #4fb8ff);
             color: #fff;
         }
-
         .pill-btn:disabled {
             opacity: 0.6;
             cursor: not-allowed;
@@ -106,18 +85,15 @@
             color: #7b8a9d;
             box-shadow: none;
         }
-
         .pill-btn.primary:disabled {
             background: linear-gradient(135deg, #a1cbf2, #b8ddf5);
             color: #fff;
         }
-
         .timer-config {
             display: inline-flex;
             align-items: center;
             gap: 8px;
         }
-
         .timer-controls {
             display: flex;
             align-items: center;
@@ -126,7 +102,6 @@
             overflow: hidden;
             box-shadow: inset 0 0 0 1px #d8dee8;
         }
-
         .timer-controls button {
             width: 32px;
             height: 32px;
@@ -140,11 +115,7 @@
             user-select: none;
             -webkit-user-select: none;
         }
-
-        .timer-controls button:hover {
-            background: #e4ebf3;
-        }
-
+        .timer-controls button:hover { background: #e4ebf3; }
         .timer-config input {
             width: 54px;
             border: 0;
@@ -156,13 +127,8 @@
             padding: 6px 0;
             -moz-appearance: textfield;
         }
-
         .timer-config input::-webkit-outer-spin-button,
-        .timer-config input::-webkit-inner-spin-button {
-            -webkit-appearance: none;
-            margin: 0;
-        }
-
+        .timer-config input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
         .layout {
             display: grid;
             grid-template-columns: 360px minmax(360px, 1fr) 360px;
@@ -171,21 +137,18 @@
             flex: 1;
             min-height: 0;
         }
-
         .card {
             background: var(--panel);
             border-radius: var(--radius);
             box-shadow: var(--shadow);
             overflow: hidden;
         }
-
         .team-card {
             display: flex;
             flex-direction: column;
             min-height: 0;
             height: 100%;
         }
-
         .team-header {
             display: flex;
             justify-content: space-between;
@@ -195,15 +158,8 @@
             font-weight: 800;
             font-size: 22px;
         }
-
-        .team-header.blue {
-            background: linear-gradient(135deg, #148cff, #3eb1ff);
-        }
-
-        .team-header.red {
-            background: linear-gradient(135deg, #f74438, #ff6d61);
-        }
-
+        .team-header.blue { background: linear-gradient(135deg, #148cff, #3eb1ff); }
+        .team-header.red { background: linear-gradient(135deg, #f74438, #ff6d61); }
         .score-dot {
             min-width: 40px;
             height: 40px;
@@ -211,13 +167,12 @@
             border-radius: 999px;
             display: grid;
             place-items: center;
-            background: rgba(255, 255, 255, 0.92);
+            background: rgba(255,255,255,0.92);
             color: var(--text);
             font-weight: 900;
             font-size: 22px;
-            box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.5);
+            box-shadow: inset 0 0 0 2px rgba(255,255,255,0.5);
         }
-
         .team-body {
             padding: 14px;
             display: flex;
@@ -225,7 +180,6 @@
             gap: 12px;
             flex: 1;
         }
-
         .question-text {
             min-height: 104px;
             display: flex;
@@ -241,19 +195,16 @@
             color: #1680eb;
             word-break: break-word;
         }
-
         .team-card.right .question-text {
             color: #f44336;
             background: linear-gradient(180deg, #fff6f6, #fff0ef);
         }
-
         .question-meta {
             display: flex;
             justify-content: center;
             gap: 8px;
             flex-wrap: wrap;
         }
-
         .badge {
             background: #eef3fb;
             color: var(--muted);
@@ -262,7 +213,6 @@
             font-weight: 700;
             font-size: 14px;
         }
-
         .answer-screen {
             min-height: 66px;
             border-radius: 16px;
@@ -278,30 +228,20 @@
             letter-spacing: 2px;
             font-family: "Bahnschrift", "Arial Black", "Trebuchet MS", sans-serif;
         }
-
         .feedback {
             min-height: 30px;
             text-align: center;
             font-size: 16px;
             font-weight: 700;
         }
-
-        .feedback.ok {
-            color: var(--success);
-        }
-
-        .feedback.bad {
-            color: var(--danger);
-        }
-
+        .feedback.ok { color: var(--success); }
+        .feedback.bad { color: var(--danger); }
         .numeric-pad {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 8px;
         }
-
-        .pad-btn,
-        .choice-btn {
+        .pad-btn, .choice-btn {
             min-height: 70px;
             border-radius: 14px;
             background: #f7f7f8;
@@ -311,72 +251,53 @@
             box-shadow: inset 0 0 0 2px #ededee;
             transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.12s ease;
         }
-
-        .pad-btn:hover,
-        .choice-btn:hover {
+        .pad-btn:hover, .choice-btn:hover {
             transform: translateY(-1px);
             box-shadow: inset 0 0 0 2px #dce3ec, 0 8px 18px rgba(22, 42, 74, 0.08);
         }
-
         .pad-btn.action-clear {
             background: linear-gradient(135deg, #f66a4f, #e13a31);
             color: #fff;
             box-shadow: none;
         }
-
         .pad-btn.action-ok {
             background: linear-gradient(135deg, #14a1ec, #0c7acc);
             color: #fff;
             box-shadow: none;
         }
-
         .choices {
             display: grid;
             grid-template-columns: 1fr;
             gap: 10px;
         }
-
         .choice-wrap {
             display: flex;
             flex-direction: column;
             gap: 10px;
         }
-
         .choice-btn {
             min-height: 60px;
             font-size: 20px;
             padding: 8px 12px;
             text-align: left;
         }
-
         .choice-btn.selected {
             background: linear-gradient(135deg, #dff1ff, #c9e7ff);
             box-shadow: inset 0 0 0 2px #72bfff;
         }
-
         .choice-actions {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 8px;
         }
-
         .choice-actions button {
             min-height: 52px;
             border-radius: 14px;
             font-size: 18px;
             font-weight: 800;
         }
-
-        .secondary {
-            background: #eef3f8;
-            color: var(--text);
-        }
-
-        .confirm {
-            background: linear-gradient(135deg, #14a1ec, #0c7acc);
-            color: #fff;
-        }
-
+        .secondary { background: #eef3f8; color: var(--text); }
+        .confirm { background: linear-gradient(135deg, #14a1ec, #0c7acc); color: #fff; }
         .arena {
             padding: 10px;
             display: flex;
@@ -385,7 +306,6 @@
             min-height: 0;
             height: 100%;
         }
-
         .arena-top {
             display: grid;
             grid-template-columns: 1fr auto 1fr;
@@ -396,17 +316,12 @@
             background: linear-gradient(180deg, #fcfcfd, #eff2f7);
             box-shadow: inset 0 0 0 2px rgba(217, 224, 232, 0.8);
         }
-
-        .arena-stat {
-            text-align: center;
-        }
-
+        .arena-stat { text-align: center; }
         .arena-stat .label {
             color: var(--muted);
             font-size: 16px;
             font-weight: 700;
         }
-
         .arena-stat .value {
             font-size: 40px;
             font-weight: 900;
@@ -414,11 +329,7 @@
             color: #167ddc;
             font-family: "Bahnschrift", "Arial Black", sans-serif;
         }
-
-        .arena-stat.right .value {
-            color: #ef483c;
-        }
-
+        .arena-stat.right .value { color: #ef483c; }
         .timer {
             text-align: center;
             color: #0f86dc;
@@ -426,18 +337,15 @@
             font-size: 34px;
             font-family: "Bahnschrift", "Arial Black", sans-serif;
         }
-
         .arena-stage {
             position: relative;
             flex: 1;
             min-height: 360px;
             border-radius: 24px;
             overflow: hidden;
-            background:
-                linear-gradient(180deg, #ffffff 0%, #f7f8fa 45%, #f1f3f6 100%);
+            background: linear-gradient(180deg, #ffffff 0%, #f7f8fa 45%, #f1f3f6 100%);
             box-shadow: inset 0 0 0 2px rgba(223, 228, 235, 0.9);
         }
-
         .center-line {
             position: absolute;
             left: 50%;
@@ -447,7 +355,6 @@
             border-left: 3px dashed rgba(74, 88, 107, 0.45);
             transform: translateX(-50%);
         }
-
         .ground {
             position: absolute;
             left: 0;
@@ -456,7 +363,6 @@
             height: 5px;
             background: rgba(55, 77, 103, 0.2);
         }
-
         .rope-wrap {
             position: absolute;
             left: 50%;
@@ -465,7 +371,6 @@
             height: 10px;
             transform: translate(-50%, -50%);
         }
-
         .rope {
             position: absolute;
             left: 20px;
@@ -475,9 +380,7 @@
             background: linear-gradient(90deg, #3c2b1e, #6c4d35, #3c2b1e);
             transform: translateY(-50%);
         }
-
-        .rope::before,
-        .rope::after {
+        .rope::before, .rope::after {
             content: "";
             position: absolute;
             top: 0;
@@ -485,21 +388,18 @@
             height: 25px;
             border-bottom: 8px solid transparent;
         }
-
         .rope::before {
             left: -40px;
             border-left: 8px solid #3c2b1e;
             border-top: 8px solid #3c2b1e;
             border-radius: 40px 0 0 0;
         }
-
         .rope::after {
             right: -40px;
             border-right: 8px solid #3c2b1e;
             border-top: 8px solid #3c2b1e;
             border-radius: 0 40px 0 0;
         }
-
         .rope-marker {
             position: absolute;
             top: 50%;
@@ -509,7 +409,6 @@
             transform: translate(-50%, -50%);
             transition: left 0.35s ease;
         }
-
         .rope-marker::before {
             content: "";
             position: absolute;
@@ -520,7 +419,6 @@
             height: 40px;
             background: #db3c30;
         }
-
         .rope-marker::after {
             content: "";
             position: absolute;
@@ -531,7 +429,6 @@
             border-top: 9px solid transparent;
             border-bottom: 9px solid transparent;
         }
-
         .team-group {
             position: absolute;
             top: 52%;
@@ -540,85 +437,44 @@
             transform: translateY(-50%);
             transition: transform 0.35s ease;
         }
-
         .team-group.left {
             left: calc(50% - 280px + var(--group-shift, 0px));
         }
-
         .team-group.right {
             right: calc(50% - 280px - var(--group-shift, 0px));
         }
-
         .player {
             width: 100px;
             height: 150px;
             position: relative;
             z-index: 5;
         }
-
         .player.blue {
             background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 100 150" xmlns="http://www.w3.org/2000/svg"><path d="M 35,100 L 25,140" stroke="%231a2842" stroke-width="14" stroke-linecap="round"/><path d="M 15,140 h 20 v 8 h -20 z" fill="%23fff" rx="4"/><path d="M 55,100 L 65,140" stroke="%232a3852" stroke-width="14" stroke-linecap="round"/><path d="M 55,140 h 20 v 8 h -20 z" fill="%23fff" rx="4"/><path d="M 25,55 Q 45,45 65,55 L 60,105 L 30,105 Z" fill="%230b73eb"/><path d="M 25,55 Q 45,45 65,55 L 55,65 Q 45,75 35,65 Z" fill="%23fff"/><path d="M 50,65 L 95,75" stroke="%23ffd7aa" stroke-width="12" stroke-linecap="round"/><circle cx="45" cy="30" r="24" fill="%23ffd7aa"/><path d="M 22,42 C 10,25 25,2 48,4 C 65,5 70,15 68,24 Q 60,18 50,22 Q 40,26 35,32 Q 30,38 22,42 Z" fill="%23333"/><path d="M 24,35 Q 12,28 10,38 Q 16,42 22,40 Z" fill="%23333"/><circle cx="32" cy="34" r="4.5" fill="%23f3bc86"/><path d="M 52,27 Q 55,24 58,27" stroke="%23222" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M 64,27 Q 67,24 70,27" stroke="%23222" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M 53,31 Q 55,29 57,31" stroke="%23222" stroke-width="2.5" fill="none" stroke-linecap="round"/><path d="M 65,31 Q 67,29 69,31" stroke="%23222" stroke-width="2.5" fill="none" stroke-linecap="round"/><path d="M 59,38 Q 61,42 63,38" stroke="%23222" stroke-width="2" fill="none" stroke-linecap="round"/><circle cx="51" cy="35" r="3.5" fill="%23ff9999" opacity="0.7"/><circle cx="71" cy="35" r="3.5" fill="%23ff9999" opacity="0.7"/><path d="M 35,65 L 55,65 L 45,90 Z" fill="%23ff2a00"/><path d="M 35,65 L 65,85" stroke="%23f3bc86" stroke-width="12" stroke-linecap="round"/></svg>') no-repeat center;
             background-size: contain;
         }
-
         .player.red {
             background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 100 150" xmlns="http://www.w3.org/2000/svg"><g transform="scale(-1, 1) translate(-100, 0)"><path d="M 35,100 L 25,140" stroke="%231a2842" stroke-width="14" stroke-linecap="round"/><path d="M 15,140 h 20 v 8 h -20 z" fill="%23fff" rx="4"/><path d="M 55,100 L 65,140" stroke="%232a3852" stroke-width="14" stroke-linecap="round"/><path d="M 55,140 h 20 v 8 h -20 z" fill="%23fff" rx="4"/><path d="M 25,55 Q 45,45 65,55 L 60,105 L 30,105 Z" fill="%23ff4b14"/><path d="M 25,55 Q 45,45 65,55 L 55,65 Q 45,75 35,65 Z" fill="%23fff"/><path d="M 50,65 L 95,75" stroke="%23ffd7aa" stroke-width="12" stroke-linecap="round"/><circle cx="45" cy="30" r="24" fill="%23ffd7aa"/><path d="M 22,42 C 10,25 25,2 48,4 C 65,5 70,15 68,24 Q 60,18 50,22 Q 40,26 35,32 Q 30,38 22,42 Z" fill="%23333"/><path d="M 24,35 Q 12,28 10,38 Q 16,42 22,40 Z" fill="%23333"/><circle cx="32" cy="34" r="4.5" fill="%23f3bc86"/><path d="M 52,27 Q 55,24 58,27" stroke="%23222" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M 64,27 Q 67,24 70,27" stroke="%23222" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M 53,31 Q 55,29 57,31" stroke="%23222" stroke-width="2.5" fill="none" stroke-linecap="round"/><path d="M 65,31 Q 67,29 69,31" stroke="%23222" stroke-width="2.5" fill="none" stroke-linecap="round"/><path d="M 59,38 Q 61,42 63,38" stroke="%23222" stroke-width="2" fill="none" stroke-linecap="round"/><circle cx="51" cy="35" r="3.5" fill="%23ff9999" opacity="0.7"/><circle cx="71" cy="35" r="3.5" fill="%23ff9999" opacity="0.7"/><path d="M 35,65 L 55,65 L 45,90 Z" fill="%23ff2a00"/><path d="M 35,65 L 65,85" stroke="%23f3bc86" stroke-width="12" stroke-linecap="round"/></g></svg>') no-repeat center;
             background-size: contain;
         }
-
-        .player.left-lean {
-            transform: rotate(10deg);
-        }
-
-        .player.right-lean {
-            transform: rotate(-10deg);
-        }
-
+        .player.left-lean { transform: rotate(10deg); }
+        .player.right-lean { transform: rotate(-10deg); }
         @keyframes pulling-left {
-            0% {
-                transform: rotate(10deg) translate(0, 0);
-            }
-            25% {
-                transform: rotate(12deg) translate(-2px, 2px);
-            }
-            50% {
-                transform: rotate(10deg) translate(0, 0);
-            }
-            75% {
-                transform: rotate(8deg) translate(2px, -1px);
-            }
-            100% {
-                transform: rotate(10deg) translate(0, 0);
-            }
+            0% { transform: rotate(10deg) translate(0,0); }
+            25% { transform: rotate(12deg) translate(-2px,2px); }
+            50% { transform: rotate(10deg) translate(0,0); }
+            75% { transform: rotate(8deg) translate(2px,-1px); }
+            100% { transform: rotate(10deg) translate(0,0); }
         }
-
         @keyframes pulling-right {
-            0% {
-                transform: rotate(-10deg) translate(0, 0);
-            }
-            25% {
-                transform: rotate(-12deg) translate(2px, 2px);
-            }
-            50% {
-                transform: rotate(-10deg) translate(0, 0);
-            }
-            75% {
-                transform: rotate(-8deg) translate(-2px, -1px);
-            }
-            100% {
-                transform: rotate(-10deg) translate(0, 0);
-            }
+            0% { transform: rotate(-10deg) translate(0,0); }
+            25% { transform: rotate(-12deg) translate(2px,2px); }
+            50% { transform: rotate(-10deg) translate(0,0); }
+            75% { transform: rotate(-8deg) translate(-2px,-1px); }
+            100% { transform: rotate(-10deg) translate(0,0); }
         }
-
-        .is-playing .player.left-lean {
-            animation: pulling-left 0.8s infinite ease-in-out;
-        }
-
-        .is-playing .player.right-lean {
-            animation: pulling-right 0.8s infinite ease-in-out;
-            animation-delay: 0.1s;
-        }
-
+        .is-playing .player.left-lean { animation: pulling-left 0.8s infinite ease-in-out; }
+        .is-playing .player.right-lean { animation: pulling-right 0.8s infinite ease-in-out; animation-delay: 0.1s; }
         .status-bar {
             display: flex;
             justify-content: space-between;
@@ -627,21 +483,19 @@
             align-items: center;
             padding: 6px 6px 2px;
         }
-
         .status-pill {
             border-radius: 999px;
             padding: 10px 16px;
-            background: rgba(255, 255, 255, 0.92);
-            box-shadow: 0 6px 16px rgba(22, 42, 74, 0.08);
+            background: rgba(255,255,255,0.92);
+            box-shadow: 0 6px 16px rgba(22,42,74,0.08);
             font-weight: 700;
             color: var(--text);
             transition: color 0.2s;
         }
-
         .winner-overlay {
             position: fixed;
             inset: 0;
-            background: rgba(0, 0, 0, 0.8);
+            background: rgba(0,0,0,0.8);
             z-index: 100;
             display: flex;
             justify-content: center;
@@ -651,40 +505,30 @@
             pointer-events: none;
             transition: opacity 0.3s;
         }
-
         .winner-overlay.show {
             opacity: 1;
             pointer-events: auto;
         }
-
         .winner-icon {
             font-size: 120px;
             margin-bottom: 20px;
             z-index: 101;
             animation: bounce 2s infinite;
-            text-shadow: 0 10px 30px rgba(255, 215, 0, 0.6);
+            text-shadow: 0 10px 30px rgba(255,215,0,0.6);
         }
-
         @keyframes bounce {
-            0%,
-            100% {
-                transform: translateY(0);
-            }
-            50% {
-                transform: translateY(-20px);
-            }
+            0%,100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
         }
-
         .winner-text {
             font-size: 64px;
             font-weight: 900;
             color: #fff;
-            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            text-shadow: 0 4px 20px rgba(0,0,0,0.5);
             margin-bottom: 30px;
             text-align: center;
             z-index: 101;
         }
-
         .confetti {
             position: absolute;
             width: 10px;
@@ -692,18 +536,10 @@
             background-color: #f00;
             opacity: 0;
         }
-
         @keyframes fall {
-            0% {
-                transform: translateY(-100vh) rotate(0deg);
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(100vh) rotate(720deg);
-                opacity: 0;
-            }
+            0% { transform: translateY(-100vh) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
         }
-
         .floating-controls {
             position: fixed;
             left: 18px;
@@ -713,12 +549,11 @@
             gap: 6px;
             padding: 6px;
             border-radius: 14px;
-            background: rgba(255, 255, 255, 0.92);
-            box-shadow: 0 10px 24px rgba(25, 45, 76, 0.16);
+            background: rgba(255,255,255,0.92);
+            box-shadow: 0 10px 24px rgba(25,45,76,0.16);
             backdrop-filter: blur(10px);
             z-index: 18;
         }
-
         .control-btn {
             min-width: 34px;
             height: 34px;
@@ -730,39 +565,32 @@
             font-weight: 900;
             box-shadow: inset 0 0 0 2px #e8eef5;
         }
-
         .control-btn.label {
             min-width: 62px;
             font-size: 13px;
             font-weight: 800;
             color: #3f536d;
         }
-
         .settings-modal {
             position: fixed;
             inset: 0;
-            background: rgba(15, 22, 32, 0.42);
+            background: rgba(15,22,32,0.42);
             display: none;
             align-items: center;
             justify-content: center;
             padding: 18px;
             z-index: 20;
         }
-
-        .settings-modal.show {
-            display: flex;
-        }
-
+        .settings-modal.show { display: flex; }
         .settings-panel {
             width: min(1180px, 100%);
             max-height: calc(100vh - 36px);
             overflow: auto;
             background: #fff;
             border-radius: 28px;
-            box-shadow: 0 22px 60px rgba(15, 22, 32, 0.24);
+            box-shadow: 0 22px 60px rgba(15,22,32,0.24);
             padding: 22px;
         }
-
         .settings-head {
             display: flex;
             justify-content: space-between;
@@ -770,41 +598,29 @@
             gap: 12px;
             margin-bottom: 18px;
         }
-
-        .settings-head h2 {
-            margin: 0;
-            font-size: 32px;
-        }
-
+        .settings-head h2 { margin: 0; font-size: 32px; }
         .settings-grid {
             display: grid;
             grid-template-columns: 420px 1fr;
             gap: 18px;
         }
-
-        .form-card,
-        .list-card {
+        .form-card, .list-card {
             border-radius: 22px;
             background: #f7fafc;
             padding: 18px;
             box-shadow: inset 0 0 0 2px #e8eef5;
         }
-
         .field {
             display: flex;
             flex-direction: column;
             gap: 8px;
             margin-bottom: 14px;
         }
-
         .field label {
             font-weight: 800;
             color: #445266;
         }
-
-        .field input,
-        .field textarea,
-        .field select {
+        .field input, .field textarea, .field select {
             width: 100%;
             border: 2px solid #dbe5ef;
             border-radius: 14px;
@@ -812,16 +628,8 @@
             background: #fff;
             color: var(--text);
         }
-
-        .field textarea {
-            resize: vertical;
-            min-height: 92px;
-        }
-
-        .field small {
-            color: var(--muted);
-        }
-
+        .field textarea { resize: vertical; min-height: 92px; }
+        .field small { color: var(--muted); }
         .option-row {
             display: grid;
             grid-template-columns: 1fr auto;
@@ -829,47 +637,31 @@
             margin-bottom: 10px;
             align-items: center;
         }
-
-        .option-row button,
-        .tiny-btn {
+        .option-row button, .tiny-btn {
             border-radius: 12px;
             padding: 10px 12px;
             font-weight: 800;
             background: #edf2f8;
             color: var(--text);
         }
-
-        .form-actions,
-        .list-actions {
+        .form-actions, .list-actions {
             display: flex;
             gap: 10px;
             flex-wrap: wrap;
         }
-
-        .form-actions button,
-        .list-actions button {
+        .form-actions button, .list-actions button {
             border-radius: 14px;
             padding: 12px 16px;
             font-weight: 800;
         }
-
-        .save-btn {
-            background: linear-gradient(135deg, var(--blue), #4fb8ff);
-            color: #fff;
-        }
-
-        .warn-btn {
-            background: linear-gradient(135deg, #ff8d5d, #f15a3d);
-            color: #fff;
-        }
-
+        .save-btn { background: linear-gradient(135deg, var(--blue), #4fb8ff); color: #fff; }
+        .warn-btn { background: linear-gradient(135deg, #ff8d5d, #f15a3d); color: #fff; }
         .bank-list {
             display: flex;
             flex-direction: column;
             gap: 12px;
             margin-top: 14px;
         }
-
         .bank-item {
             background: #fff;
             border: 2px solid #e4ebf3;
@@ -879,12 +671,7 @@
             grid-template-columns: 1fr auto;
             gap: 12px;
         }
-
-        .bank-item h4 {
-            margin: 0 0 8px;
-            font-size: 20px;
-        }
-
+        .bank-item h4 { margin: 0 0 8px; font-size: 20px; }
         .bank-item p {
             margin: 0;
             color: #526174;
@@ -892,7 +679,6 @@
             white-space: pre-wrap;
             word-break: break-word;
         }
-
         .item-side {
             display: flex;
             flex-direction: column;
@@ -900,7 +686,6 @@
             align-items: flex-end;
             min-width: 120px;
         }
-
         .type-tag {
             border-radius: 999px;
             padding: 6px 12px;
@@ -908,125 +693,94 @@
             font-weight: 800;
             color: #fff;
         }
-
-        .type-tag.number {
-            background: linear-gradient(135deg, #0f8ff9, #57beff);
-        }
-
-        .type-tag.choice {
-            background: linear-gradient(135deg, #ff624f, #ff9173);
-        }
-
+        .type-tag.number { background: linear-gradient(135deg, #0f8ff9, #57beff); }
+        .type-tag.choice { background: linear-gradient(135deg, #ff624f, #ff9173); }
         .helper {
             color: var(--muted);
             font-size: 14px;
             margin-top: 6px;
         }
-
         .empty {
             padding: 24px;
             text-align: center;
             color: var(--muted);
             font-weight: 700;
         }
-
-        /* ===== 横屏模式（按钮触发） ===== */
+        /* ===== 横屏模式 ===== */
         .app.force-landscape .layout {
-            grid-template-columns: 280px minmax(280px, 1fr) 280px;
+            grid-template-columns: 280px minmax(280px,1fr) 280px;
             gap: 12px;
         }
-
         .app.force-landscape .question-text {
             font-size: 24px;
             min-height: 60px;
             padding: 8px 6px;
         }
-
         .app.force-landscape .answer-screen {
             font-size: 26px;
             min-height: 40px;
         }
-
-        .app.force-landscape .pad-btn,
-        .app.force-landscape .choice-btn {
+        .app.force-landscape .pad-btn, .app.force-landscape .choice-btn {
             min-height: 44px;
             font-size: 20px;
         }
-
         .app.force-landscape .team-body {
             padding: 8px;
             gap: 6px;
         }
-
         .app.force-landscape .team-header {
             padding: 6px 12px;
             font-size: 18px;
         }
-
         .app.force-landscape .score-dot {
             min-width: 30px;
             height: 30px;
             font-size: 18px;
         }
-
         .app.force-landscape .arena-top {
             padding: 8px 12px;
         }
-
         .app.force-landscape .arena-stat .value {
             font-size: 28px;
         }
-
         .app.force-landscape .timer {
             font-size: 26px;
         }
-
         .app.force-landscape .player {
             width: 70px;
             height: 105px;
         }
-
         .app.force-landscape .team-group {
             gap: 20px;
         }
-
         .app.force-landscape .team-group.left {
             left: calc(50% - 200px + var(--group-shift, 0px));
         }
-
         .app.force-landscape .team-group.right {
             right: calc(50% - 200px - var(--group-shift, 0px));
         }
-
         .app.force-landscape .arena-stage {
             min-height: 200px;
         }
-
         .app.force-landscape .ground {
             bottom: 60px;
         }
-
         .app.force-landscape .rope-wrap {
             top: 50%;
         }
-
         .app.force-landscape .status-pill {
             padding: 4px 10px;
             font-size: 13px;
         }
-
         .app.force-landscape .topbar {
             margin-bottom: 8px;
         }
-
         .app.force-landscape .app {
             padding: 6px 12px 8px;
         }
-
-        /* 响应式降级：当屏幕宽度不足时，仍保持三列但允许水平滚动或缩放 */
         @media (max-width: 900px) {
             .app.force-landscape .layout {
-                grid-template-columns: 220px minmax(220px, 1fr) 220px;
+                grid-template-columns: 220px minmax(220px,1fr) 220px;
                 gap: 8px;
             }
             .app.force-landscape .question-text {
@@ -1044,7 +798,6 @@
                 right: calc(50% - 160px - var(--group-shift, 0px));
             }
         }
-
         @media (max-width: 720px) {
             .app.force-landscape .layout {
                 grid-template-columns: 1fr 1.5fr 1fr;
@@ -1059,8 +812,7 @@
                 font-size: 20px;
                 min-height: 32px;
             }
-            .app.force-landscape .pad-btn,
-            .app.force-landscape .choice-btn {
+            .app.force-landscape .pad-btn, .app.force-landscape .choice-btn {
                 min-height: 36px;
                 font-size: 16px;
             }
@@ -1127,17 +879,8 @@
                 font-size: 14px;
             }
         }
-
-        /* 原有横屏媒体查询保留，但力度小于force-landscape，我们让force-landscape覆盖 */
-        @media (orientation: landscape) and (max-height: 500px) {
-            /* 原样式已被force-landscape覆盖，可保留作为后备 */
-        }
-
         @media (max-width: 1260px) {
-            body {
-                overflow: auto;
-            }
-
+            body { overflow: auto; }
             .viewport {
                 position: static;
                 display: block;
@@ -1145,84 +888,46 @@
                 padding: 12px;
                 overflow: visible;
             }
-
             .app {
                 width: min(1480px, 100%);
                 height: auto;
                 min-height: auto;
                 transform: none;
             }
-
-            .layout {
-                grid-template-columns: 1fr;
-            }
-
-            .team-card {
-                min-height: auto;
-                height: auto;
-            }
-
-            .arena-stage {
-                height: 420px;
-                min-height: 420px;
-            }
-
-            .settings-grid {
-                grid-template-columns: 1fr;
-            }
+            .layout { grid-template-columns: 1fr; }
+            .team-card { min-height: auto; height: auto; }
+            .arena-stage { height: 420px; min-height: 420px; }
+            .settings-grid { grid-template-columns: 1fr; }
         }
-
         @media (max-width: 720px) {
-            .app {
-                padding: 12px;
-            }
-
+            .app { padding: 12px; }
             .floating-controls {
                 left: 12px;
                 bottom: 12px;
                 gap: 4px;
                 padding: 4px;
             }
-
             .control-btn {
                 min-width: 32px;
                 height: 32px;
                 padding: 0 8px;
             }
-
             .control-btn.label {
                 min-width: 56px;
                 font-size: 12px;
             }
-
-            .topbar,
-            .settings-head {
+            .topbar, .settings-head {
                 flex-direction: column;
                 align-items: stretch;
             }
-
-            .toolbar {
-                justify-content: center;
-            }
-
+            .toolbar { justify-content: center; }
             .question-text {
                 font-size: 30px;
                 min-height: 100px;
             }
-
-            .answer-screen {
-                font-size: 32px;
-            }
-
-            .pad-btn,
-            .choice-btn {
-                min-height: 72px;
-            }
-
-            .arena-stage {
-                height: 340px;
-            }
-
+            .answer-screen { font-size: 32px; }
+            .pad-btn, .choice-btn { min-height: 72px; }
+            .arena-stage { height: 340px; }
             .team-group {
                 transform: scale(0.72) translateY(-69%);
                 transform-origin: top center;
@@ -1251,7 +956,6 @@
             </div>
 
             <div class="layout">
-                <!-- 蓝队（左） -->
                 <section class="card team-card left" id="teamA">
                     <div class="team-header blue">
                         <span id="nameDisplayA">蓝队</span>
@@ -1268,7 +972,6 @@
                     </div>
                 </section>
 
-                <!-- 竞技场 -->
                 <section class="card arena">
                     <div class="arena-top">
                         <div class="arena-stat">
@@ -1307,7 +1010,6 @@
                     </div>
                 </section>
 
-                <!-- 红队（右） -->
                 <section class="card team-card right" id="teamB">
                     <div class="team-header red">
                         <span id="nameDisplayB">红队</span>
@@ -1339,6 +1041,7 @@
         <button class="control-btn" id="zoomInBtn" type="button">+</button>
         <button class="control-btn label" id="fullscreenBtn" type="button">全屏</button>
         <button class="control-btn label" id="landscapeBtn" type="button">横屏模式</button>
+        <button class="control-btn label" id="soundBtn" type="button">🔊</button>
     </div>
 
     <div class="settings-modal" id="settingsModal">
@@ -1346,7 +1049,7 @@
             <div class="settings-head">
                 <h2>📐 数学大拔河 · 设置</h2>
                 <div class="toolbar">
-                    <button class="pill-btn primary" id="useSampleBtn">生成数学题库</button>
+                    <button class="pill-btn primary" id="useSampleBtn">重新生成今日题库</button>
                     <button class="pill-btn" id="closeSettingsBtn">关闭</button>
                 </div>
             </div>
@@ -1385,6 +1088,7 @@
                 <div class="list-card" style="grid-column: 1 / -1;">
                     <div class="list-actions">
                         <button class="tiny-btn" id="exportBankBtn" type="button">导出题库</button>
+                        <button class="tiny-btn" id="importBankBtn" type="button">导入题库</button>
                         <button class="warn-btn" id="clearBankBtn" type="button">清空题库</button>
                     </div>
                     <div class="helper">题库自动保存在浏览器中，刷新页面不会丢失。</div>
@@ -1395,13 +1099,153 @@
     </div>
 
     <script>
-        const STORAGE_KEY = "math-tug-of-war-bank-v2";
+        // ============================================================
+        // 存储密钥与常量
+        // ============================================================
+        const STORAGE_KEY = "math-tug-of-war-bank-v4";
         const MAX_PULL = 15;
 
-        // --------------------------------------------------------------
-        // 数学题生成器
-        // --------------------------------------------------------------
-        function generateMathQuestions(count = 80) {
+        // ============================================================
+        // 音效系统 (与之前一致)
+        // ============================================================
+        let soundEnabled = true;
+        function playSound(type) {
+            if (!soundEnabled) return;
+            try {
+                const audioCtx = new(window.AudioContext || window.webkitAudioContext)();
+                const gainNode = audioCtx.createGain();
+                gainNode.connect(audioCtx.destination);
+                gainNode.gain.value = 0.3;
+                let oscillator = audioCtx.createOscillator();
+                oscillator.connect(gainNode);
+                switch (type) {
+                    case 'start':
+                        oscillator.frequency.setValueAtTime(523, audioCtx.currentTime);
+                        oscillator.frequency.setValueAtTime(659, audioCtx.currentTime + 0.15);
+                        oscillator.frequency.setValueAtTime(784, audioCtx.currentTime + 0.30);
+                        oscillator.start(audioCtx.currentTime);
+                        oscillator.stop(audioCtx.currentTime + 0.45);
+                        break;
+                    case 'correct':
+                        oscillator.frequency.setValueAtTime(880, audioCtx.currentTime);
+                        oscillator.frequency.setValueAtTime(1100, audioCtx.currentTime + 0.1);
+                        oscillator.start(audioCtx.currentTime);
+                        oscillator.stop(audioCtx.currentTime + 0.15);
+                        gainNode.gain.setValueAtTime(0.3, audioCtx.currentTime);
+                        gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.15);
+                        break;
+                    case 'wrong':
+                        oscillator.frequency.setValueAtTime(400, audioCtx.currentTime);
+                        oscillator.frequency.setValueAtTime(250, audioCtx.currentTime + 0.2);
+                        oscillator.start(audioCtx.currentTime);
+                        oscillator.stop(audioCtx.currentTime + 0.25);
+                        gainNode.gain.setValueAtTime(0.25, audioCtx.currentTime);
+                        gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.25);
+                        break;
+                    case 'end':
+                        playCheer();
+                        return;
+                    default:
+                        oscillator.disconnect();
+                        return;
+                }
+                setTimeout(() => {
+                    try { oscillator.disconnect(); gainNode.disconnect(); audioCtx.close(); } catch (e) {}
+                }, 1000);
+            } catch (e) { /* ignore */ }
+        }
+
+        function playCheer() {
+            if (!soundEnabled) return;
+            try {
+                const audioCtx = new(window.AudioContext || window.webkitAudioContext)();
+                const now = audioCtx.currentTime;
+                const duration = 2.0;
+                const masterGain = audioCtx.createGain();
+                masterGain.connect(audioCtx.destination);
+                masterGain.gain.setValueAtTime(0, now);
+                masterGain.gain.linearRampToValueAtTime(0.25, now + 0.1);
+                masterGain.gain.linearRampToValueAtTime(0.2, now + 1.5);
+                masterGain.gain.linearRampToValueAtTime(0, now + duration);
+
+                const bufferSize = audioCtx.sampleRate * duration;
+                const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+                const data = buffer.getChannelData(0);
+                for (let i = 0; i < bufferSize; i++) {
+                    data[i] = (Math.random() * 2 - 1) * 0.6;
+                }
+                const noise = audioCtx.createBufferSource();
+                noise.buffer = buffer;
+                const noiseGain = audioCtx.createGain();
+                noiseGain.gain.setValueAtTime(0.3, now);
+                noiseGain.gain.linearRampToValueAtTime(0.1, now + duration);
+                noise.connect(noiseGain);
+                noiseGain.connect(masterGain);
+                noise.start(now);
+                noise.stop(now + duration);
+
+                const numOsc = 8;
+                for (let i = 0; i < numOsc; i++) {
+                    const osc = audioCtx.createOscillator();
+                    const gain = audioCtx.createGain();
+                    osc.connect(gain);
+                    gain.connect(masterGain);
+                    const freq = 300 + Math.random() * 1700;
+                    osc.frequency.setValueAtTime(freq, now);
+                    const startTime = now + Math.random() * 0.5;
+                    const dur = 0.1 + Math.random() * 0.3;
+                    gain.gain.setValueAtTime(0, now);
+                    gain.gain.setValueAtTime(0.04 + Math.random() * 0.08, startTime);
+                    gain.gain.exponentialRampToValueAtTime(0.001, startTime + dur);
+                    osc.start(startTime);
+                    osc.stop(startTime + dur + 0.1);
+                    if (Math.random() > 0.5) {
+                        osc.frequency.setValueAtTime(freq * (1 + (Math.random() - 0.5) * 0.2), startTime + dur * 0.5);
+                    }
+                    osc.type = ['sawtooth', 'square', 'triangle'][Math.floor(Math.random() * 3)];
+                }
+
+                const lfo = audioCtx.createOscillator();
+                const lfoGain = audioCtx.createGain();
+                lfo.connect(lfoGain);
+                lfoGain.connect(masterGain.gain);
+                lfo.frequency.setValueAtTime(5 + Math.random() * 3, now);
+                lfoGain.gain.setValueAtTime(0.05, now);
+                lfo.start(now);
+                lfo.stop(now + duration);
+
+                setTimeout(() => {
+                    try { audioCtx.close(); } catch (e) {}
+                }, (duration + 0.5) * 1000);
+            } catch (e) { /* ignore */ }
+        }
+
+        function toggleSound() {
+            soundEnabled = !soundEnabled;
+            els.soundBtn.textContent = soundEnabled ? '🔊' : '🔇';
+        }
+
+        // ============================================================
+        // 种子随机数生成器 (用于每天固定题库)
+        // ============================================================
+        function createSeededRandom(seed) {
+            let s = seed;
+            return function() {
+                s = (s * 9301 + 49297) % 233280;
+                return s / 233280;
+            };
+        }
+
+        // ============================================================
+        // 数学题生成器 (支持种子)
+        // ============================================================
+        function generateMathQuestions(count = 100, seed = null) {
+            let random = Math.random;
+            if (seed !== null) {
+                random = createSeededRandom(seed);
+            }
+            const randInt = (min, max) => Math.floor(random() * (max - min + 1)) + min;
+
             const questions = [];
             const types = ['add_no_carry', 'sub_no_borrow', 'add_carry', 'sub_borrow'];
             const perType = Math.floor(count / types.length);
@@ -1411,14 +1255,19 @@
                 let n = perType + (remainder > 0 ? 1 : 0);
                 if (remainder > 0) remainder--;
                 for (let i = 0; i < n; i++) {
-                    const q = generateOneQuestion(t);
+                    const q = generateOneQuestion(t, randInt);
                     if (q) questions.push(q);
                 }
             }
-            return questions.sort(() => Math.random() - 0.5);
+            // 打乱顺序
+            for (let i = questions.length - 1; i > 0; i--) {
+                const j = Math.floor(random() * (i + 1));
+                [questions[i], questions[j]] = [questions[j], questions[i]];
+            }
+            return questions;
         }
 
-        function generateOneQuestion(type) {
+        function generateOneQuestion(type, randInt) {
             let a, b, answer, question, options = [];
             let attempts = 0;
             const maxAttempts = 50;
@@ -1480,11 +1329,14 @@
             const isChoice = Math.random() < 0.4;
 
             if (isChoice) {
-                options = generateDistractors(answer, type);
+                options = generateDistractors(answer, type, randInt);
                 if (!options.includes(String(answer))) {
                     options[0] = String(answer);
                 }
-                options = options.sort(() => Math.random() - 0.5);
+                for (let i = options.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [options[i], options[j]] = [options[j], options[i]];
+                }
                 return {
                     id: crypto.randomUUID(),
                     type: 'choice',
@@ -1503,7 +1355,7 @@
             }
         }
 
-        function generateDistractors(correct, type) {
+        function generateDistractors(correct, type, randInt) {
             const dist = new Set();
             dist.add(String(correct));
             const candidates = [];
@@ -1535,13 +1387,20 @@
             return result;
         }
 
-        function randInt(min, max) {
-            return Math.floor(Math.random() * (max - min + 1)) + min;
+        // ============================================================
+        // 获取今日日期字符串
+        // ============================================================
+        function getTodayStr() {
+            const d = new Date();
+            const year = d.getFullYear();
+            const month = String(d.getMonth() + 1).padStart(2, '0');
+            const day = String(d.getDate()).padStart(2, '0');
+            return year + '-' + month + '-' + day;
         }
 
-        // --------------------------------------------------------------
-        // 主游戏逻辑
-        // --------------------------------------------------------------
+        // ============================================================
+        // 主游戏状态
+        // ============================================================
         const state = {
             bank: [],
             teamNameA: "蓝队",
@@ -1565,9 +1424,9 @@
             teamA: { answer: "", selected: "", locked: false },
             teamB: { answer: "", selected: "", locked: false }
         };
-
         let currentRoundType = null;
 
+        // DOM引用
         const els = {
             questionA: document.getElementById("questionA"),
             questionB: document.getElementById("questionB"),
@@ -1604,6 +1463,7 @@
             zoomResetBtn: document.getElementById("zoomResetBtn"),
             fullscreenBtn: document.getElementById("fullscreenBtn"),
             landscapeBtn: document.getElementById("landscapeBtn"),
+            soundBtn: document.getElementById("soundBtn"),
             bankInfo: document.getElementById("bankInfo"),
             settingsModal: document.getElementById("settingsModal"),
             settingsBtn: document.getElementById("settingsBtn"),
@@ -1616,10 +1476,14 @@
             clearBatchBtn: document.getElementById("clearBatchBtn"),
             bankList: document.getElementById("bankList"),
             exportBankBtn: document.getElementById("exportBankBtn"),
+            importBankBtn: document.getElementById("importBankBtn"),
             clearBankBtn: document.getElementById("clearBankBtn"),
             appContainer: document.getElementById("appContainer")
         };
 
+        // ============================================================
+        // 工具函数
+        // ============================================================
         function formatTime(seconds) {
             const mm = String(Math.floor(seconds / 60)).padStart(2, "0");
             const ss = String(seconds % 60).padStart(2, "0");
@@ -1630,7 +1494,8 @@
             const data = {
                 bank: state.bank,
                 teamNameA: state.teamNameA,
-                teamNameB: state.teamNameB
+                teamNameB: state.teamNameB,
+                generatedDate: getTodayStr()
             };
             localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
             renderBank();
@@ -1643,22 +1508,46 @@
             els.scoreLabelB.textContent = state.teamNameB + "分数";
         }
 
+        // ============================================================
+        // 题库加载 (自动按天生成)
+        // ============================================================
         function loadBank() {
+            let saved = null;
+            let today = getTodayStr();
+            let needGenerate = true;
+
             try {
-                const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "null");
-                if (saved && Array.isArray(saved)) {
-                    state.bank = saved.length ? saved : generateMathQuestions(80);
-                    state.teamNameA = "蓝队";
-                    state.teamNameB = "红队";
-                } else if (saved && typeof saved === "object") {
-                    state.bank = Array.isArray(saved.bank) && saved.bank.length ? saved.bank : generateMathQuestions(80);
-                    state.teamNameA = saved.teamNameA || "蓝队";
-                    state.teamNameB = saved.teamNameB || "红队";
+                saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
+                if (saved && typeof saved === 'object') {
+                    const savedDate = saved.generatedDate || '';
+                    if (savedDate === today && Array.isArray(saved.bank) && saved.bank.length > 0) {
+                        state.bank = saved.bank;
+                        state.teamNameA = saved.teamNameA || "蓝队";
+                        state.teamNameB = saved.teamNameB || "红队";
+                        needGenerate = false;
+                    } else {
+                        needGenerate = true;
+                    }
                 } else {
-                    state.bank = generateMathQuestions(80);
+                    needGenerate = true;
                 }
-            } catch (error) {
-                state.bank = generateMathQuestions(80);
+            } catch (e) {
+                needGenerate = true;
+            }
+
+            if (needGenerate) {
+                const seed = new Date(today).getTime();
+                const newBank = generateMathQuestions(100, seed);
+                state.bank = newBank;
+                state.teamNameA = "蓝队";
+                state.teamNameB = "红队";
+                const data = {
+                    bank: state.bank,
+                    teamNameA: state.teamNameA,
+                    teamNameB: state.teamNameB,
+                    generatedDate: today
+                };
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
             }
 
             els.teamNameInputA.value = state.teamNameA;
@@ -1667,6 +1556,78 @@
             renderBank();
         }
 
+        // 手动重新生成今日题库
+        function regenerateTodayBank() {
+            const today = getTodayStr();
+            const seed = new Date(today).getTime();
+            const newBank = generateMathQuestions(100, seed);
+            state.bank = newBank;
+            const data = {
+                bank: state.bank,
+                teamNameA: state.teamNameA,
+                teamNameB: state.teamNameB,
+                generatedDate: today
+            };
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+            renderBank();
+            resetGame();
+            alert('✅ 已重新生成今日题库（100道）！');
+        }
+
+        // ============================================================
+        // 导入导出功能
+        // ============================================================
+        // 导出题库为txt文件
+        function exportBank() {
+            if (!state.bank.length) {
+                alert('题库为空，无法导出。');
+                return;
+            }
+            let content = '';
+            for (const item of state.bank) {
+                if (item.type === 'choice') {
+                    const wrongOptions = item.options.filter(o => o !== item.answer);
+                    content += `${item.question} / ${item.answer} / ${wrongOptions.join(' / ')}\n`;
+                } else {
+                    content += `${item.question} / ${item.answer}\n`;
+                }
+            }
+            downloadFile('数学大拔河题库.txt', content);
+        }
+
+        function downloadFile(filename, text) {
+            const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        // 导入题库（通过文件选择器）
+        function importBankFromFile() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = '.txt';
+            input.onchange = function(e) {
+                const file = e.target.files[0];
+                if (!file) return;
+                const reader = new FileReader();
+                reader.onload = function(ev) {
+                    const text = ev.target.result;
+                    // 将内容填充到批量录入文本框
+                    els.batchInput.value = text;
+                    alert('✅ 文件内容已导入到“批量录入”框，请检查后点击“批量保存到题库”完成导入。');
+                };
+                reader.readAsText(file, 'UTF-8');
+            };
+            input.click();
+        }
+
+        // ============================================================
+        // 游戏逻辑函数 (与之前一致)
+        // ============================================================
         function updateTopInfo() {
             els.scoreA.textContent = state.scoreA;
             els.scoreB.textContent = state.scoreB;
@@ -1676,30 +1637,19 @@
             els.timer.textContent = formatTime(state.timerSec);
         }
 
-        function getTeamState(team) {
-            return team === "A" ? state.teamA : state.teamB;
-        }
-
-        function getTeamQuestion(team) {
-            return team === "A" ? state.activeQuestionA : state.activeQuestionB;
-        }
-
+        function getTeamState(team) { return team === "A" ? state.teamA : state.teamB; }
+        function getTeamQuestion(team) { return team === "A" ? state.activeQuestionA : state.activeQuestionB; }
         function setTeamQuestion(team, question) {
-            if (team === "A") {
-                state.activeQuestionA = question;
-            } else {
-                state.activeQuestionB = question;
-            }
+            if (team === "A") state.activeQuestionA = question;
+            else state.activeQuestionB = question;
         }
 
         function renderProgress() {
             const shiftPx = state.pullOffset * -10;
             document.documentElement.style.setProperty("--rope-shift", shiftPx + "px");
             document.documentElement.style.setProperty("--group-shift", shiftPx + "px");
-
             let text = "居中";
             let color = "";
-
             if (state.pullOffset > 0) {
                 text = "偏向 " + state.teamNameA + " " + state.pullOffset + " 格";
                 color = "#148cff";
@@ -1710,7 +1660,6 @@
                 text = "居中";
                 color = "";
             }
-
             els.progressText.textContent = "拔河进度: " + text;
             els.progressText.style.color = color || "";
         }
@@ -1725,10 +1674,7 @@
             const t = getTeamState(team);
             const display = team === "A" ? els.displayA : els.displayB;
             const question = getTeamQuestion(team);
-            if (!question) {
-                display.textContent = "0";
-                return;
-            }
+            if (!question) { display.textContent = "0"; return; }
             if (question.type === "number") {
                 display.textContent = t.answer || "0";
             } else {
@@ -1738,18 +1684,14 @@
 
         function updateQuestionMeta(team, question) {
             const typeText = question ? (question.type === "number" ? "数字题" : "选择题") : "未开始";
-            if (team === "A") {
-                els.metaAType.textContent = "题型: " + typeText;
-            } else {
-                els.metaBType.textContent = "题型: " + typeText;
-            }
+            if (team === "A") els.metaAType.textContent = "题型: " + typeText;
+            else els.metaBType.textContent = "题型: " + typeText;
         }
 
         function createPad(team) {
             const wrap = document.createElement("div");
             wrap.className = "numeric-pad";
-            const layout = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "清空", "0", "确定"];
-
+            const layout = ["1","2","3","4","5","6","7","8","9","清空","0","确定"];
             layout.forEach((key) => {
                 const btn = document.createElement("button");
                 btn.type = "button";
@@ -1789,7 +1731,6 @@
             choices.className = "choices";
 
             const shuffledOptions = [...question.options].sort(() => Math.random() - 0.5);
-
             shuffledOptions.forEach((option) => {
                 const btn = document.createElement("button");
                 btn.type = "button";
@@ -1809,7 +1750,6 @@
 
             const actions = document.createElement("div");
             actions.className = "choice-actions";
-
             const clearBtn = document.createElement("button");
             clearBtn.type = "button";
             clearBtn.className = "secondary";
@@ -1822,13 +1762,11 @@
                 [...choices.children].forEach((node) => node.classList.remove("selected"));
                 setFeedback(team, "");
             });
-
             const okBtn = document.createElement("button");
             okBtn.type = "button";
             okBtn.className = "confirm";
             okBtn.textContent = "提交";
             okBtn.addEventListener("click", () => submitAnswer(team));
-
             actions.append(clearBtn, okBtn);
             outer.append(choices, actions);
             return outer;
@@ -1866,17 +1804,13 @@
             state.teamB.locked = true;
         }
 
-        function clampScale(scale) {
-            return Math.min(2.0, Math.max(0.5, scale));
-        }
-
+        function clampScale(scale) { return Math.min(2.0, Math.max(0.5, scale)); }
         function updateScale() {
             const safeScale = clampScale(state.uiScale);
             state.uiScale = safeScale;
             document.documentElement.style.setProperty("--ui-scale", safeScale.toFixed(2));
             els.zoomResetBtn.textContent = Math.round(safeScale * 100) + "%";
         }
-
         function changeScale(delta) {
             state.uiScale = clampScale(state.uiScale + delta);
             updateScale();
@@ -1886,23 +1820,16 @@
             const element = document.documentElement;
             const alreadyFullscreen = document.fullscreenElement || document.webkitFullscreenElement;
             if (alreadyFullscreen) {
-                if (document.exitFullscreen) {
-                    await document.exitFullscreen();
-                }
+                if (document.exitFullscreen) await document.exitFullscreen();
                 return;
             }
-            if (!element.requestFullscreen) {
-                return;
-            }
+            if (!element.requestFullscreen) return;
             await element.requestFullscreen();
-            // 尝试锁定横屏（部分浏览器支持）
             try {
                 if (screen.orientation && screen.orientation.lock) {
                     await screen.orientation.lock('landscape');
                 }
-            } catch (e) {
-                // 忽略不支持的情况
-            }
+            } catch (e) {}
         }
 
         function updateFullscreenButtonText() {
@@ -1919,13 +1846,11 @@
             updateFullscreenButtonText();
         }
 
-        // 横屏模式切换
         function toggleLandscapeMode() {
             const app = els.appContainer;
             app.classList.toggle('force-landscape');
             const isActive = app.classList.contains('force-landscape');
             els.landscapeBtn.textContent = isActive ? '退出横屏' : '横屏模式';
-            // 如果开启横屏模式，同时尝试锁定屏幕方向（如果支持）
             if (isActive) {
                 try {
                     if (screen.orientation && screen.orientation.lock) {
@@ -1952,7 +1877,7 @@
         }
 
         function createConfetti() {
-            const colors = ['#ff2a00', '#0b73eb', '#f3bc86', '#ffd7aa', '#4fb8ff', '#ff9173', '#ffe59b'];
+            const colors = ['#ff2a00','#0b73eb','#f3bc86','#ffd7aa','#4fb8ff','#ff9173','#ffe59b'];
             for (let i = 0; i < 150; i++) {
                 const conf = document.createElement('div');
                 conf.className = 'confetti';
@@ -1974,10 +1899,8 @@
             clearNextQuestionTimer("B");
             document.querySelector('.arena-stage').classList.remove('is-playing');
             lockAllTeams();
-
-            const winnerIcon = document.getElementById("winnerIcon");
-            winnerIcon.innerText = messageObj.icon || "🏆";
-
+            playSound('end');
+            document.getElementById("winnerIcon").innerText = messageObj.icon || "🏆";
             els.winnerText.innerText = messageObj.text || messageObj;
             els.winnerOverlay.classList.add("show");
             createConfetti();
@@ -1987,9 +1910,7 @@
 
         function startTimer() {
             stopTimer();
-            if (state.timerSec <= 0) {
-                state.timerSec = state.durationSec;
-            }
+            if (state.timerSec <= 0) state.timerSec = state.durationSec;
             updateTopInfo();
             state.timerId = setInterval(() => {
                 state.timerSec -= 1;
@@ -2003,26 +1924,18 @@
         }
 
         function checkVictory() {
-            if (state.pullOffset > MAX_PULL) {
-                state.pullOffset = MAX_PULL;
-            }
-            if (state.pullOffset < -MAX_PULL) {
-                state.pullOffset = -MAX_PULL;
-            }
+            if (state.pullOffset > MAX_PULL) state.pullOffset = MAX_PULL;
+            if (state.pullOffset < -MAX_PULL) state.pullOffset = -MAX_PULL;
             return false;
         }
 
-        function normalizeText(value) {
-            return String(value || "").trim();
-        }
+        function normalizeText(value) { return String(value || "").trim(); }
 
         function randomQuestion(team, type) {
             if (!state.bank.length) return null;
             const usedList = team === "A" ? state.usedQuestionsA : state.usedQuestionsB;
             let available = state.bank.filter(q => !usedList.includes(q.id));
-            if (type) {
-                available = available.filter(q => q.type === type);
-            }
+            if (type) available = available.filter(q => q.type === type);
             if (!available.length) return null;
             const index = Math.floor(Math.random() * available.length);
             const question = available[index];
@@ -2032,7 +1945,6 @@
 
         function loadQuestionForTeam(team) {
             if (state.gameEnded) return;
-
             if (currentRoundType === null) {
                 const types = ['number', 'choice'];
                 const usedList = team === "A" ? state.usedQuestionsA : state.usedQuestionsB;
@@ -2116,6 +2028,7 @@
 
             if (!submitted) {
                 setFeedback(team, "请先输入或选择答案", "bad");
+                playSound('wrong');
                 return;
             }
 
@@ -2132,10 +2045,12 @@
                     state.pullOffset -= 1;
                 }
                 setFeedback(team, "✅ 回答正确！向自己方向拉动 1 格", "ok");
+                playSound('correct');
             } else {
                 teamState.answer = "";
                 teamState.selected = "";
                 setFeedback(team, "❌ 回答错误，请再试一次", "bad");
+                playSound('wrong');
             }
 
             updateTopInfo();
@@ -2168,10 +2083,8 @@
             }
 
             currentRoundType = null;
-
             els.startBtn.textContent = "进行中";
             els.startBtn.disabled = true;
-
             els.winnerOverlay.classList.remove("show");
             els.winnerText.innerText = "";
             els.winnerOverlay.querySelectorAll('.confetti').forEach(c => c.remove());
@@ -2179,7 +2092,6 @@
 
             state.usedQuestionsA = [];
             state.usedQuestionsB = [];
-
             loadQuestionForTeam("A");
             loadQuestionForTeam("B");
             if (!state.timerId) {
@@ -2187,6 +2099,7 @@
                 startTimer();
             }
             renderProgress();
+            playSound('start');
         }
 
         function resetGame() {
@@ -2194,12 +2107,9 @@
             clearNextQuestionTimer("A");
             clearNextQuestionTimer("B");
             document.querySelector('.arena-stage').classList.remove('is-playing');
-
             currentRoundType = null;
-
             els.startBtn.textContent = "开始";
             els.startBtn.disabled = false;
-
             state.scoreA = 0;
             state.scoreB = 0;
             state.pullOffset = 0;
@@ -2230,30 +2140,25 @@
             updateTopInfo();
         }
 
+        // ============================================================
+        // 批量录入
+        // ============================================================
         function processBatchInput() {
             const text = els.batchInput.value.trim();
-            if (!text) {
-                alert("请输入题目内容。");
-                return;
-            }
-
+            if (!text) { alert("请输入题目内容。"); return; }
             const lines = text.split("\n");
             let added = 0;
-
             for (let i = 0; i < lines.length; i++) {
                 const line = lines[i].trim();
                 if (!line) continue;
-
-                const parts = line.split("/").map((p) => p.trim()).filter(Boolean);
+                const parts = line.split("/").map(p => p.trim()).filter(Boolean);
                 if (parts.length < 2) {
-                    alert(`第 ${i + 1} 行格式不正确，跳过。\n内容：${line}`);
+                    alert(`第 ${i+1} 行格式不正确，跳过。\n内容：${line}`);
                     continue;
                 }
-
                 const question = parts[0];
                 const answer = parts[1];
                 const isChoice = parts.length > 2;
-
                 const newQuestion = {
                     id: crypto.randomUUID(),
                     type: isChoice ? "choice" : "number",
@@ -2262,11 +2167,9 @@
                     options: isChoice ? parts.slice(1) : [],
                     difficulty: "未设置"
                 };
-
                 state.bank.push(newQuestion);
                 added++;
             }
-
             if (added > 0) {
                 saveBank();
                 alert(`✅ 成功批量录入 ${added} 道题目！`);
@@ -2274,82 +2177,62 @@
             }
         }
 
+        // ============================================================
+        // 渲染题库列表
+        // ============================================================
         function renderBank() {
             updateTopInfo();
             if (!state.bank.length) {
-                els.bankList.innerHTML = '<div class="empty">📭 题库为空，请点击「生成数学题库」或手动录入。</div>';
+                els.bankList.innerHTML = '<div class="empty">📭 题库为空，请点击「重新生成今日题库」或手动录入。</div>';
                 return;
             }
-
             els.bankList.innerHTML = "";
             state.bank.forEach((item) => {
                 const card = document.createElement("div");
                 card.className = "bank-item";
-
                 const left = document.createElement("div");
                 const title = document.createElement("h4");
                 title.textContent = item.question;
-
                 const detail = document.createElement("p");
                 const optionText = item.type === "choice" ? "\n选项: " + item.options.join(" / ") : "";
                 detail.textContent = "答案: " + item.answer + optionText;
-
                 left.append(title, detail);
-
                 const right = document.createElement("div");
                 right.className = "item-side";
-
                 const type = document.createElement("div");
                 type.className = "type-tag " + item.type;
                 type.textContent = item.type === "number" ? "数字题" : "选择题";
-
                 const del = document.createElement("button");
                 del.type = "button";
                 del.className = "tiny-btn";
                 del.textContent = "删除";
                 del.addEventListener("click", () => {
-                    state.bank = state.bank.filter((q) => q.id !== item.id);
+                    state.bank = state.bank.filter(q => q.id !== item.id);
                     saveBank();
                 });
-
                 right.append(type, del);
                 card.append(left, right);
                 els.bankList.appendChild(card);
             });
         }
 
-        function downloadFile(filename, text) {
-            const blob = new Blob([text], { type: "application/json;charset=utf-8" });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement("a");
-            a.href = url;
-            a.download = filename;
-            a.click();
-            URL.revokeObjectURL(url);
-        }
-
-        // --------------------------------------------------------------
+        // ============================================================
         // 事件绑定
-        // --------------------------------------------------------------
+        // ============================================================
         els.startBtn.addEventListener("click", startRound);
         els.resetBtn.addEventListener("click", resetGame);
         els.fullscreenBtn.addEventListener("click", handleFullscreenClick);
         els.landscapeBtn.addEventListener("click", toggleLandscapeMode);
+        els.soundBtn.addEventListener("click", toggleSound);
         els.zoomOutBtn.addEventListener("click", () => changeScale(-0.05));
         els.zoomInBtn.addEventListener("click", () => changeScale(0.05));
-        els.zoomResetBtn.addEventListener("click", () => {
-            state.uiScale = 1;
-            updateScale();
-        });
+        els.zoomResetBtn.addEventListener("click", () => { state.uiScale = 1; updateScale(); });
         els.countdownInput.addEventListener("change", () => {
             const value = Number(els.countdownInput.value);
             const safeValue = Number.isFinite(value) ? Math.min(1800, Math.max(10, Math.round(value))) : 60;
             els.countdownInput.value = String(safeValue);
             state.durationSec = safeValue;
-            if (!state.timerId) {
-                state.timerSec = safeValue;
-                updateTopInfo();
-            }
+            if (!state.timerId) { state.timerSec = safeValue; updateTopInfo(); }
         });
 
         function updateTimerInput(delta) {
@@ -2360,25 +2243,19 @@
         }
 
         function setupContinuousTimerControl(btn, delta) {
-            let intervalId = null;
-            let timeoutId = null;
-
+            let intervalId = null, timeoutId = null;
             const start = (e) => {
                 if (e.type === 'touchstart') e.preventDefault();
                 updateTimerInput(delta);
                 timeoutId = setTimeout(() => {
-                    intervalId = setInterval(() => {
-                        updateTimerInput(delta);
-                    }, 100);
+                    intervalId = setInterval(() => { updateTimerInput(delta); }, 100);
                 }, 500);
             };
-
             const stop = (e) => {
                 if (e && e.type === 'touchend') e.preventDefault();
                 clearTimeout(timeoutId);
                 clearInterval(intervalId);
             };
-
             btn.addEventListener("mousedown", start);
             btn.addEventListener("touchstart", start, { passive: false });
             btn.addEventListener("mouseup", stop);
@@ -2386,50 +2263,35 @@
             btn.addEventListener("touchend", stop);
             btn.addEventListener("touchcancel", stop);
         }
-
         setupContinuousTimerControl(els.timerMinusBtn, -10);
         setupContinuousTimerControl(els.timerPlusBtn, 10);
 
         els.settingsBtn.addEventListener("click", () => els.settingsModal.classList.add("show"));
         els.closeSettingsBtn.addEventListener("click", () => els.settingsModal.classList.remove("show"));
 
+        // 重新生成今日题库
         els.useSampleBtn.addEventListener("click", () => {
-            const count = parseInt(prompt("生成多少道数学题？(建议 60-100 道)", "80")) || 80;
-            const newBank = generateMathQuestions(Math.min(200, Math.max(20, count)));
-            if (newBank.length) {
-                state.bank = newBank;
-                saveBank();
-                alert(`✅ 已生成 ${state.bank.length} 道数学题！`);
-            } else {
-                alert("生成失败，请重试。");
+            if (confirm("确定重新生成今日题库（100道）吗？当前题库将被覆盖。")) {
+                regenerateTodayBank();
             }
         });
 
-        els.clearBatchBtn.addEventListener("click", () => {
-            els.batchInput.value = "";
-        });
+        // 导出
+        els.exportBankBtn.addEventListener("click", exportBank);
+        // 导入
+        els.importBankBtn.addEventListener("click", importBankFromFile);
+
+        els.clearBatchBtn.addEventListener("click", () => { els.batchInput.value = ""; });
         els.batchSaveBtn.addEventListener("click", processBatchInput);
-        els.exportBankBtn.addEventListener("click", () => {
-            let content = "";
-            for (const item of state.bank) {
-                if (item.type === "choice") {
-                    content += `${item.question} / ${item.answer} / ${item.options.filter(o => o !== item.answer).join(" / ")}\n`;
-                } else {
-                    content += `${item.question} / ${item.answer}\n`;
-                }
-            }
-            downloadFile("数学大拔河题库.txt", content);
-        });
+
         els.clearBankBtn.addEventListener("click", () => {
-            const confirmed = confirm("确定清空全部题库吗？");
-            if (!confirmed) return;
-            state.bank = [];
-            saveBank();
+            if (confirm("确定清空全部题库吗？")) {
+                state.bank = [];
+                saveBank();
+            }
         });
         els.settingsModal.addEventListener("click", (event) => {
-            if (event.target === els.settingsModal) {
-                els.settingsModal.classList.remove("show");
-            }
+            if (event.target === els.settingsModal) els.settingsModal.classList.remove("show");
         });
 
         document.addEventListener("fullscreenchange", updateFullscreenButtonText);
@@ -2447,14 +2309,15 @@
             renderProgress();
         });
 
-        // --------------------------------------------------------------
+        // ============================================================
         // 启动
-        // --------------------------------------------------------------
+        // ============================================================
         loadBank();
         els.countdownInput.value = String(state.durationSec);
         updateScale();
         updateFullscreenButtonText();
         resetGame();
+        els.soundBtn.textContent = '🔊';
     </script>
 </body>
 </html>
