@@ -930,81 +930,207 @@
             font-weight: 700;
         }
 
-        /* 横屏优化 */
-        @media (orientation: landscape) and (max-height: 500px) {
-            .app {
-                height: calc(100dvh - 20px);
-                padding: 6px 12px 8px;
+        /* ===== 横屏模式（按钮触发） ===== */
+        .app.force-landscape .layout {
+            grid-template-columns: 280px minmax(280px, 1fr) 280px;
+            gap: 12px;
+        }
+
+        .app.force-landscape .question-text {
+            font-size: 24px;
+            min-height: 60px;
+            padding: 8px 6px;
+        }
+
+        .app.force-landscape .answer-screen {
+            font-size: 26px;
+            min-height: 40px;
+        }
+
+        .app.force-landscape .pad-btn,
+        .app.force-landscape .choice-btn {
+            min-height: 44px;
+            font-size: 20px;
+        }
+
+        .app.force-landscape .team-body {
+            padding: 8px;
+            gap: 6px;
+        }
+
+        .app.force-landscape .team-header {
+            padding: 6px 12px;
+            font-size: 18px;
+        }
+
+        .app.force-landscape .score-dot {
+            min-width: 30px;
+            height: 30px;
+            font-size: 18px;
+        }
+
+        .app.force-landscape .arena-top {
+            padding: 8px 12px;
+        }
+
+        .app.force-landscape .arena-stat .value {
+            font-size: 28px;
+        }
+
+        .app.force-landscape .timer {
+            font-size: 26px;
+        }
+
+        .app.force-landscape .player {
+            width: 70px;
+            height: 105px;
+        }
+
+        .app.force-landscape .team-group {
+            gap: 20px;
+        }
+
+        .app.force-landscape .team-group.left {
+            left: calc(50% - 200px + var(--group-shift, 0px));
+        }
+
+        .app.force-landscape .team-group.right {
+            right: calc(50% - 200px - var(--group-shift, 0px));
+        }
+
+        .app.force-landscape .arena-stage {
+            min-height: 200px;
+        }
+
+        .app.force-landscape .ground {
+            bottom: 60px;
+        }
+
+        .app.force-landscape .rope-wrap {
+            top: 50%;
+        }
+
+        .app.force-landscape .status-pill {
+            padding: 4px 10px;
+            font-size: 13px;
+        }
+
+        .app.force-landscape .topbar {
+            margin-bottom: 8px;
+        }
+
+        .app.force-landscape .app {
+            padding: 6px 12px 8px;
+        }
+
+        /* 响应式降级：当屏幕宽度不足时，仍保持三列但允许水平滚动或缩放 */
+        @media (max-width: 900px) {
+            .app.force-landscape .layout {
+                grid-template-columns: 220px minmax(220px, 1fr) 220px;
+                gap: 8px;
             }
-            .topbar {
-                margin-bottom: 8px;
-            }
-            .layout {
-                grid-template-columns: 280px minmax(280px, 1fr) 280px;
-                gap: 12px;
-            }
-            .question-text {
-                font-size: 24px;
-                min-height: 60px;
-                padding: 8px 6px;
-            }
-            .answer-screen {
-                font-size: 26px;
-                min-height: 40px;
-            }
-            .pad-btn,
-            .choice-btn {
-                min-height: 44px;
+            .app.force-landscape .question-text {
                 font-size: 20px;
+                min-height: 50px;
             }
-            .team-body {
-                padding: 8px;
+            .app.force-landscape .player {
+                width: 56px;
+                height: 84px;
+            }
+            .app.force-landscape .team-group.left {
+                left: calc(50% - 160px + var(--group-shift, 0px));
+            }
+            .app.force-landscape .team-group.right {
+                right: calc(50% - 160px - var(--group-shift, 0px));
+            }
+        }
+
+        @media (max-width: 720px) {
+            .app.force-landscape .layout {
+                grid-template-columns: 1fr 1.5fr 1fr;
                 gap: 6px;
             }
-            .team-header {
-                padding: 6px 12px;
+            .app.force-landscape .question-text {
                 font-size: 18px;
+                min-height: 44px;
+                padding: 4px;
             }
-            .score-dot {
-                min-width: 30px;
-                height: 30px;
-                font-size: 18px;
+            .app.force-landscape .answer-screen {
+                font-size: 20px;
+                min-height: 32px;
             }
-            .arena-top {
-                padding: 8px 12px;
+            .app.force-landscape .pad-btn,
+            .app.force-landscape .choice-btn {
+                min-height: 36px;
+                font-size: 16px;
             }
-            .arena-stat .value {
-                font-size: 28px;
+            .app.force-landscape .team-body {
+                padding: 4px;
+                gap: 4px;
             }
-            .timer {
-                font-size: 26px;
+            .app.force-landscape .team-header {
+                font-size: 14px;
+                padding: 4px 8px;
             }
-            .player {
-                width: 70px;
-                height: 105px;
+            .app.force-landscape .score-dot {
+                min-width: 24px;
+                height: 24px;
+                font-size: 14px;
             }
-            .team-group {
-                gap: 20px;
+            .app.force-landscape .arena-stat .value {
+                font-size: 22px;
             }
-            .team-group.left {
-                left: calc(50% - 200px + var(--group-shift, 0px));
+            .app.force-landscape .timer {
+                font-size: 20px;
             }
-            .team-group.right {
-                right: calc(50% - 200px - var(--group-shift, 0px));
+            .app.force-landscape .player {
+                width: 44px;
+                height: 66px;
             }
-            .arena-stage {
-                min-height: 200px;
+            .app.force-landscape .team-group {
+                gap: 14px;
             }
-            .ground {
-                bottom: 60px;
+            .app.force-landscape .team-group.left {
+                left: calc(50% - 120px + var(--group-shift, 0px));
             }
-            .rope-wrap {
-                top: 50%;
+            .app.force-landscape .team-group.right {
+                right: calc(50% - 120px - var(--group-shift, 0px));
             }
-            .status-pill {
-                padding: 4px 10px;
-                font-size: 13px;
+            .app.force-landscape .arena-stage {
+                min-height: 140px;
             }
+            .app.force-landscape .ground {
+                bottom: 40px;
+            }
+            .app.force-landscape .status-pill {
+                font-size: 11px;
+                padding: 3px 6px;
+            }
+            .app.force-landscape .topbar .pill-btn {
+                font-size: 12px;
+                padding: 4px 8px;
+            }
+            .app.force-landscape .topbar {
+                gap: 6px;
+                margin-bottom: 4px;
+            }
+            .app.force-landscape .app {
+                padding: 4px 6px 6px;
+            }
+            .app.force-landscape .timer-controls button {
+                width: 24px;
+                height: 24px;
+                font-size: 14px;
+            }
+            .app.force-landscape .timer-config input {
+                width: 40px;
+                font-size: 14px;
+            }
+        }
+
+        /* 原有横屏媒体查询保留，但力度小于force-landscape，我们让force-landscape覆盖 */
+        @media (orientation: landscape) and (max-height: 500px) {
+            /* 原样式已被force-landscape覆盖，可保留作为后备 */
         }
 
         @media (max-width: 1260px) {
@@ -1106,7 +1232,7 @@
 </head>
 <body>
     <div class="viewport">
-        <div class="app">
+        <div class="app" id="appContainer">
             <div class="topbar">
                 <div class="toolbar">
                     <label class="pill-btn timer-config" for="countdownInput">
@@ -1212,6 +1338,7 @@
         <button class="control-btn label" id="zoomResetBtn" type="button">100%</button>
         <button class="control-btn" id="zoomInBtn" type="button">+</button>
         <button class="control-btn label" id="fullscreenBtn" type="button">全屏</button>
+        <button class="control-btn label" id="landscapeBtn" type="button">横屏模式</button>
     </div>
 
     <div class="settings-modal" id="settingsModal">
@@ -1476,6 +1603,7 @@
             zoomInBtn: document.getElementById("zoomInBtn"),
             zoomResetBtn: document.getElementById("zoomResetBtn"),
             fullscreenBtn: document.getElementById("fullscreenBtn"),
+            landscapeBtn: document.getElementById("landscapeBtn"),
             bankInfo: document.getElementById("bankInfo"),
             settingsModal: document.getElementById("settingsModal"),
             settingsBtn: document.getElementById("settingsBtn"),
@@ -1488,7 +1616,8 @@
             clearBatchBtn: document.getElementById("clearBatchBtn"),
             bankList: document.getElementById("bankList"),
             exportBankBtn: document.getElementById("exportBankBtn"),
-            clearBankBtn: document.getElementById("clearBankBtn")
+            clearBankBtn: document.getElementById("clearBankBtn"),
+            appContainer: document.getElementById("appContainer")
         };
 
         function formatTime(seconds) {
@@ -1788,6 +1917,28 @@
                 alert("当前环境不支持全屏或被浏览器拦截。");
             }
             updateFullscreenButtonText();
+        }
+
+        // 横屏模式切换
+        function toggleLandscapeMode() {
+            const app = els.appContainer;
+            app.classList.toggle('force-landscape');
+            const isActive = app.classList.contains('force-landscape');
+            els.landscapeBtn.textContent = isActive ? '退出横屏' : '横屏模式';
+            // 如果开启横屏模式，同时尝试锁定屏幕方向（如果支持）
+            if (isActive) {
+                try {
+                    if (screen.orientation && screen.orientation.lock) {
+                        screen.orientation.lock('landscape').catch(() => {});
+                    }
+                } catch (e) {}
+            } else {
+                try {
+                    if (screen.orientation && screen.orientation.unlock) {
+                        screen.orientation.unlock();
+                    }
+                } catch (e) {}
+            }
         }
 
         function buildTimeoutMessage() {
@@ -2183,6 +2334,7 @@
         els.startBtn.addEventListener("click", startRound);
         els.resetBtn.addEventListener("click", resetGame);
         els.fullscreenBtn.addEventListener("click", handleFullscreenClick);
+        els.landscapeBtn.addEventListener("click", toggleLandscapeMode);
         els.zoomOutBtn.addEventListener("click", () => changeScale(-0.05));
         els.zoomInBtn.addEventListener("click", () => changeScale(0.05));
         els.zoomResetBtn.addEventListener("click", () => {
