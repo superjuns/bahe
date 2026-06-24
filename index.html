@@ -1,591 +1,2265 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>📂 图片库管理 · 看图列算式</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>数学大拔河</title>
     <style>
-        /* 样式与之前相同，略去重复，但保留完整功能 */
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Segoe UI', system-ui, sans-serif; background: #f5efe8; padding: 20px; min-height: 100vh; }
-        .container { max-width: 1300px; margin: 0 auto; background: #fffcf7; border-radius: 48px; padding: 28px 32px 40px; box-shadow: 0 20px 60px rgba(0,0,0,0.08); }
-        .header { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; margin-bottom: 20px; }
-        .header h1 { font-size: 2.2rem; color: #4d3220; display: flex; align-items: center; gap: 10px; }
-        .header h1 small { font-size: 1rem; font-weight: 400; color: #8b7a6a; margin-left: 8px; }
-        .header-actions { display: flex; gap: 12px; align-items: center; }
-        .header-actions button { padding: 10px 22px; border: none; border-radius: 40px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: 0.2s; display: flex; align-items: center; gap: 8px; background: #f0e8de; color: #4d3220; box-shadow: 0 4px 0 #c9b09b; }
-        .header-actions button:hover { transform: translateY(-2px); }
-        .header-actions button:active { transform: translateY(4px); box-shadow: 0 1px 0 #c9b09b; }
-        .header-actions .btn-api { background: #dccfc0; }
-        .header-actions .btn-upload { background: #fbcb7b; box-shadow: 0 4px 0 #b8853f; }
-        .header-actions .btn-upload:hover { background: #fdcf88; }
-        .toolbar { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; margin-bottom: 24px; gap: 12px; }
-        .stats { background: #f0e8de; padding: 8px 22px; border-radius: 40px; font-weight: 600; color: #4d3220; font-size: 1rem; }
-        .filter-bar { display: flex; gap: 12px; align-items: center; }
-        .filter-bar select { padding: 8px 18px; border-radius: 40px; border: 2px solid #e0d3c6; background: white; font-size: 1rem; font-family: inherit; outline: none; cursor: pointer; }
-        .filter-bar select:focus { border-color: #fbcb7b; box-shadow: 0 0 0 3px rgba(251,203,123,0.25); }
-        .filter-bar button { padding: 8px 22px; border: none; border-radius: 40px; background: #fbcb7b; font-weight: 600; color: #3d2c1e; cursor: pointer; transition: 0.2s; font-size: 1rem; box-shadow: 0 4px 0 #b8853f; }
-        .filter-bar button:active { transform: translateY(4px); box-shadow: 0 1px 0 #b8853f; }
-        .filter-bar button:hover { background: #fdcf88; }
-        .pic-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 24px; margin-top: 10px; }
-        .pic-card { background: white; border-radius: 28px; overflow: hidden; box-shadow: 0 6px 16px rgba(0,0,0,0.05); border: 2px solid #ede5db; transition: 0.2s; position: relative; }
-        .pic-card:hover { transform: translateY(-4px); box-shadow: 0 12px 28px rgba(0,0,0,0.08); }
-        .pic-card .preview { width: 100%; aspect-ratio: 16/10; background: #f5efe8; display: flex; justify-content: center; align-items: center; overflow: hidden; }
-        .pic-card .preview img { width: 100%; height: 100%; object-fit: contain; }
-        .pic-card .info { padding: 12px 14px 14px; display: flex; flex-direction: column; gap: 4px; }
-        .pic-card .info .type-tag { display: inline-block; background: #f0e1d0; padding: 2px 14px; border-radius: 30px; font-size: 0.75rem; font-weight: 600; color: #5a3e2b; align-self: flex-start; }
-        .pic-card .info .expr { font-size: 0.95rem; color: #3d2c1e; font-weight: 600; background: #f7f1ea; padding: 2px 14px; border-radius: 20px; display: inline-block; align-self: flex-start; }
-        .pic-card .actions { padding: 0 14px 14px; display: flex; gap: 8px; flex-wrap: wrap; }
-        .pic-card .actions button { flex: 1; padding: 8px 12px; border: none; border-radius: 30px; font-weight: 600; cursor: pointer; transition: 0.2s; font-size: 0.85rem; display: flex; align-items: center; justify-content: center; gap: 6px; background: #e8e0d6; color: #4d3220; }
-        .pic-card .actions button:hover { background: #d5cdc0; }
-        .pic-card .actions .btn-generate { background: #9bccb3; color: #1f4533; }
-        .pic-card .actions .btn-generate:hover { background: #88bfa4; }
-        .pic-card .actions .btn-generate:disabled { opacity: 0.6; cursor: not-allowed; }
-        .pic-card .generated-preview { padding: 0 14px 14px; border-top: 2px dashed #e0d3c6; margin-top: 6px; padding-top: 12px; }
-        .pic-card .generated-preview .label { font-size: 0.75rem; font-weight: 600; color: #8b7a6a; margin-bottom: 6px; }
-        .pic-card .generated-preview img { width: 100%; border-radius: 16px; border: 2px solid #ede5db; }
-        .pic-card .generated-preview .new-expr { margin-top: 4px; font-size: 0.85rem; font-weight: 600; color: #1f6b47; background: #dff0e6; padding: 2px 12px; border-radius: 20px; display: inline-block; }
-        .empty-msg { text-align: center; padding: 60px 20px; color: #b8a392; font-size: 1.2rem; grid-column: 1 / -1; }
-        .error-msg { text-align: center; padding: 60px 20px; color: #a14545; font-size: 1.2rem; grid-column: 1 / -1; background: #fce8e8; border-radius: 28px; border: 2px solid #e8a0a0; }
-        .loading-msg { text-align: center; padding: 60px 20px; color: #8b7a6a; font-size: 1.2rem; grid-column: 1 / -1; }
-        /* 模态框样式与之前相同，略去重复以节省篇幅，但实际使用时应包含完整模态框样式 */
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.3); backdrop-filter: blur(4px); display: none; justify-content: center; align-items: center; z-index: 999; }
-        .modal-overlay.active { display: flex; }
-        .modal { background: #fffcf7; border-radius: 48px; padding: 32px 36px 40px; max-width: 540px; width: 90%; box-shadow: 0 30px 80px rgba(0,0,0,0.2); position: relative; animation: modalIn 0.2s ease; }
-        @keyframes modalIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
-        .modal .close-btn { position: absolute; top: 16px; right: 20px; background: none; border: none; font-size: 2rem; cursor: pointer; color: #8b7a6a; line-height: 1; }
-        .modal .close-btn:hover { color: #4d3220; }
-        .modal h2 { font-size: 1.8rem; color: #4d3220; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
-        .modal label { display: block; font-weight: 600; color: #4d3220; margin-top: 16px; margin-bottom: 6px; }
-        .modal input, .modal select { width: 100%; padding: 12px 16px; border-radius: 30px; border: 2px solid #e0d3c6; font-size: 1rem; background: white; outline: none; transition: 0.2s; }
-        .modal input:focus, .modal select:focus { border-color: #fbcb7b; box-shadow: 0 0 0 3px rgba(251,203,123,0.25); }
-        .modal .modal-actions { display: flex; gap: 12px; margin-top: 24px; justify-content: flex-end; }
-        .modal .modal-actions button { padding: 12px 32px; border: none; border-radius: 40px; font-size: 1rem; font-weight: 700; cursor: pointer; transition: 0.2s; }
-        .modal .modal-actions .btn-primary { background: #fbcb7b; color: #3d2c1e; box-shadow: 0 4px 0 #b8853f; }
-        .modal .modal-actions .btn-primary:active { transform: translateY(4px); box-shadow: 0 1px 0 #b8853f; }
-        .modal .modal-actions .btn-secondary { background: #e8d5c0; color: #4d3220; box-shadow: 0 4px 0 #c9b09b; }
-        .modal .modal-actions .btn-secondary:active { transform: translateY(4px); box-shadow: 0 1px 0 #c9b09b; }
-        .modal .msg-box { margin-top: 12px; padding: 10px 16px; border-radius: 30px; font-weight: 500; display: none; }
-        .modal .msg-box.success { display: block; background: #dff0e6; color: #1f6b47; }
-        .modal .msg-box.error { display: block; background: #fce8e8; color: #a14545; }
-        .modal .msg-box.loading { display: block; background: #fff3d6; color: #8b7a6a; }
-        .paste-area { border: 3px dashed #dccfc0; border-radius: 28px; padding: 18px; margin-top: 10px; text-align: center; background: #faf7f2; transition: 0.3s; min-height: 120px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; color: #8b7a6a; }
-        .paste-area.dragover { border-color: #fbcb7b; background: #fdf6ea; }
-        .paste-area img { max-width: 100%; max-height: 160px; border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
-        .paste-area .hint { font-size: 0.95rem; font-weight: 500; }
-        .paste-area .hint small { font-weight: 400; color: #b8a392; }
-        .back-link { display: inline-block; margin-top: 28px; color: #8b7a6a; text-decoration: none; border-bottom: 2px dotted #dccfc0; padding-bottom: 4px; transition: 0.2s; }
-        .back-link:hover { color: #5a3e2b; border-bottom-color: #fbcb7b; }
-        @media (max-width: 700px) { .container { padding: 20px 16px; } .header { flex-direction: column; align-items: stretch; gap: 12px; } .header-actions { justify-content: stretch; } .header-actions button { flex: 1; justify-content: center; } .toolbar { flex-direction: column; align-items: stretch; } .filter-bar { flex-wrap: wrap; } .pic-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 16px; } .modal { padding: 24px 20px; } }
+        :root {
+            --bg: #e9edf2;
+            --panel: #ffffff;
+            --line: #d8dee8;
+            --blue: #1f8fff;
+            --blue-dark: #0b6fce;
+            --red: #ff4e42;
+            --red-dark: #d93c33;
+            --text: #1f2d3d;
+            --muted: #6e7d91;
+            --success: #12a150;
+            --danger: #f05a4f;
+            --shadow: 0 10px 24px rgba(25, 45, 76, 0.12);
+            --radius: 22px;
+            --ui-scale: 1;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
+            color: var(--text);
+            background:
+                radial-gradient(circle at top, #f8fbff 0, #eef3f8 28%, var(--bg) 78%);
+            min-height: 100vh;
+            min-height: 100dvh;
+            overflow: hidden;
+        }
+
+        .viewport {
+            position: fixed;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 18px;
+            overflow: hidden;
+        }
+
+        button,
+        input,
+        textarea,
+        select {
+            font: inherit;
+        }
+
+        button {
+            border: 0;
+            cursor: pointer;
+        }
+
+        .app {
+            width: min(1480px, calc((100vw - 40px) / var(--ui-scale)));
+            height: min(920px, calc((100dvh - 36px) / var(--ui-scale)));
+            padding: 14px 14px 18px;
+            display: flex;
+            flex-direction: column;
+            transform: scale(var(--ui-scale));
+            transform-origin: center center;
+            transition: transform 0.16s ease;
+            position: relative;
+        }
+
+        .topbar {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 14px;
+        }
+
+        .toolbar {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .pill-btn {
+            background: #fff;
+            color: var(--text);
+            border-radius: 999px;
+            padding: 10px 16px;
+            box-shadow: 0 6px 16px rgba(22, 42, 74, 0.12);
+            font-weight: 700;
+        }
+
+        .pill-btn.primary {
+            background: linear-gradient(135deg, var(--blue), #4fb8ff);
+            color: #fff;
+        }
+
+        .pill-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            background: #cdd4df;
+            color: #7b8a9d;
+            box-shadow: none;
+        }
+
+        .pill-btn.primary:disabled {
+            background: linear-gradient(135deg, #a1cbf2, #b8ddf5);
+            color: #fff;
+        }
+
+        .timer-config {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .timer-controls {
+            display: flex;
+            align-items: center;
+            background: #f3f7fb;
+            border-radius: 999px;
+            overflow: hidden;
+            box-shadow: inset 0 0 0 1px #d8dee8;
+        }
+
+        .timer-controls button {
+            width: 32px;
+            height: 32px;
+            background: transparent;
+            color: var(--text);
+            font-weight: 900;
+            font-size: 18px;
+            display: grid;
+            place-items: center;
+            transition: background 0.12s;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        .timer-controls button:hover {
+            background: #e4ebf3;
+        }
+
+        .timer-config input {
+            width: 54px;
+            border: 0;
+            outline: none;
+            text-align: center;
+            font-weight: 800;
+            color: var(--text);
+            background: transparent;
+            padding: 6px 0;
+            -moz-appearance: textfield;
+        }
+
+        .timer-config input::-webkit-outer-spin-button,
+        .timer-config input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        .layout {
+            display: grid;
+            grid-template-columns: 360px minmax(360px, 1fr) 360px;
+            gap: 20px;
+            align-items: start;
+            flex: 1;
+            min-height: 0;
+        }
+
+        .card {
+            background: var(--panel);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+
+        .team-card {
+            display: flex;
+            flex-direction: column;
+            min-height: 0;
+            height: 100%;
+        }
+
+        .team-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 16px;
+            color: #fff;
+            font-weight: 800;
+            font-size: 22px;
+        }
+
+        .team-header.blue {
+            background: linear-gradient(135deg, #148cff, #3eb1ff);
+        }
+
+        .team-header.red {
+            background: linear-gradient(135deg, #f74438, #ff6d61);
+        }
+
+        .score-dot {
+            min-width: 40px;
+            height: 40px;
+            padding: 0 8px;
+            border-radius: 999px;
+            display: grid;
+            place-items: center;
+            background: rgba(255, 255, 255, 0.92);
+            color: var(--text);
+            font-weight: 900;
+            font-size: 22px;
+            box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.5);
+        }
+
+        .team-body {
+            padding: 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            flex: 1;
+        }
+
+        .question-text {
+            min-height: 104px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            font-size: 32px;
+            font-weight: 900;
+            line-height: 1.25;
+            padding: 14px 10px;
+            border-radius: 18px;
+            background: linear-gradient(180deg, #f7fbff, #eef6ff);
+            color: #1680eb;
+            word-break: break-word;
+        }
+
+        .team-card.right .question-text {
+            color: #f44336;
+            background: linear-gradient(180deg, #fff6f6, #fff0ef);
+        }
+
+        .question-meta {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            background: #eef3fb;
+            color: var(--muted);
+            border-radius: 999px;
+            padding: 6px 12px;
+            font-weight: 700;
+            font-size: 14px;
+        }
+
+        .answer-screen {
+            min-height: 66px;
+            border-radius: 16px;
+            border: 2px solid #e7edf4;
+            background: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8px 12px;
+            font-size: 34px;
+            font-weight: 900;
+            color: #5b6877;
+            letter-spacing: 2px;
+            font-family: "Bahnschrift", "Arial Black", "Trebuchet MS", sans-serif;
+        }
+
+        .feedback {
+            min-height: 30px;
+            text-align: center;
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        .feedback.ok {
+            color: var(--success);
+        }
+
+        .feedback.bad {
+            color: var(--danger);
+        }
+
+        .numeric-pad {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+        }
+
+        .pad-btn,
+        .choice-btn {
+            min-height: 70px;
+            border-radius: 14px;
+            background: #f7f7f8;
+            color: #111;
+            font-size: 26px;
+            font-weight: 900;
+            box-shadow: inset 0 0 0 2px #ededee;
+            transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.12s ease;
+        }
+
+        .pad-btn:hover,
+        .choice-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: inset 0 0 0 2px #dce3ec, 0 8px 18px rgba(22, 42, 74, 0.08);
+        }
+
+        .pad-btn.action-clear {
+            background: linear-gradient(135deg, #f66a4f, #e13a31);
+            color: #fff;
+            box-shadow: none;
+        }
+
+        .pad-btn.action-ok {
+            background: linear-gradient(135deg, #14a1ec, #0c7acc);
+            color: #fff;
+            box-shadow: none;
+        }
+
+        .choices {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 10px;
+        }
+
+        .choice-wrap {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .choice-btn {
+            min-height: 60px;
+            font-size: 20px;
+            padding: 8px 12px;
+            text-align: left;
+        }
+
+        .choice-btn.selected {
+            background: linear-gradient(135deg, #dff1ff, #c9e7ff);
+            box-shadow: inset 0 0 0 2px #72bfff;
+        }
+
+        .choice-actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+        }
+
+        .choice-actions button {
+            min-height: 52px;
+            border-radius: 14px;
+            font-size: 18px;
+            font-weight: 800;
+        }
+
+        .secondary {
+            background: #eef3f8;
+            color: var(--text);
+        }
+
+        .confirm {
+            background: linear-gradient(135deg, #14a1ec, #0c7acc);
+            color: #fff;
+        }
+
+        .arena {
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            min-height: 0;
+            height: 100%;
+        }
+
+        .arena-top {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            align-items: center;
+            gap: 12px;
+            padding: 18px 16px;
+            border-radius: 20px;
+            background: linear-gradient(180deg, #fcfcfd, #eff2f7);
+            box-shadow: inset 0 0 0 2px rgba(217, 224, 232, 0.8);
+        }
+
+        .arena-stat {
+            text-align: center;
+        }
+
+        .arena-stat .label {
+            color: var(--muted);
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        .arena-stat .value {
+            font-size: 40px;
+            font-weight: 900;
+            margin-top: 2px;
+            color: #167ddc;
+            font-family: "Bahnschrift", "Arial Black", sans-serif;
+        }
+
+        .arena-stat.right .value {
+            color: #ef483c;
+        }
+
+        .timer {
+            text-align: center;
+            color: #0f86dc;
+            font-weight: 900;
+            font-size: 34px;
+            font-family: "Bahnschrift", "Arial Black", sans-serif;
+        }
+
+        .arena-stage {
+            position: relative;
+            flex: 1;
+            min-height: 360px;
+            border-radius: 24px;
+            overflow: hidden;
+            background:
+                linear-gradient(180deg, #ffffff 0%, #f7f8fa 45%, #f1f3f6 100%);
+            box-shadow: inset 0 0 0 2px rgba(223, 228, 235, 0.9);
+        }
+
+        .center-line {
+            position: absolute;
+            left: 50%;
+            top: 24px;
+            bottom: 24px;
+            width: 0;
+            border-left: 3px dashed rgba(74, 88, 107, 0.45);
+            transform: translateX(-50%);
+        }
+
+        .ground {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 120px;
+            height: 5px;
+            background: rgba(55, 77, 103, 0.2);
+        }
+
+        .rope-wrap {
+            position: absolute;
+            left: 50%;
+            top: 54%;
+            width: 76%;
+            height: 10px;
+            transform: translate(-50%, -50%);
+        }
+
+        .rope {
+            position: absolute;
+            left: 20px;
+            right: 20px;
+            top: 50%;
+            height: 8px;
+            background: linear-gradient(90deg, #3c2b1e, #6c4d35, #3c2b1e);
+            transform: translateY(-50%);
+        }
+
+        .rope::before,
+        .rope::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            width: 40px;
+            height: 25px;
+            border-bottom: 8px solid transparent;
+        }
+
+        .rope::before {
+            left: -40px;
+            border-left: 8px solid #3c2b1e;
+            border-top: 8px solid #3c2b1e;
+            border-radius: 40px 0 0 0;
+        }
+
+        .rope::after {
+            right: -40px;
+            border-right: 8px solid #3c2b1e;
+            border-top: 8px solid #3c2b1e;
+            border-radius: 0 40px 0 0;
+        }
+
+        .rope-marker {
+            position: absolute;
+            top: 50%;
+            left: calc(50% + var(--rope-shift, 0px));
+            width: 20px;
+            height: 58px;
+            transform: translate(-50%, -50%);
+            transition: left 0.35s ease;
+        }
+
+        .rope-marker::before {
+            content: "";
+            position: absolute;
+            left: 50%;
+            top: 8px;
+            transform: translateX(-50%);
+            width: 3px;
+            height: 40px;
+            background: #db3c30;
+        }
+
+        .rope-marker::after {
+            content: "";
+            position: absolute;
+            left: 50%;
+            top: 0;
+            transform: translateX(-20%);
+            border-left: 11px solid #db3c30;
+            border-top: 9px solid transparent;
+            border-bottom: 9px solid transparent;
+        }
+
+        .team-group {
+            position: absolute;
+            top: 52%;
+            display: flex;
+            gap: 34px;
+            transform: translateY(-50%);
+            transition: transform 0.35s ease;
+        }
+
+        .team-group.left {
+            left: calc(50% - 280px + var(--group-shift, 0px));
+        }
+
+        .team-group.right {
+            right: calc(50% - 280px - var(--group-shift, 0px));
+        }
+
+        .player {
+            width: 100px;
+            height: 150px;
+            position: relative;
+            z-index: 5;
+        }
+
+        .player.blue {
+            background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 100 150" xmlns="http://www.w3.org/2000/svg"><path d="M 35,100 L 25,140" stroke="%231a2842" stroke-width="14" stroke-linecap="round"/><path d="M 15,140 h 20 v 8 h -20 z" fill="%23fff" rx="4"/><path d="M 55,100 L 65,140" stroke="%232a3852" stroke-width="14" stroke-linecap="round"/><path d="M 55,140 h 20 v 8 h -20 z" fill="%23fff" rx="4"/><path d="M 25,55 Q 45,45 65,55 L 60,105 L 30,105 Z" fill="%230b73eb"/><path d="M 25,55 Q 45,45 65,55 L 55,65 Q 45,75 35,65 Z" fill="%23fff"/><path d="M 50,65 L 95,75" stroke="%23ffd7aa" stroke-width="12" stroke-linecap="round"/><circle cx="45" cy="30" r="24" fill="%23ffd7aa"/><path d="M 22,42 C 10,25 25,2 48,4 C 65,5 70,15 68,24 Q 60,18 50,22 Q 40,26 35,32 Q 30,38 22,42 Z" fill="%23333"/><path d="M 24,35 Q 12,28 10,38 Q 16,42 22,40 Z" fill="%23333"/><circle cx="32" cy="34" r="4.5" fill="%23f3bc86"/><path d="M 52,27 Q 55,24 58,27" stroke="%23222" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M 64,27 Q 67,24 70,27" stroke="%23222" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M 53,31 Q 55,29 57,31" stroke="%23222" stroke-width="2.5" fill="none" stroke-linecap="round"/><path d="M 65,31 Q 67,29 69,31" stroke="%23222" stroke-width="2.5" fill="none" stroke-linecap="round"/><path d="M 59,38 Q 61,42 63,38" stroke="%23222" stroke-width="2" fill="none" stroke-linecap="round"/><circle cx="51" cy="35" r="3.5" fill="%23ff9999" opacity="0.7"/><circle cx="71" cy="35" r="3.5" fill="%23ff9999" opacity="0.7"/><path d="M 35,65 L 55,65 L 45,90 Z" fill="%23ff2a00"/><path d="M 35,65 L 65,85" stroke="%23f3bc86" stroke-width="12" stroke-linecap="round"/></svg>') no-repeat center;
+            background-size: contain;
+        }
+
+        .player.red {
+            background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 100 150" xmlns="http://www.w3.org/2000/svg"><g transform="scale(-1, 1) translate(-100, 0)"><path d="M 35,100 L 25,140" stroke="%231a2842" stroke-width="14" stroke-linecap="round"/><path d="M 15,140 h 20 v 8 h -20 z" fill="%23fff" rx="4"/><path d="M 55,100 L 65,140" stroke="%232a3852" stroke-width="14" stroke-linecap="round"/><path d="M 55,140 h 20 v 8 h -20 z" fill="%23fff" rx="4"/><path d="M 25,55 Q 45,45 65,55 L 60,105 L 30,105 Z" fill="%23ff4b14"/><path d="M 25,55 Q 45,45 65,55 L 55,65 Q 45,75 35,65 Z" fill="%23fff"/><path d="M 50,65 L 95,75" stroke="%23ffd7aa" stroke-width="12" stroke-linecap="round"/><circle cx="45" cy="30" r="24" fill="%23ffd7aa"/><path d="M 22,42 C 10,25 25,2 48,4 C 65,5 70,15 68,24 Q 60,18 50,22 Q 40,26 35,32 Q 30,38 22,42 Z" fill="%23333"/><path d="M 24,35 Q 12,28 10,38 Q 16,42 22,40 Z" fill="%23333"/><circle cx="32" cy="34" r="4.5" fill="%23f3bc86"/><path d="M 52,27 Q 55,24 58,27" stroke="%23222" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M 64,27 Q 67,24 70,27" stroke="%23222" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M 53,31 Q 55,29 57,31" stroke="%23222" stroke-width="2.5" fill="none" stroke-linecap="round"/><path d="M 65,31 Q 67,29 69,31" stroke="%23222" stroke-width="2.5" fill="none" stroke-linecap="round"/><path d="M 59,38 Q 61,42 63,38" stroke="%23222" stroke-width="2" fill="none" stroke-linecap="round"/><circle cx="51" cy="35" r="3.5" fill="%23ff9999" opacity="0.7"/><circle cx="71" cy="35" r="3.5" fill="%23ff9999" opacity="0.7"/><path d="M 35,65 L 55,65 L 45,90 Z" fill="%23ff2a00"/><path d="M 35,65 L 65,85" stroke="%23f3bc86" stroke-width="12" stroke-linecap="round"/></g></svg>') no-repeat center;
+            background-size: contain;
+        }
+
+        .player.left-lean {
+            transform: rotate(10deg);
+        }
+
+        .player.right-lean {
+            transform: rotate(-10deg);
+        }
+
+        @keyframes pulling-left {
+            0% {
+                transform: rotate(10deg) translate(0, 0);
+            }
+            25% {
+                transform: rotate(12deg) translate(-2px, 2px);
+            }
+            50% {
+                transform: rotate(10deg) translate(0, 0);
+            }
+            75% {
+                transform: rotate(8deg) translate(2px, -1px);
+            }
+            100% {
+                transform: rotate(10deg) translate(0, 0);
+            }
+        }
+
+        @keyframes pulling-right {
+            0% {
+                transform: rotate(-10deg) translate(0, 0);
+            }
+            25% {
+                transform: rotate(-12deg) translate(2px, 2px);
+            }
+            50% {
+                transform: rotate(-10deg) translate(0, 0);
+            }
+            75% {
+                transform: rotate(-8deg) translate(-2px, -1px);
+            }
+            100% {
+                transform: rotate(-10deg) translate(0, 0);
+            }
+        }
+
+        .is-playing .player.left-lean {
+            animation: pulling-left 0.8s infinite ease-in-out;
+        }
+
+        .is-playing .player.right-lean {
+            animation: pulling-right 0.8s infinite ease-in-out;
+            animation-delay: 0.1s;
+        }
+
+        .status-bar {
+            display: flex;
+            justify-content: space-between;
+            gap: 8px;
+            flex-wrap: wrap;
+            align-items: center;
+            padding: 6px 6px 2px;
+        }
+
+        .status-pill {
+            border-radius: 999px;
+            padding: 10px 16px;
+            background: rgba(255, 255, 255, 0.92);
+            box-shadow: 0 6px 16px rgba(22, 42, 74, 0.08);
+            font-weight: 700;
+            color: var(--text);
+            transition: color 0.2s;
+        }
+
+        .winner-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 100;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+        }
+
+        .winner-overlay.show {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .winner-icon {
+            font-size: 120px;
+            margin-bottom: 20px;
+            z-index: 101;
+            animation: bounce 2s infinite;
+            text-shadow: 0 10px 30px rgba(255, 215, 0, 0.6);
+        }
+
+        @keyframes bounce {
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
+        .winner-text {
+            font-size: 64px;
+            font-weight: 900;
+            color: #fff;
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            margin-bottom: 30px;
+            text-align: center;
+            z-index: 101;
+        }
+
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #f00;
+            opacity: 0;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(-100vh) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
+        .floating-controls {
+            position: fixed;
+            left: 18px;
+            bottom: 18px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px;
+            border-radius: 14px;
+            background: rgba(255, 255, 255, 0.92);
+            box-shadow: 0 10px 24px rgba(25, 45, 76, 0.16);
+            backdrop-filter: blur(10px);
+            z-index: 18;
+        }
+
+        .control-btn {
+            min-width: 34px;
+            height: 34px;
+            padding: 0 10px;
+            border-radius: 10px;
+            background: #fff;
+            color: var(--text);
+            font-size: 18px;
+            font-weight: 900;
+            box-shadow: inset 0 0 0 2px #e8eef5;
+        }
+
+        .control-btn.label {
+            min-width: 62px;
+            font-size: 13px;
+            font-weight: 800;
+            color: #3f536d;
+        }
+
+        .settings-modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 22, 32, 0.42);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 18px;
+            z-index: 20;
+        }
+
+        .settings-modal.show {
+            display: flex;
+        }
+
+        .settings-panel {
+            width: min(1180px, 100%);
+            max-height: calc(100vh - 36px);
+            overflow: auto;
+            background: #fff;
+            border-radius: 28px;
+            box-shadow: 0 22px 60px rgba(15, 22, 32, 0.24);
+            padding: 22px;
+        }
+
+        .settings-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 18px;
+        }
+
+        .settings-head h2 {
+            margin: 0;
+            font-size: 32px;
+        }
+
+        .settings-grid {
+            display: grid;
+            grid-template-columns: 420px 1fr;
+            gap: 18px;
+        }
+
+        .form-card,
+        .list-card {
+            border-radius: 22px;
+            background: #f7fafc;
+            padding: 18px;
+            box-shadow: inset 0 0 0 2px #e8eef5;
+        }
+
+        .field {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 14px;
+        }
+
+        .field label {
+            font-weight: 800;
+            color: #445266;
+        }
+
+        .field input,
+        .field textarea,
+        .field select {
+            width: 100%;
+            border: 2px solid #dbe5ef;
+            border-radius: 14px;
+            padding: 12px 14px;
+            background: #fff;
+            color: var(--text);
+        }
+
+        .field textarea {
+            resize: vertical;
+            min-height: 92px;
+        }
+
+        .field small {
+            color: var(--muted);
+        }
+
+        .option-row {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 10px;
+            margin-bottom: 10px;
+            align-items: center;
+        }
+
+        .option-row button,
+        .tiny-btn {
+            border-radius: 12px;
+            padding: 10px 12px;
+            font-weight: 800;
+            background: #edf2f8;
+            color: var(--text);
+        }
+
+        .form-actions,
+        .list-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .form-actions button,
+        .list-actions button {
+            border-radius: 14px;
+            padding: 12px 16px;
+            font-weight: 800;
+        }
+
+        .save-btn {
+            background: linear-gradient(135deg, var(--blue), #4fb8ff);
+            color: #fff;
+        }
+
+        .warn-btn {
+            background: linear-gradient(135deg, #ff8d5d, #f15a3d);
+            color: #fff;
+        }
+
+        .bank-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 14px;
+        }
+
+        .bank-item {
+            background: #fff;
+            border: 2px solid #e4ebf3;
+            border-radius: 18px;
+            padding: 14px;
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 12px;
+        }
+
+        .bank-item h4 {
+            margin: 0 0 8px;
+            font-size: 20px;
+        }
+
+        .bank-item p {
+            margin: 0;
+            color: #526174;
+            line-height: 1.55;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+
+        .item-side {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            align-items: flex-end;
+            min-width: 120px;
+        }
+
+        .type-tag {
+            border-radius: 999px;
+            padding: 6px 12px;
+            font-size: 13px;
+            font-weight: 800;
+            color: #fff;
+        }
+
+        .type-tag.number {
+            background: linear-gradient(135deg, #0f8ff9, #57beff);
+        }
+
+        .type-tag.choice {
+            background: linear-gradient(135deg, #ff624f, #ff9173);
+        }
+
+        .helper {
+            color: var(--muted);
+            font-size: 14px;
+            margin-top: 6px;
+        }
+
+        .empty {
+            padding: 24px;
+            text-align: center;
+            color: var(--muted);
+            font-weight: 700;
+        }
+
+        @media (max-width: 1260px) {
+            body {
+                overflow: auto;
+            }
+
+            .viewport {
+                position: static;
+                display: block;
+                min-height: auto;
+                padding: 12px;
+                overflow: visible;
+            }
+
+            .app {
+                width: min(1480px, 100%);
+                height: auto;
+                min-height: auto;
+                transform: none;
+            }
+
+            .layout {
+                grid-template-columns: 1fr;
+            }
+
+            .team-card {
+                min-height: auto;
+                height: auto;
+            }
+
+            .arena-stage {
+                height: 420px;
+                min-height: 420px;
+            }
+
+            .settings-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 720px) {
+            .app {
+                padding: 12px;
+            }
+
+            .floating-controls {
+                left: 12px;
+                bottom: 12px;
+                gap: 4px;
+                padding: 4px;
+            }
+
+            .control-btn {
+                min-width: 32px;
+                height: 32px;
+                padding: 0 8px;
+            }
+
+            .control-btn.label {
+                min-width: 56px;
+                font-size: 12px;
+            }
+
+            .topbar,
+            .settings-head {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .toolbar {
+                justify-content: center;
+            }
+
+            .question-text {
+                font-size: 30px;
+                min-height: 100px;
+            }
+
+            .answer-screen {
+                font-size: 32px;
+            }
+
+            .pad-btn,
+            .choice-btn {
+                min-height: 72px;
+            }
+
+            .arena-stage {
+                height: 340px;
+            }
+
+            .team-group {
+                transform: scale(0.72) translateY(-69%);
+                transform-origin: top center;
+            }
+        }
     </style>
 </head>
 <body>
-<div class="container">
-    <div class="header">
-        <h1>📂 图片库 <small>参考图管理 · 支持生图</small></h1>
-        <div class="header-actions">
-            <button class="btn-api" id="openApiBtn">⚙️ API设置</button>
-            <button class="btn-upload" id="openUploadBtn">📤 上传图片</button>
+    <div class="viewport">
+        <div class="app">
+            <button class="pill-btn" id="helpBtn" style="position: absolute; right: 14px; top: 14px; z-index: 10;">帮助</button>
+            <div class="topbar">
+                <div class="toolbar">
+                    <label class="pill-btn timer-config" for="countdownInput">
+                        倒计时
+                        <div class="timer-controls">
+                            <button type="button" id="timerMinusBtn">-</button>
+                            <input id="countdownInput" type="number" min="10" max="1800" step="10" value="60" />
+                            <button type="button" id="timerPlusBtn">+</button>
+                        </div>
+                        <span>秒</span>
+                    </label>
+                    <button class="pill-btn primary" id="startBtn" style="min-width: 88px;">开始</button>
+                    <button class="pill-btn" id="resetBtn">重置比赛</button>
+                    <button class="pill-btn" id="settingsBtn">比赛设置</button>
+                </div>
+            </div>
+
+            <div class="layout">
+                <section class="card team-card left" id="teamA">
+                    <div class="team-header blue">
+                        <span id="nameDisplayA">蓝队</span>
+                        <div class="score-dot" id="scoreA">0</div>
+                    </div>
+                    <div class="team-body">
+                        <div class="question-text" id="questionA">？？？？</div>
+                        <div class="question-meta">
+                            <span class="badge" id="metaAType">题型: 未开始</span>
+                        </div>
+                        <div class="answer-screen" id="displayA">0</div>
+                        <div class="feedback" id="feedbackA"></div>
+                        <div id="inputA"></div>
+                    </div>
+                </section>
+
+                <section class="card arena">
+                    <div class="arena-top">
+                        <div class="arena-stat">
+                            <div class="label" id="scoreLabelA">蓝队分数</div>
+                            <div class="value" id="arenaScoreA">0</div>
+                        </div>
+                        <div class="timer" id="timer">00:00</div>
+                        <div class="arena-stat right">
+                            <div class="label" id="scoreLabelB">红队分数</div>
+                            <div class="value" id="arenaScoreB">0</div>
+                        </div>
+                    </div>
+
+                    <div class="arena-stage" id="arenaStage">
+                        <div class="center-line"></div>
+                        <div class="ground"></div>
+                        <div class="rope-wrap">
+                            <div class="rope"></div>
+                            <div class="rope-marker" id="ropeMarker"></div>
+                        </div>
+
+                        <div class="team-group left" id="groupLeft">
+                            <div class="player blue left-lean"></div>
+                            <div class="player blue left-lean"></div>
+                        </div>
+
+                        <div class="team-group right" id="groupRight">
+                            <div class="player red right-lean"></div>
+                            <div class="player red right-lean"></div>
+                        </div>
+                    </div>
+
+                    <div class="status-bar">
+                        <div class="status-pill" id="progressText">拔河进度: 居中</div>
+                        <div class="status-pill" id="bankInfo">题库数量: 0</div>
+                    </div>
+                </section>
+
+                <section class="card team-card right" id="teamB">
+                    <div class="team-header red">
+                        <span id="nameDisplayB">红队</span>
+                        <div class="score-dot" id="scoreB">0</div>
+                    </div>
+                    <div class="team-body">
+                        <div class="question-text" id="questionB">？？？？</div>
+                        <div class="question-meta">
+                            <span class="badge" id="metaBType">题型: 未开始</span>
+                        </div>
+                        <div class="answer-screen" id="displayB">0</div>
+                        <div class="feedback" id="feedbackB"></div>
+                        <div id="inputB"></div>
+                    </div>
+                </section>
+            </div>
         </div>
     </div>
-    <div class="toolbar">
-        <div class="stats" id="statsTotal">共 0 张图片</div>
-        <div class="filter-bar">
-            <label>筛选：<select id="filterType"><option value="全部">全部</option><option value="情境图">情境图</option><option value="数线图">数线图</option><option value="线段图">线段图</option><option value="小棒图">小棒图</option><option value="计数器图">计数器图</option></select></label>
-            <button id="refreshBtn">🔄 刷新</button>
+
+    <div class="winner-overlay" id="winnerOverlay">
+        <div class="winner-icon" id="winnerIcon">🏆</div>
+        <div class="winner-text" id="winnerText"></div>
+        <button class="save-btn" style="z-index: 101; font-size: 24px; padding: 15px 40px; border-radius: 16px; cursor: pointer; border: none; box-shadow: 0 4px 12px rgba(0,0,0,0.3);" onclick="document.getElementById('winnerOverlay').classList.remove('show')">关闭</button>
+    </div>
+
+    <div class="floating-controls">
+        <button class="control-btn" id="zoomOutBtn" type="button">-</button>
+        <button class="control-btn label" id="zoomResetBtn" type="button">100%</button>
+        <button class="control-btn" id="zoomInBtn" type="button">+</button>
+        <button class="control-btn label" id="fullscreenBtn" type="button">全屏</button>
+    </div>
+
+    <div class="settings-modal" id="settingsModal">
+        <div class="settings-panel">
+            <div class="settings-head">
+                <h2>📐 数学大拔河 · 设置</h2>
+                <div class="toolbar">
+                    <button class="pill-btn primary" id="useSampleBtn">生成数学题库</button>
+                    <button class="pill-btn" id="closeSettingsBtn">关闭</button>
+                </div>
+            </div>
+
+            <div class="settings-grid">
+                <div class="form-card" style="grid-column: 1 / -1;">
+                    <div style="display: flex; gap: 24px; margin-bottom: 10px;">
+                        <div class="field" style="width: 240px;">
+                            <label for="teamNameInputA">左侧队伍名称</label>
+                            <input type="text" id="teamNameInputA" value="蓝队" />
+                        </div>
+                        <div class="field" style="width: 240px;">
+                            <label for="teamNameInputB">右侧队伍名称</label>
+                            <input type="text" id="teamNameInputB" value="红队" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-card" style="grid-column: 1 / -1;">
+                    <div class="field">
+                        <label for="batchInput">批量录入题目</label>
+                        <div class="helper" style="margin-bottom: 8px;">
+                            <strong>格式：</strong>题目 / 答案 / 错误答案1 / 错误答案2...<br>
+                            每行一题，多个部分使用 <code>/</code> 分隔。<br>
+                            如果只有一个答案，就是<strong>数字题</strong>；如果有多个，则是<strong>选择题</strong>（第一个为正确答案，选项会自动打乱）。
+                        </div>
+                        <textarea id="batchInput" rows="10" placeholder="例如：&#10;23 + 45 = ? / 68&#10;67 - 23 = ? / 44&#10;8 + 7 = ? / 15 / 13 / 14 / 16"></textarea>
+                    </div>
+
+                    <div class="form-actions">
+                        <button class="save-btn" id="batchSaveBtn" type="button">批量保存到题库</button>
+                        <button class="tiny-btn" id="clearBatchBtn" type="button">清空输入</button>
+                    </div>
+                </div>
+
+                <div class="list-card" style="grid-column: 1 / -1;">
+                    <div class="list-actions">
+                        <button class="tiny-btn" id="exportBankBtn" type="button">导出题库</button>
+                        <button class="warn-btn" id="clearBankBtn" type="button">清空题库</button>
+                    </div>
+                    <div class="helper">题库自动保存在浏览器中，刷新页面不会丢失。</div>
+                    <div class="bank-list" id="bankList"></div>
+                </div>
+            </div>
         </div>
     </div>
-    <div id="picList" class="pic-grid">
-        <div class="loading-msg">⏳ 加载中，请稍后...</div>
-    </div>
-    <a href="index.html" class="back-link">⬅ 返回练习端</a>
-</div>
 
-<!-- 模态框：API设置 -->
-<div class="modal-overlay" id="apiModal">
-    <div class="modal">
-        <button class="close-btn" id="closeApiModal">&times;</button>
-        <h2>⚙️ API 设置</h2>
-        <p style="color: #6d5a48; margin-bottom: 8px;">修改后将永久保存，两端同步使用。</p>
-        <label>图片库 API 基础地址</label>
-        <input type="text" id="apiInput" placeholder="https://quickform.cn/api/ch8wl175dj">
-        <label style="margin-top:16px;">生图代理地址</label>
-        <input type="text" id="generateProxyInput" placeholder="https://your-proxy.com/generate">
-        <div id="apiMsg" class="msg-box"></div>
-        <div class="modal-actions">
-            <button class="btn-secondary" id="cancelApiBtn">取消</button>
-            <button class="btn-primary" id="saveApiBtn">💾 保存</button>
+    <div class="settings-modal" id="helpModal">
+        <div class="settings-panel" style="width: min(420px, 100%); text-align: center; padding: 32px 24px;">
+            <h2 style="margin-top: 0; margin-bottom: 20px; font-size: 28px;">🧮 数学大拔河</h2>
+            <p style="font-size: 16px; line-height: 1.6; margin-bottom: 8px; color: var(--text);">📚 练习内容：</p>
+            <p style="font-size: 15px; line-height: 1.8; color: var(--muted); margin-bottom: 16px;">
+                ✅ 100以内不进位加法<br>
+                ✅ 100以内不退位减法<br>
+                ✅ 20以内进位加法<br>
+                ✅ 20以内退位减法
+            </p>
+            <p style="font-size: 16px; line-height: 1.6; margin-bottom: 12px; color: var(--text);">更多教学工具 小红书/抖音搜索 <strong>AI小灵光</strong></p>
+            <p style="font-size: 16px; line-height: 1.6; margin-bottom: 24px; color: var(--text);">支持定制课件</p>
+
+            <div style="display: flex; align-items: center; justify-content: space-between; background: #f3f7fb; padding: 14px 18px; border-radius: 16px; margin-bottom: 28px; box-shadow: inset 0 0 0 2px #e8eef5;">
+                <span style="font-size: 18px; font-weight: 900; color: #1f8fff;">微信: aixiaolingguang</span>
+                <button class="pill-btn primary" id="copyWechatBtn" style="padding: 8px 16px; font-size: 14px; box-shadow: none;">复制微信</button>
+            </div>
+
+            <button class="pill-btn" id="closeHelpBtn" style="width: 100%; font-size: 18px; padding: 14px;">关闭</button>
         </div>
     </div>
-</div>
 
-<!-- 模态框：上传图片 -->
-<div class="modal-overlay" id="uploadModal">
-    <div class="modal">
-        <button class="close-btn" id="closeUploadModal">&times;</button>
-        <h2>📤 上传参考图</h2>
-        <p style="color: #6d5a48; margin-bottom: 8px;">选择文件或粘贴图片，并输入算式（如 3+2=5）</p>
-        <div class="paste-area" id="pasteArea">
-            <div class="hint" id="pasteHint">📋 在此处按 Ctrl+V 粘贴图片<br><small>或点击下方按钮选择文件</small></div>
-            <img id="pastePreview" style="display:none;" alt="预览">
-        </div>
-        <label>选择图片文件（可选）</label>
-        <input type="file" id="uploadFile" accept="image/*">
-        <label>标签类型</label>
-        <select id="uploadType"><option value="情境图">情境图</option><option value="数线图">数线图</option><option value="线段图">线段图</option><option value="小棒图">小棒图</option><option value="计数器图">计数器图</option></select>
-        <label>算式（如 3+2=5）</label>
-        <input type="text" id="uploadExpression" placeholder="例：3+2=5" value="3+2=5">
-        <div id="uploadMsg" class="msg-box"></div>
-        <div class="modal-actions">
-            <button class="btn-secondary" id="cancelUploadBtn">取消</button>
-            <button class="btn-primary" id="uploadBtn">✅ 上传</button>
-        </div>
-    </div>
-</div>
+    <script>
+        const STORAGE_KEY = "math-tug-of-war-bank-v2";
+        const MAX_PULL = 15;
 
-<script>
-// ================================================================
-//  🌐 配置管理 (localStorage)
-// ================================================================
-const STORAGE_KEY = 'api_base_url';
-const PROXY_KEY = 'generate_proxy_url';
-const DEFAULT_API = 'https://quickform.cn/api/ch8wl175dj';
-const DEFAULT_PROXY = 'https://your-proxy.com/generate';
+        // --------------------------------------------------------------
+        // 数学题生成器
+        // --------------------------------------------------------------
+        function generateMathQuestions(count = 80) {
+            const questions = [];
+            const types = ['add_no_carry', 'sub_no_borrow', 'add_carry', 'sub_borrow'];
+            const perType = Math.floor(count / types.length);
+            let remainder = count - perType * types.length;
 
-function getApiBase() {
-    const saved = localStorage.getItem(STORAGE_KEY);
-    return saved ? saved : DEFAULT_API;
-}
-function getProxyUrl() {
-    const saved = localStorage.getItem(PROXY_KEY);
-    return saved ? saved : DEFAULT_PROXY;
-}
-function normalizeUrl(url) {
-    if (!url) return '';
-    url = url.trim();
-    if (url.endsWith('/')) url = url.slice(0, -1);
-    return url;
-}
-let API_BASE = normalizeUrl(getApiBase());
-let PROXY_URL = normalizeUrl(getProxyUrl());
-
-// ================================================================
-//  📦 数据层
-// ================================================================
-async function fetchAllPictures() {
-    try {
-        const url = API_BASE + '/all';
-        const resp = await fetch(url);
-        if (!resp.ok) throw new Error(`HTTP ${resp.status}: ${resp.statusText}`);
-        const data = await resp.json();
-        // 兼容不同的返回格式
-        if (data.submissions) return data.submissions;
-        if (Array.isArray(data)) return data;
-        if (data.data && Array.isArray(data.data)) return data.data;
-        // 如果都不匹配，尝试返回整个对象数组
-        if (typeof data === 'object' && !Array.isArray(data)) {
-            // 可能是单个对象，包装成数组
-            if (data.id || data.imageData) return [data];
-        }
-        return [];
-    } catch (err) {
-        console.error('获取图片列表失败:', err);
-        throw new Error(`请求失败: ${err.message}`);
-    }
-}
-
-async function uploadPicture(payload) {
-    const resp = await fetch(API_BASE, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-    });
-    if (!resp.ok) throw new Error(`上传失败: ${resp.status} ${resp.statusText}`);
-    return await resp.json();
-}
-
-// ================================================================
-//  🖥️ 管理端逻辑
-// ================================================================
-const admin = {
-    filterType: '全部',
-    uploading: false,
-    pastedFile: null,
-    pastePreviewUrl: null,
-
-    el: {
-        picList: document.getElementById('picList'),
-        statsTotal: document.getElementById('statsTotal'),
-        filterType: document.getElementById('filterType'),
-        refreshBtn: document.getElementById('refreshBtn'),
-        apiModal: document.getElementById('apiModal'),
-        apiInput: document.getElementById('apiInput'),
-        generateProxyInput: document.getElementById('generateProxyInput'),
-        saveApiBtn: document.getElementById('saveApiBtn'),
-        cancelApiBtn: document.getElementById('cancelApiBtn'),
-        closeApiModal: document.getElementById('closeApiModal'),
-        openApiBtn: document.getElementById('openApiBtn'),
-        apiMsg: document.getElementById('apiMsg'),
-        uploadModal: document.getElementById('uploadModal'),
-        uploadFile: document.getElementById('uploadFile'),
-        uploadType: document.getElementById('uploadType'),
-        uploadExpression: document.getElementById('uploadExpression'),
-        uploadBtn: document.getElementById('uploadBtn'),
-        cancelUploadBtn: document.getElementById('cancelUploadBtn'),
-        closeUploadModal: document.getElementById('closeUploadModal'),
-        openUploadBtn: document.getElementById('openUploadBtn'),
-        uploadMsg: document.getElementById('uploadMsg'),
-        pasteArea: document.getElementById('pasteArea'),
-        pasteHint: document.getElementById('pasteHint'),
-        pastePreview: document.getElementById('pastePreview'),
-    },
-
-    init() {
-        this.el.apiInput.value = API_BASE;
-        this.el.generateProxyInput.value = PROXY_URL;
-
-        // 模态框控制
-        const openApi = () => { this.el.apiMsg.className = 'msg-box'; this.el.apiMsg.style.display = 'none'; this.el.apiModal.classList.add('active'); };
-        const closeApi = () => this.el.apiModal.classList.remove('active');
-        this.el.openApiBtn.addEventListener('click', openApi);
-        this.el.cancelApiBtn.addEventListener('click', closeApi);
-        this.el.closeApiModal.addEventListener('click', closeApi);
-        this.el.apiModal.addEventListener('click', (e) => { if (e.target === e.currentTarget) closeApi(); });
-
-        const openUpload = () => {
-            this.el.uploadMsg.className = 'msg-box';
-            this.el.uploadMsg.style.display = 'none';
-            this.el.uploadFile.value = '';
-            this.clearPaste();
-            this.el.uploadExpression.value = '3+2=5';
-            this.el.uploadModal.classList.add('active');
-        };
-        const closeUpload = () => { this.el.uploadModal.classList.remove('active'); this.clearPaste(); };
-        this.el.openUploadBtn.addEventListener('click', openUpload);
-        this.el.cancelUploadBtn.addEventListener('click', closeUpload);
-        this.el.closeUploadModal.addEventListener('click', closeUpload);
-        this.el.uploadModal.addEventListener('click', (e) => { if (e.target === e.currentTarget) closeUpload(); });
-
-        // 保存API配置
-        this.el.saveApiBtn.addEventListener('click', () => {
-            const newApi = normalizeUrl(this.el.apiInput.value.trim());
-            const newProxy = normalizeUrl(this.el.generateProxyInput.value.trim());
-            if (!newApi) { this.showApiMsg('⚠️ 请输入有效的图片库 API 地址', 'error'); return; }
-            if (!newProxy) { this.showApiMsg('⚠️ 请输入有效的生图代理地址', 'error'); return; }
-            localStorage.setItem(STORAGE_KEY, newApi);
-            localStorage.setItem(PROXY_KEY, newProxy);
-            API_BASE = newApi;
-            PROXY_URL = newProxy;
-            this.showApiMsg('✅ 已保存，刷新列表中...', 'success');
-            setTimeout(() => { this.el.apiModal.classList.remove('active'); this.render(); }, 800);
-        });
-
-        // 上传
-        this.el.uploadBtn.addEventListener('click', () => this.handleUpload());
-
-        // 筛选与刷新
-        this.el.filterType.addEventListener('change', () => {
-            this.filterType = this.el.filterType.value;
-            this.render();
-        });
-        this.el.refreshBtn.addEventListener('click', () => this.render());
-
-        // 粘贴功能
-        this.el.uploadModal.addEventListener('paste', (e) => this.handlePaste(e));
-        this.el.pasteArea.addEventListener('dragover', (e) => { e.preventDefault(); this.el.pasteArea.classList.add('dragover'); });
-        this.el.pasteArea.addEventListener('dragleave', () => { this.el.pasteArea.classList.remove('dragover'); });
-        this.el.pasteArea.addEventListener('drop', (e) => {
-            e.preventDefault();
-            this.el.pasteArea.classList.remove('dragover');
-            const items = e.dataTransfer.items;
-            for (let item of items) {
-                if (item.type.startsWith('image/')) {
-                    const file = item.getAsFile();
-                    this.setPastedFile(file);
-                    break;
+            for (let t of types) {
+                let n = perType + (remainder > 0 ? 1 : 0);
+                if (remainder > 0) remainder--;
+                for (let i = 0; i < n; i++) {
+                    const q = generateOneQuestion(t);
+                    if (q) questions.push(q);
                 }
             }
-        });
-        this.el.uploadFile.addEventListener('change', () => {
-            if (this.el.uploadFile.files.length > 0) this.clearPaste();
-        });
+            return questions.sort(() => Math.random() - 0.5);
+        }
 
-        this.render();
-    },
+        function generateOneQuestion(type) {
+            let a, b, answer, question, options = [];
+            let attempts = 0;
+            const maxAttempts = 50;
 
-    handlePaste(e) {
-        if (!this.el.uploadModal.classList.contains('active')) return;
-        const items = e.clipboardData.items;
-        for (let item of items) {
-            if (item.type.startsWith('image/')) {
-                const file = item.getAsFile();
-                this.setPastedFile(file);
-                e.preventDefault();
+            while (attempts < maxAttempts) {
+                attempts++;
+                switch (type) {
+                    case 'add_no_carry': {
+                        const t1 = randInt(0, 9);
+                        const t2 = randInt(0, 9 - t1);
+                        const u1 = randInt(0, 9);
+                        const u2 = randInt(0, 9 - u1);
+                        a = t1 * 10 + u1;
+                        b = t2 * 10 + u2;
+                        if (a === 0 || b === 0) continue;
+                        answer = a + b;
+                        question = a + ' + ' + b + ' = ?';
+                        break;
+                    }
+                    case 'sub_no_borrow': {
+                        const t1 = randInt(1, 9);
+                        const t2 = randInt(0, t1);
+                        const u1 = randInt(0, 9);
+                        const u2 = randInt(0, u1);
+                        a = t1 * 10 + u1;
+                        b = t2 * 10 + u2;
+                        if (a === 0 || b === 0 || a <= b) continue;
+                        answer = a - b;
+                        question = a + ' - ' + b + ' = ?';
+                        break;
+                    }
+                    case 'add_carry': {
+                        a = randInt(2, 9);
+                        b = randInt(2, 9);
+                        const sum = a + b;
+                        if (sum <= 10 || sum > 20) continue;
+                        answer = sum;
+                        question = a + ' + ' + b + ' = ?';
+                        break;
+                    }
+                    case 'sub_borrow': {
+                        a = randInt(11, 20);
+                        b = randInt(2, 9);
+                        if (a <= b) continue;
+                        const au = a % 10;
+                        const bu = b % 10;
+                        if (au >= bu) continue;
+                        answer = a - b;
+                        question = a + ' - ' + b + ' = ?';
+                        break;
+                    }
+                }
+                if (answer < 0 || answer > 100) continue;
                 break;
             }
-        }
-    },
 
-    setPastedFile(file) {
-        this.pastedFile = file;
-        if (this.pastePreviewUrl) URL.revokeObjectURL(this.pastePreviewUrl);
-        this.pastePreviewUrl = URL.createObjectURL(file);
-        this.el.pastePreview.src = this.pastePreviewUrl;
-        this.el.pastePreview.style.display = 'block';
-        this.el.pasteHint.style.display = 'none';
-        this.el.pasteArea.style.borderColor = '#8bc9a8';
-        this.el.uploadFile.value = '';
-        this.showUploadMsg('📸 已粘贴图片，可直接上传', 'success');
-        setTimeout(() => { const msg = this.el.uploadMsg; if (msg.classList.contains('success')) msg.style.display = 'none'; }, 2000);
-    },
+            if (attempts >= maxAttempts) return null;
 
-    clearPaste() {
-        if (this.pastePreviewUrl) { URL.revokeObjectURL(this.pastePreviewUrl); this.pastePreviewUrl = null; }
-        this.pastedFile = null;
-        this.el.pastePreview.style.display = 'none';
-        this.el.pasteHint.style.display = 'block';
-        this.el.pasteArea.style.borderColor = '#dccfc0';
-        this.el.uploadFile.value = '';
-    },
+            const isChoice = Math.random() < 0.4;
 
-    parseExpression(expr) {
-        expr = expr.replace(/\s/g, '');
-        const match = expr.match(/^(\d+)([+\-])(\d+)=(\d+)$/);
-        if (!match) return null;
-        const num1 = parseInt(match[1], 10);
-        const operator = match[2];
-        const num2 = parseInt(match[3], 10);
-        const result = parseInt(match[4], 10);
-        let expected;
-        if (operator === '+') expected = num1 + num2;
-        else if (operator === '-') expected = num1 - num2;
-        else return null;
-        if (expected !== result) return null;
-        return { num1, operator, num2, result };
-    },
-
-    compressImageToDataURL(file, maxWidth = 1200, maxHeight = 1200, quality = 0.8) {
-        return new Promise((resolve, reject) => {
-            const reader = new FileReader();
-            reader.readAsDataURL(file);
-            reader.onload = (e) => {
-                const img = new Image();
-                img.onload = () => {
-                    let width = img.width, height = img.height;
-                    if (width > maxWidth || height > maxHeight) {
-                        const ratio = Math.min(maxWidth / width, maxHeight / height);
-                        width = Math.round(width * ratio);
-                        height = Math.round(height * ratio);
-                    }
-                    const canvas = document.createElement('canvas');
-                    canvas.width = width;
-                    canvas.height = height;
-                    const ctx = canvas.getContext('2d');
-                    ctx.drawImage(img, 0, 0, width, height);
-                    const dataURL = canvas.toDataURL('image/jpeg', quality);
-                    console.log(`📊 原始: ${(file.size/1024).toFixed(2)}KB, Base64: ${(dataURL.length/1024).toFixed(2)}KB`);
-                    resolve(dataURL);
+            if (isChoice) {
+                options = generateDistractors(answer, type);
+                if (!options.includes(String(answer))) {
+                    options[0] = String(answer);
+                }
+                options = options.sort(() => Math.random() - 0.5);
+                return {
+                    id: crypto.randomUUID(),
+                    type: 'choice',
+                    question: question,
+                    answer: String(answer),
+                    options: options
                 };
-                img.onerror = () => reject(new Error('图片加载失败'));
-                img.src = e.target.result;
-            };
-            reader.onerror = () => reject(new Error('文件读取失败'));
-        });
-    },
-
-    async handleUpload() {
-        if (this.uploading) return;
-        let file = this.pastedFile;
-        if (!file) {
-            if (this.el.uploadFile.files.length === 0) {
-                this.showUploadMsg('⚠️ 请选择一张图片或粘贴图片', 'error');
-                return;
+            } else {
+                return {
+                    id: crypto.randomUUID(),
+                    type: 'number',
+                    question: question,
+                    answer: String(answer),
+                    options: []
+                };
             }
-            file = this.el.uploadFile.files[0];
         }
-        const type = this.el.uploadType.value;
-        const exprInput = this.el.uploadExpression.value.trim();
-        const parsed = this.parseExpression(exprInput);
-        if (!parsed) {
-            this.showUploadMsg('⚠️ 算式格式错误，请使用如 3+2=5 的格式', 'error');
-            return;
-        }
-        let imageData;
-        try {
-            imageData = await this.compressImageToDataURL(file);
-        } catch (err) {
-            this.showUploadMsg('❌ 图片压缩失败: ' + err.message, 'error');
-            return;
-        }
-        const name = file.name.replace(/\.[^.]+$/, '') || '未命名';
-        this.uploading = true;
-        this.el.uploadBtn.disabled = true;
-        this.showUploadMsg('⏳ 压缩并上传中...', 'loading');
-        try {
-            const payload = { imageData, name, type, num1: parsed.num1, operator: parsed.operator, num2: parsed.num2, result: parsed.result };
-            await uploadPicture(payload);
-            this.showUploadMsg('✅ 上传成功！', 'success');
-            this.clearPaste();
-            this.el.uploadFile.value = '';
-            this.el.uploadExpression.value = '3+2=5';
-            setTimeout(() => { this.el.uploadModal.classList.remove('active'); this.render(); }, 800);
-        } catch (err) {
-            this.showUploadMsg('❌ 上传失败: ' + err.message, 'error');
-        }
-        this.uploading = false;
-        this.el.uploadBtn.disabled = false;
-    },
 
-    getImageSrc(pic) {
-        const commonFields = ['imageData', 'image', 'image_url', 'url', 'file', 'data', 'preview', 'attachment', 'file_url', 'img', 'src', 'content'];
-        for (let field of commonFields) {
-            const val = pic[field];
-            if (val && typeof val === 'string') {
-                let s = val.trim();
-                if (s.length > 10) {
-                    if (s.startsWith('data:image') || s.startsWith('http://') || s.startsWith('https://')) return s;
-                    if (s.startsWith('//')) return 'https:' + s;
-                    if (s.startsWith('/')) return API_BASE + s;
-                    else return API_BASE + '/' + s;
+        function generateDistractors(correct, type) {
+            const dist = new Set();
+            dist.add(String(correct));
+            const candidates = [];
+            const offsets = [-1, 1, -2, 2, -5, 5, -10, 10, -3, 3];
+            for (let off of offsets) {
+                const val = correct + off;
+                if (val >= 0 && val <= 100 && !dist.has(String(val))) {
+                    candidates.push(String(val));
                 }
             }
+            let idx = 0;
+            while (candidates.length < 3 && idx < 50) {
+                const r = randInt(0, 100);
+                if (!dist.has(String(r))) {
+                    candidates.push(String(r));
+                }
+                idx++;
+            }
+            const result = [String(correct)];
+            for (let i = 0; i < Math.min(3, candidates.length); i++) {
+                result.push(candidates[i]);
+            }
+            while (result.length < 4) {
+                const r = randInt(0, 100);
+                if (!result.includes(String(r))) {
+                    result.push(String(r));
+                }
+            }
+            return result;
         }
-        for (let key in pic) {
-            if (pic.hasOwnProperty(key)) {
-                const val = pic[key];
-                if (typeof val === 'string') {
-                    let s = val.trim();
-                    if (s.length > 100 && (s.includes('data:image') || s.includes('.png') || s.includes('.jpg') || s.includes('base64,'))) {
-                        if (s.startsWith('data:image')) return s;
-                        if (/^[A-Za-z0-9+/=]+$/.test(s.substring(0,100))) return 'data:image/jpeg;base64,' + s;
-                        if (s.startsWith('/')) return API_BASE + s;
-                        if (s.startsWith('http')) return s;
-                        return API_BASE + '/' + s;
+
+        function randInt(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+        // --------------------------------------------------------------
+        // 主游戏逻辑
+        // --------------------------------------------------------------
+        const state = {
+            bank: [],
+            teamNameA: "蓝队",
+            teamNameB: "红队",
+            usedQuestionsA: [],
+            usedQuestionsB: [],
+            scoreA: 0,
+            scoreB: 0,
+            pullOffset: 0,
+            roundA: 0,
+            roundB: 0,
+            durationSec: 60,
+            timerSec: 60,
+            timerId: null,
+            nextQuestionTimerA: null,
+            nextQuestionTimerB: null,
+            activeQuestionA: null,
+            activeQuestionB: null,
+            gameEnded: false,
+            uiScale: 1,
+            teamA: { answer: "", selected: "", locked: false },
+            teamB: { answer: "", selected: "", locked: false }
+        };
+
+        let currentRoundType = null;
+
+        const els = {
+            questionA: document.getElementById("questionA"),
+            questionB: document.getElementById("questionB"),
+            displayA: document.getElementById("displayA"),
+            displayB: document.getElementById("displayB"),
+            inputA: document.getElementById("inputA"),
+            inputB: document.getElementById("inputB"),
+            feedbackA: document.getElementById("feedbackA"),
+            feedbackB: document.getElementById("feedbackB"),
+            scoreA: document.getElementById("scoreA"),
+            scoreB: document.getElementById("scoreB"),
+            arenaScoreA: document.getElementById("arenaScoreA"),
+            arenaScoreB: document.getElementById("arenaScoreB"),
+            timer: document.getElementById("timer"),
+            progressText: document.getElementById("progressText"),
+            ropeMarker: document.getElementById("ropeMarker"),
+            groupLeft: document.getElementById("groupLeft"),
+            groupRight: document.getElementById("groupRight"),
+            winnerOverlay: document.getElementById("winnerOverlay"),
+            winnerText: document.getElementById("winnerText"),
+            nameDisplayA: document.getElementById("nameDisplayA"),
+            nameDisplayB: document.getElementById("nameDisplayB"),
+            scoreLabelA: document.getElementById("scoreLabelA"),
+            scoreLabelB: document.getElementById("scoreLabelB"),
+            teamNameInputA: document.getElementById("teamNameInputA"),
+            teamNameInputB: document.getElementById("teamNameInputB"),
+            metaAType: document.getElementById("metaAType"),
+            metaBType: document.getElementById("metaBType"),
+            countdownInput: document.getElementById("countdownInput"),
+            timerMinusBtn: document.getElementById("timerMinusBtn"),
+            timerPlusBtn: document.getElementById("timerPlusBtn"),
+            zoomOutBtn: document.getElementById("zoomOutBtn"),
+            zoomInBtn: document.getElementById("zoomInBtn"),
+            zoomResetBtn: document.getElementById("zoomResetBtn"),
+            fullscreenBtn: document.getElementById("fullscreenBtn"),
+            bankInfo: document.getElementById("bankInfo"),
+            settingsModal: document.getElementById("settingsModal"),
+            settingsBtn: document.getElementById("settingsBtn"),
+            closeSettingsBtn: document.getElementById("closeSettingsBtn"),
+            startBtn: document.getElementById("startBtn"),
+            resetBtn: document.getElementById("resetBtn"),
+            useSampleBtn: document.getElementById("useSampleBtn"),
+            batchInput: document.getElementById("batchInput"),
+            batchSaveBtn: document.getElementById("batchSaveBtn"),
+            clearBatchBtn: document.getElementById("clearBatchBtn"),
+            bankList: document.getElementById("bankList"),
+            exportBankBtn: document.getElementById("exportBankBtn"),
+            clearBankBtn: document.getElementById("clearBankBtn"),
+            helpBtn: document.getElementById("helpBtn"),
+            helpModal: document.getElementById("helpModal"),
+            closeHelpBtn: document.getElementById("closeHelpBtn"),
+            copyWechatBtn: document.getElementById("copyWechatBtn")
+        };
+
+        function formatTime(seconds) {
+            const mm = String(Math.floor(seconds / 60)).padStart(2, "0");
+            const ss = String(seconds % 60).padStart(2, "0");
+            return mm + ":" + ss;
+        }
+
+        function saveBank() {
+            const data = {
+                bank: state.bank,
+                teamNameA: state.teamNameA,
+                teamNameB: state.teamNameB
+            };
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+            renderBank();
+        }
+
+        function updateTeamNames() {
+            els.nameDisplayA.textContent = state.teamNameA;
+            els.nameDisplayB.textContent = state.teamNameB;
+            els.scoreLabelA.textContent = state.teamNameA + "分数";
+            els.scoreLabelB.textContent = state.teamNameB + "分数";
+        }
+
+        function loadBank() {
+            try {
+                const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "null");
+                if (saved && Array.isArray(saved)) {
+                    state.bank = saved.length ? saved : generateMathQuestions(80);
+                    state.teamNameA = "蓝队";
+                    state.teamNameB = "红队";
+                } else if (saved && typeof saved === "object") {
+                    state.bank = Array.isArray(saved.bank) && saved.bank.length ? saved.bank : generateMathQuestions(80);
+                    state.teamNameA = saved.teamNameA || "蓝队";
+                    state.teamNameB = saved.teamNameB || "红队";
+                } else {
+                    state.bank = generateMathQuestions(80);
+                }
+            } catch (error) {
+                state.bank = generateMathQuestions(80);
+            }
+
+            els.teamNameInputA.value = state.teamNameA;
+            els.teamNameInputB.value = state.teamNameB;
+            updateTeamNames();
+            renderBank();
+        }
+
+        function updateTopInfo() {
+            els.scoreA.textContent = state.scoreA;
+            els.scoreB.textContent = state.scoreB;
+            els.arenaScoreA.textContent = state.scoreA;
+            els.arenaScoreB.textContent = state.scoreB;
+            els.bankInfo.textContent = "题库数量: " + state.bank.length;
+            els.timer.textContent = formatTime(state.timerSec);
+        }
+
+        function getTeamState(team) {
+            return team === "A" ? state.teamA : state.teamB;
+        }
+
+        function getTeamQuestion(team) {
+            return team === "A" ? state.activeQuestionA : state.activeQuestionB;
+        }
+
+        function setTeamQuestion(team, question) {
+            if (team === "A") {
+                state.activeQuestionA = question;
+            } else {
+                state.activeQuestionB = question;
+            }
+        }
+
+        function renderProgress() {
+            const shiftPx = state.pullOffset * -10;
+            document.documentElement.style.setProperty("--rope-shift", shiftPx + "px");
+            document.documentElement.style.setProperty("--group-shift", shiftPx + "px");
+
+            let text = "居中";
+            let color = ""; // 默认使用CSS定义的color
+
+            if (state.pullOffset > 0) {
+                text = "偏向 " + state.teamNameA + " " + state.pullOffset + " 格";
+                color = "#148cff"; // 蓝色
+            } else if (state.pullOffset < 0) {
+                text = "偏向 " + state.teamNameB + " " + Math.abs(state.pullOffset) + " 格";
+                color = "#f74438"; // 红色
+            } else {
+                text = "居中";
+                color = ""; // 恢复默认
+            }
+
+            els.progressText.textContent = "拔河进度: " + text;
+            els.progressText.style.color = color || "";
+        }
+
+        function setFeedback(team, message, type = "") {
+            const target = team === "A" ? els.feedbackA : els.feedbackB;
+            target.textContent = message;
+            target.className = "feedback" + (type ? " " + type : "");
+        }
+
+        function updateDisplay(team) {
+            const t = getTeamState(team);
+            const display = team === "A" ? els.displayA : els.displayB;
+            const question = getTeamQuestion(team);
+            if (!question) {
+                display.textContent = "0";
+                return;
+            }
+            if (question.type === "number") {
+                display.textContent = t.answer || "0";
+            } else {
+                display.textContent = t.selected || "请选择";
+            }
+        }
+
+        function updateQuestionMeta(team, question) {
+            const typeText = question ? (question.type === "number" ? "数字题" : "选择题") : "未开始";
+            if (team === "A") {
+                els.metaAType.textContent = "题型: " + typeText;
+            } else {
+                els.metaBType.textContent = "题型: " + typeText;
+            }
+        }
+
+        function createPad(team) {
+            const wrap = document.createElement("div");
+            wrap.className = "numeric-pad";
+            const layout = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "清空", "0", "确定"];
+
+            layout.forEach((key) => {
+                const btn = document.createElement("button");
+                btn.type = "button";
+                btn.className = "pad-btn";
+                btn.textContent = key === "确定" ? "✓" : key === "清空" ? "×" : key;
+                if (key === "清空") btn.classList.add("action-clear");
+                if (key === "确定") btn.classList.add("action-ok");
+                btn.addEventListener("click", () => {
+                    const question = getTeamQuestion(team);
+                    if (!question || question.type !== "number") return;
+                    const teamState = getTeamState(team);
+                    if (teamState.locked) return;
+                    if (key === "清空") {
+                        teamState.answer = "";
+                        setFeedback(team, "");
+                        updateDisplay(team);
+                        return;
+                    }
+                    if (key === "确定") {
+                        submitAnswer(team);
+                        return;
+                    }
+                    if (teamState.answer.length >= 8) return;
+                    teamState.answer += key;
+                    updateDisplay(team);
+                });
+                wrap.appendChild(btn);
+            });
+            return wrap;
+        }
+
+        function createChoices(team) {
+            const question = getTeamQuestion(team);
+            const outer = document.createElement("div");
+            outer.className = "choice-wrap";
+            const choices = document.createElement("div");
+            choices.className = "choices";
+
+            const shuffledOptions = [...question.options].sort(() => Math.random() - 0.5);
+
+            shuffledOptions.forEach((option) => {
+                const btn = document.createElement("button");
+                btn.type = "button";
+                btn.className = "choice-btn";
+                btn.textContent = option;
+                btn.addEventListener("click", () => {
+                    const teamState = getTeamState(team);
+                    if (teamState.locked) return;
+                    teamState.selected = option;
+                    updateDisplay(team);
+                    [...choices.children].forEach((node) => node.classList.remove("selected"));
+                    btn.classList.add("selected");
+                    setFeedback(team, "");
+                });
+                choices.appendChild(btn);
+            });
+
+            const actions = document.createElement("div");
+            actions.className = "choice-actions";
+
+            const clearBtn = document.createElement("button");
+            clearBtn.type = "button";
+            clearBtn.className = "secondary";
+            clearBtn.textContent = "重选";
+            clearBtn.addEventListener("click", () => {
+                const teamState = getTeamState(team);
+                if (teamState.locked) return;
+                teamState.selected = "";
+                updateDisplay(team);
+                [...choices.children].forEach((node) => node.classList.remove("selected"));
+                setFeedback(team, "");
+            });
+
+            const okBtn = document.createElement("button");
+            okBtn.type = "button";
+            okBtn.className = "confirm";
+            okBtn.textContent = "提交";
+            okBtn.addEventListener("click", () => submitAnswer(team));
+
+            actions.append(clearBtn, okBtn);
+            outer.append(choices, actions);
+            return outer;
+        }
+
+        function renderInputForTeam(team) {
+            const input = team === "A" ? els.inputA : els.inputB;
+            const question = getTeamQuestion(team);
+            input.innerHTML = "";
+            if (!question) return;
+            if (question.type === "number") {
+                input.appendChild(createPad(team));
+            } else {
+                input.appendChild(createChoices(team));
+            }
+        }
+
+        function stopTimer() {
+            if (state.timerId) {
+                clearInterval(state.timerId);
+                state.timerId = null;
+            }
+        }
+
+        function clearNextQuestionTimer(team) {
+            const key = team === "A" ? "nextQuestionTimerA" : "nextQuestionTimerB";
+            if (state[key]) {
+                clearTimeout(state[key]);
+                state[key] = null;
+            }
+        }
+
+        function lockAllTeams() {
+            state.teamA.locked = true;
+            state.teamB.locked = true;
+        }
+
+        function clampScale(scale) {
+            return Math.min(2.0, Math.max(0.5, scale));
+        }
+
+        function updateScale() {
+            const safeScale = clampScale(state.uiScale);
+            state.uiScale = safeScale;
+            document.documentElement.style.setProperty("--ui-scale", safeScale.toFixed(2));
+            els.zoomResetBtn.textContent = Math.round(safeScale * 100) + "%";
+        }
+
+        function changeScale(delta) {
+            state.uiScale = clampScale(state.uiScale + delta);
+            updateScale();
+        }
+
+        async function toggleFullscreen() {
+            const element = document.documentElement;
+            const alreadyFullscreen = document.fullscreenElement || document.webkitFullscreenElement;
+            if (alreadyFullscreen) {
+                if (document.exitFullscreen) {
+                    await document.exitFullscreen();
+                }
+                return;
+            }
+            if (!element.requestFullscreen) {
+                return;
+            }
+            await element.requestFullscreen();
+        }
+
+        function updateFullscreenButtonText() {
+            const alreadyFullscreen = document.fullscreenElement || document.webkitFullscreenElement;
+            els.fullscreenBtn.textContent = alreadyFullscreen ? "退出全屏" : "全屏";
+        }
+
+        async function handleFullscreenClick() {
+            try {
+                await toggleFullscreen();
+            } catch (error) {
+                alert("当前环境不支持全屏或被浏览器拦截。");
+            }
+            updateFullscreenButtonText();
+        }
+
+        function buildTimeoutMessage() {
+            if (state.scoreA > state.scoreB) {
+                return { text: `⏰ 时间到！\n${state.teamNameA} 获胜！`, icon: "🥇" };
+            }
+            if (state.scoreB > state.scoreA) {
+                return { text: `⏰ 时间到！\n${state.teamNameB} 获胜！`, icon: "🥇" };
+            }
+            return { text: `⏰ 时间到！\n双方平局！`, icon: "🤝" };
+        }
+
+        function createConfetti() {
+            const colors = ['#ff2a00', '#0b73eb', '#f3bc86', '#ffd7aa', '#4fb8ff', '#ff9173', '#ffe59b'];
+            for (let i = 0; i < 150; i++) {
+                const conf = document.createElement('div');
+                conf.className = 'confetti';
+                conf.style.left = Math.random() * 100 + 'vw';
+                conf.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                conf.style.animation = `fall ${Math.random() * 3 + 2}s linear forwards`;
+                conf.style.animationDelay = Math.random() * 2 + 's';
+                els.winnerOverlay.appendChild(conf);
+                setTimeout(() => conf.remove(), 5000);
+            }
+        }
+
+        function endMatch(messageObj) {
+            if (state.gameEnded) return;
+            state.gameEnded = true;
+            state.timerSec = Math.max(state.timerSec, 0);
+            stopTimer();
+            clearNextQuestionTimer("A");
+            clearNextQuestionTimer("B");
+            document.querySelector('.arena-stage').classList.remove('is-playing');
+            lockAllTeams();
+
+            const winnerIcon = document.getElementById("winnerIcon");
+            winnerIcon.innerText = messageObj.icon || "🏆";
+
+            els.winnerText.innerText = messageObj.text || messageObj;
+            els.winnerOverlay.classList.add("show");
+            createConfetti();
+            updateTopInfo();
+            renderProgress(); // 更新进度颜色
+        }
+
+        function startTimer() {
+            stopTimer();
+            if (state.timerSec <= 0) {
+                state.timerSec = state.durationSec;
+            }
+            updateTopInfo();
+            state.timerId = setInterval(() => {
+                state.timerSec -= 1;
+                if (state.timerSec <= 0) {
+                    state.timerSec = 0;
+                    endMatch(buildTimeoutMessage());
+                    return;
+                }
+                updateTopInfo();
+            }, 1000);
+        }
+
+        function checkVictory() {
+            if (state.pullOffset > MAX_PULL) {
+                state.pullOffset = MAX_PULL;
+            }
+            if (state.pullOffset < -MAX_PULL) {
+                state.pullOffset = -MAX_PULL;
+            }
+            return false;
+        }
+
+        function normalizeText(value) {
+            return String(value || "").trim();
+        }
+
+        function randomQuestion(team, type) {
+            if (!state.bank.length) return null;
+            const usedList = team === "A" ? state.usedQuestionsA : state.usedQuestionsB;
+            let available = state.bank.filter(q => !usedList.includes(q.id));
+            if (type) {
+                available = available.filter(q => q.type === type);
+            }
+            if (!available.length) return null;
+            const index = Math.floor(Math.random() * available.length);
+            const question = available[index];
+            usedList.push(question.id);
+            return structuredClone(question);
+        }
+
+        function loadQuestionForTeam(team) {
+            if (state.gameEnded) return;
+
+            if (currentRoundType === null) {
+                const types = ['number', 'choice'];
+                const usedList = team === "A" ? state.usedQuestionsA : state.usedQuestionsB;
+                let found = false;
+                for (let t of types) {
+                    const available = state.bank.filter(q => q.type === t && !usedList.includes(q.id));
+                    if (available.length) {
+                        currentRoundType = t;
+                        found = true;
+                        break;
                     }
                 }
+                if (!found) {
+                    setTeamQuestion(team, null);
+                    const questionEl = team === "A" ? els.questionA : els.questionB;
+                    questionEl.textContent = "🎯 题目已做完";
+                    updateQuestionMeta(team, null);
+                    setFeedback(team, "等待比赛结束...", "ok");
+                    updateDisplay(team);
+                    renderInputForTeam(team);
+                    if (!getTeamQuestion("A") && !getTeamQuestion("B")) {
+                        endMatch(buildTimeoutMessage());
+                    }
+                    return;
+                }
             }
-        }
-        console.warn('⚠️ 未找到图片字段，对象:', pic);
-        return '';
-    },
 
-    async generateNewImage(pic, cardElement) {
-        const proxy = PROXY_URL;
-        if (!proxy || proxy === 'https://your-proxy.com/generate') {
-            alert('⚠️ 请先在 API 设置中配置有效的生图代理地址。');
-            return;
-        }
-        const btn = cardElement.querySelector('.btn-generate');
-        const previewArea = cardElement.querySelector('.generated-preview');
-        if (!btn || !previewArea) return;
-        btn.disabled = true;
-        btn.textContent = '⏳ 生成中...';
-        let imageSrc = this.getImageSrc(pic);
-        if (!imageSrc) {
-            alert('当前图片无有效数据，无法生图。');
-            btn.disabled = false;
-            btn.innerHTML = '🎨 生图';
-            return;
-        }
-        const type = pic.type || '情境图';
-        const expr = `${pic.num1 || '?'} ${pic.operator || '?'} ${pic.num2 || '?'} = ${pic.result || '?'}`;
-        const prompt = `请参考输入图片的风格、版式和题型，生成一张新的数学情境图。\n新图片的主题是：${type}。\n图片中的算式答案是：${expr}。\n请保持与参考图一致的艺术风格和构图方式。`;
-        try {
-            const response = await fetch(proxy, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ image: imageSrc, prompt, size: '2K', watermark: true })
-            });
-            if (!response.ok) throw new Error(`代理返回错误: ${response.status}`);
-            const result = await response.json();
-            let newImageUrl = result.data?.[0]?.url || result.image_url || result.url;
-            let newExpr = result.expression || expr;
-            if (!newImageUrl) throw new Error('代理返回数据中缺少图片URL');
-            previewArea.innerHTML = `
-                <div class="label">✨ 生成的新图片</div>
-                <img src="${newImageUrl}" alt="生成的新图">
-                <div class="new-expr">📝 ${newExpr}</div>
-            `;
-            previewArea.style.display = 'block';
-        } catch (error) {
-            console.error('生图失败:', error);
-            alert('生图失败: ' + error.message);
-        } finally {
-            btn.disabled = false;
-            btn.innerHTML = '🎨 生图';
-        }
-    },
-
-    async render() {
-        const picList = this.el.picList;
-        picList.innerHTML = '<div class="loading-msg">⏳ 正在加载图片库，请稍候...</div>';
-        try {
-            const all = await fetchAllPictures();
-            let pics = all;
-            if (this.filterType !== '全部') {
-                pics = pics.filter(p => p.type === this.filterType);
+            let question = randomQuestion(team, currentRoundType);
+            if (!question) {
+                const types = ['number', 'choice'];
+                const otherType = types.find(t => t !== currentRoundType);
+                if (otherType) {
+                    const usedList = team === "A" ? state.usedQuestionsA : state.usedQuestionsB;
+                    const available = state.bank.filter(q => q.type === otherType && !usedList.includes(q.id));
+                    if (available.length) {
+                        currentRoundType = otherType;
+                        question = randomQuestion(team, currentRoundType);
+                    }
+                }
+                if (!question) {
+                    setTeamQuestion(team, null);
+                    const questionEl = team === "A" ? els.questionA : els.questionB;
+                    questionEl.textContent = "🎯 题目已做完";
+                    updateQuestionMeta(team, null);
+                    setFeedback(team, "等待比赛结束...", "ok");
+                    updateDisplay(team);
+                    renderInputForTeam(team);
+                    if (!getTeamQuestion("A") && !getTeamQuestion("B")) {
+                        endMatch(buildTimeoutMessage());
+                    }
+                    return;
+                }
             }
-            this.el.statsTotal.textContent = `共 ${all.length} 张图片 (筛选后 ${pics.length} 张)`;
-            if (pics.length === 0) {
-                picList.innerHTML = `<div class="empty-msg">📭 暂无图片，请上传</div>`;
+
+            const questionEl = team === "A" ? els.questionA : els.questionB;
+            const teamState = getTeamState(team);
+            setTeamQuestion(team, question);
+            if (team === "A") state.roundA += 1;
+            else state.roundB += 1;
+            teamState.answer = "";
+            teamState.selected = "";
+            teamState.locked = false;
+            questionEl.textContent = question.question;
+            updateQuestionMeta(team, question);
+            setFeedback(team, "");
+            updateDisplay(team);
+            renderInputForTeam(team);
+            updateTopInfo();
+        }
+
+        function submitAnswer(team) {
+            if (state.gameEnded) return;
+            const question = getTeamQuestion(team);
+            if (!question) return;
+            const teamState = getTeamState(team);
+            if (teamState.locked) return;
+
+            const submitted = question.type === "number" ?
+                normalizeText(teamState.answer) :
+                normalizeText(teamState.selected);
+
+            if (!submitted) {
+                setFeedback(team, "请先输入或选择答案", "bad");
                 return;
             }
-            let html = '';
-            pics.forEach((p, index) => {
-                const imageSrc = this.getImageSrc(p);
-                const imgSrc = imageSrc ? imageSrc : 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="200" height="120" viewBox="0 0 200 120"%3E%3Crect width="200" height="120" fill="%23f5efe8"/%3E%3Ctext x="100" y="60" font-size="18" font-family="sans-serif" fill="%23b8a392" text-anchor="middle" dy=".3em"%3E无预览%3C/text%3E%3C/svg%3E';
-                const expr = `${p.num1 || '?'} ${p.operator || '?'} ${p.num2 || '?'} = ${p.result || '?'}`;
-                html += `
-                    <div class="pic-card" data-id="${p.id || p._id || ''}">
-                        <div class="preview">
-                            <img src="${imgSrc}" alt="参考图" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22200%22 height=%22120%22 viewBox=%220 0 200 120%22%3E%3Crect width=%22200%22 height=%22120%22 fill=%22%23f5efe8%22/%3E%3Ctext x=%22100%22 y=%2260%22 font-size=%2218%22 font-family=%22sans-serif%22 fill=%22%23b8a392%22 text-anchor=%22middle%22 dy=%22.3em%22%3E加载失败%3C/text%3E%3C/svg%3E'">
-                        </div>
-                        <div class="info">
-                            <span class="type-tag">${p.type || '未分类'}</span>
-                            <span class="expr">${expr}</span>
-                        </div>
-                        <div class="actions">
-                            <button class="btn-generate" data-pic-id="${p.id || p._id || ''}">🎨 生图</button>
-                        </div>
-                        <div class="generated-preview" style="display:none;"></div>
-                    </div>
-                `;
-            });
-            picList.innerHTML = html;
-            // 绑定生图事件
-            picList.querySelectorAll('.btn-generate').forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    const card = btn.closest('.pic-card');
-                    const picId = btn.dataset.picId;
-                    const pic = all.find(p => (p.id || p._id) === picId);
-                    if (pic) this.generateNewImage(pic, card);
-                    else alert('未找到图片数据');
-                });
-            });
-        } catch (err) {
-            console.error('渲染错误:', err);
-            picList.innerHTML = `<div class="error-msg">❌ 加载失败: ${err.message}<br><br>💡 请检查：<br>1. API 地址是否正确？点击右上角“⚙️ API设置”修改。<br>2. 网络是否正常？<br>3. 浏览器控制台（F12）查看详细错误。</div>`;
-            this.el.statsTotal.textContent = '加载失败';
+
+            const answer = normalizeText(question.answer);
+            const correct = submitted === answer;
+
+            if (correct) {
+                teamState.locked = true;
+                if (team === "A") {
+                    state.scoreA += 1;
+                    state.pullOffset += 1;
+                } else {
+                    state.scoreB += 1;
+                    state.pullOffset -= 1;
+                }
+                setFeedback(team, "✅ 回答正确！向自己方向拉动 1 格", "ok");
+            } else {
+                teamState.answer = "";
+                teamState.selected = "";
+                setFeedback(team, "❌ 回答错误，请再试一次", "bad");
+            }
+
+            updateTopInfo();
+            renderProgress();
+            updateDisplay(team);
+            renderInputForTeam(team);
+
+            if (checkVictory()) return;
+
+            if (correct) {
+                clearNextQuestionTimer(team);
+                const timerKey = team === "A" ? "nextQuestionTimerA" : "nextQuestionTimerB";
+                state[timerKey] = setTimeout(() => {
+                    state[timerKey] = null;
+                    if (!state.gameEnded && !checkVictory()) {
+                        loadQuestionForTeam(team);
+                    }
+                }, 900);
+            }
         }
-    },
 
-    showApiMsg(msg, type) {
-        const el = this.el.apiMsg;
-        el.textContent = msg;
-        el.className = 'msg-box ' + type;
-        el.style.display = 'block';
-        if (type !== 'loading') setTimeout(() => { el.style.display = 'none'; }, 4000);
-    },
-    showUploadMsg(msg, type) {
-        const el = this.el.uploadMsg;
-        el.textContent = msg;
-        el.className = 'msg-box ' + type;
-        el.style.display = 'block';
-        if (type !== 'loading') setTimeout(() => { el.style.display = 'none'; }, 5000);
-    }
-};
+        function startRound() {
+            if (state.gameEnded) {
+                alert("比赛已结束，请先点击“重置比赛”再开始。");
+                return;
+            }
+            if (!state.bank.length) {
+                alert("📚 题库为空，请先到比赛设置里生成或录入题目。");
+                return;
+            }
 
-document.addEventListener('DOMContentLoaded', () => admin.init());
-</script>
+            currentRoundType = null;
+
+            els.startBtn.textContent = "进行中";
+            els.startBtn.disabled = true;
+
+            els.winnerOverlay.classList.remove("show");
+            els.winnerText.innerText = "";
+            els.winnerOverlay.querySelectorAll('.confetti').forEach(c => c.remove());
+            document.querySelector('.arena-stage').classList.add('is-playing');
+
+            state.usedQuestionsA = [];
+            state.usedQuestionsB = [];
+
+            loadQuestionForTeam("A");
+            loadQuestionForTeam("B");
+            if (!state.timerId) {
+                state.timerSec = state.durationSec;
+                startTimer();
+            }
+            renderProgress(); // 更新进度颜色
+        }
+
+        function resetGame() {
+            stopTimer();
+            clearNextQuestionTimer("A");
+            clearNextQuestionTimer("B");
+            document.querySelector('.arena-stage').classList.remove('is-playing');
+
+            currentRoundType = null;
+
+            els.startBtn.textContent = "开始";
+            els.startBtn.disabled = false;
+
+            state.scoreA = 0;
+            state.scoreB = 0;
+            state.pullOffset = 0;
+            state.roundA = 0;
+            state.roundB = 0;
+            state.timerSec = state.durationSec;
+            state.activeQuestionA = null;
+            state.activeQuestionB = null;
+            state.gameEnded = false;
+            state.usedQuestionsA = [];
+            state.usedQuestionsB = [];
+            state.teamA = { answer: "", selected: "", locked: false };
+            state.teamB = { answer: "", selected: "", locked: false };
+            els.questionA.textContent = "？？？？";
+            els.questionB.textContent = "？？？？";
+            els.inputA.innerHTML = "";
+            els.inputB.innerHTML = "";
+            els.winnerOverlay.classList.remove("show");
+            els.winnerText.innerText = "";
+            els.winnerOverlay.querySelectorAll('.confetti').forEach(c => c.remove());
+            updateQuestionMeta("A", null);
+            updateQuestionMeta("B", null);
+            setFeedback("A", "");
+            setFeedback("B", "");
+            updateDisplay("A");
+            updateDisplay("B");
+            renderProgress();
+            updateTopInfo();
+        }
+
+        function processBatchInput() {
+            const text = els.batchInput.value.trim();
+            if (!text) {
+                alert("请输入题目内容。");
+                return;
+            }
+
+            const lines = text.split("\n");
+            let added = 0;
+
+            for (let i = 0; i < lines.length; i++) {
+                const line = lines[i].trim();
+                if (!line) continue;
+
+                const parts = line.split("/").map((p) => p.trim()).filter(Boolean);
+                if (parts.length < 2) {
+                    alert(`第 ${i + 1} 行格式不正确，跳过。\n内容：${line}`);
+                    continue;
+                }
+
+                const question = parts[0];
+                const answer = parts[1];
+                const isChoice = parts.length > 2;
+
+                const newQuestion = {
+                    id: crypto.randomUUID(),
+                    type: isChoice ? "choice" : "number",
+                    question,
+                    answer,
+                    options: isChoice ? parts.slice(1) : [],
+                    difficulty: "未设置"
+                };
+
+                state.bank.push(newQuestion);
+                added++;
+            }
+
+            if (added > 0) {
+                saveBank();
+                alert(`✅ 成功批量录入 ${added} 道题目！`);
+                els.batchInput.value = "";
+            }
+        }
+
+        function renderBank() {
+            updateTopInfo();
+            if (!state.bank.length) {
+                els.bankList.innerHTML = '<div class="empty">📭 题库为空，请点击「生成数学题库」或手动录入。</div>';
+                return;
+            }
+
+            els.bankList.innerHTML = "";
+            state.bank.forEach((item) => {
+                const card = document.createElement("div");
+                card.className = "bank-item";
+
+                const left = document.createElement("div");
+                const title = document.createElement("h4");
+                title.textContent = item.question;
+
+                const detail = document.createElement("p");
+                const optionText = item.type === "choice" ? "\n选项: " + item.options.join(" / ") : "";
+                detail.textContent = "答案: " + item.answer + optionText;
+
+                left.append(title, detail);
+
+                const right = document.createElement("div");
+                right.className = "item-side";
+
+                const type = document.createElement("div");
+                type.className = "type-tag " + item.type;
+                type.textContent = item.type === "number" ? "数字题" : "选择题";
+
+                const del = document.createElement("button");
+                del.type = "button";
+                del.className = "tiny-btn";
+                del.textContent = "删除";
+                del.addEventListener("click", () => {
+                    state.bank = state.bank.filter((q) => q.id !== item.id);
+                    saveBank();
+                });
+
+                right.append(type, del);
+                card.append(left, right);
+                els.bankList.appendChild(card);
+            });
+        }
+
+        function downloadFile(filename, text) {
+            const blob = new Blob([text], { type: "application/json;charset=utf-8" });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = filename;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        // --------------------------------------------------------------
+        // 事件绑定
+        // --------------------------------------------------------------
+        els.startBtn.addEventListener("click", startRound);
+        els.resetBtn.addEventListener("click", resetGame);
+        els.fullscreenBtn.addEventListener("click", handleFullscreenClick);
+        els.zoomOutBtn.addEventListener("click", () => changeScale(-0.05));
+        els.zoomInBtn.addEventListener("click", () => changeScale(0.05));
+        els.zoomResetBtn.addEventListener("click", () => {
+            state.uiScale = 1;
+            updateScale();
+        });
+        els.countdownInput.addEventListener("change", () => {
+            const value = Number(els.countdownInput.value);
+            const safeValue = Number.isFinite(value) ? Math.min(1800, Math.max(10, Math.round(value))) : 60;
+            els.countdownInput.value = String(safeValue);
+            state.durationSec = safeValue;
+            if (!state.timerId) {
+                state.timerSec = safeValue;
+                updateTopInfo();
+            }
+        });
+
+        function updateTimerInput(delta) {
+            const current = Number(els.countdownInput.value) || 60;
+            const next = current + delta;
+            els.countdownInput.value = String(next);
+            els.countdownInput.dispatchEvent(new Event("change"));
+        }
+
+        function setupContinuousTimerControl(btn, delta) {
+            let intervalId = null;
+            let timeoutId = null;
+
+            const start = (e) => {
+                if (e.type === 'touchstart') e.preventDefault();
+                updateTimerInput(delta);
+                timeoutId = setTimeout(() => {
+                    intervalId = setInterval(() => {
+                        updateTimerInput(delta);
+                    }, 100);
+                }, 500);
+            };
+
+            const stop = (e) => {
+                if (e && e.type === 'touchend') e.preventDefault();
+                clearTimeout(timeoutId);
+                clearInterval(intervalId);
+            };
+
+            btn.addEventListener("mousedown", start);
+            btn.addEventListener("touchstart", start, { passive: false });
+            btn.addEventListener("mouseup", stop);
+            btn.addEventListener("mouseleave", stop);
+            btn.addEventListener("touchend", stop);
+            btn.addEventListener("touchcancel", stop);
+        }
+
+        setupContinuousTimerControl(els.timerMinusBtn, -10);
+        setupContinuousTimerControl(els.timerPlusBtn, 10);
+
+        els.settingsBtn.addEventListener("click", () => els.settingsModal.classList.add("show"));
+        els.closeSettingsBtn.addEventListener("click", () => els.settingsModal.classList.remove("show"));
+
+        els.useSampleBtn.addEventListener("click", () => {
+            const count = parseInt(prompt("生成多少道数学题？(建议 60-100 道)", "80")) || 80;
+            const newBank = generateMathQuestions(Math.min(200, Math.max(20, count)));
+            if (newBank.length) {
+                state.bank = newBank;
+                saveBank();
+                alert(`✅ 已生成 ${state.bank.length} 道数学题！`);
+            } else {
+                alert("生成失败，请重试。");
+            }
+        });
+
+        els.clearBatchBtn.addEventListener("click", () => {
+            els.batchInput.value = "";
+        });
+        els.batchSaveBtn.addEventListener("click", processBatchInput);
+        els.exportBankBtn.addEventListener("click", () => {
+            let content = "";
+            for (const item of state.bank) {
+                if (item.type === "choice") {
+                    content += `${item.question} / ${item.answer} / ${item.options.filter(o => o !== item.answer).join(" / ")}\n`;
+                } else {
+                    content += `${item.question} / ${item.answer}\n`;
+                }
+            }
+            downloadFile("数学大拔河题库.txt", content);
+        });
+        els.clearBankBtn.addEventListener("click", () => {
+            const confirmed = confirm("确定清空全部题库吗？");
+            if (!confirmed) return;
+            state.bank = [];
+            saveBank();
+        });
+        els.settingsModal.addEventListener("click", (event) => {
+            if (event.target === els.settingsModal) {
+                els.settingsModal.classList.remove("show");
+            }
+        });
+
+        els.helpBtn.addEventListener("click", () => els.helpModal.classList.add("show"));
+        els.closeHelpBtn.addEventListener("click", () => els.helpModal.classList.remove("show"));
+        els.helpModal.addEventListener("click", (e) => {
+            if (e.target === els.helpModal) els.helpModal.classList.remove("show");
+        });
+
+        els.copyWechatBtn.addEventListener("click", () => {
+            navigator.clipboard.writeText("aixiaolingguang").then(() => {
+                const originalText = els.copyWechatBtn.textContent;
+                els.copyWechatBtn.textContent = "✅ 已复制!";
+                setTimeout(() => {
+                    els.copyWechatBtn.textContent = originalText;
+                }, 2000);
+            }).catch(err => {
+                alert("复制失败，请手动复制微信：aixiaolingguang");
+            });
+        });
+
+        document.addEventListener("fullscreenchange", updateFullscreenButtonText);
+
+        els.teamNameInputA.addEventListener("change", () => {
+            state.teamNameA = els.teamNameInputA.value.trim() || "蓝队";
+            updateTeamNames();
+            saveBank();
+            renderProgress(); // 更新文字中的队伍名称
+        });
+        els.teamNameInputB.addEventListener("change", () => {
+            state.teamNameB = els.teamNameInputB.value.trim() || "红队";
+            updateTeamNames();
+            saveBank();
+            renderProgress();
+        });
+
+        // --------------------------------------------------------------
+        // 启动
+        // --------------------------------------------------------------
+        loadBank();
+        els.countdownInput.value = String(state.durationSec);
+        updateScale();
+        updateFullscreenButtonText();
+        resetGame();
+    </script>
 </body>
 </html>
