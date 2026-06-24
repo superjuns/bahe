@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=2.0, user-scalable=yes" />
     <title>数学大拔河</title>
     <style>
         :root {
@@ -930,6 +930,198 @@
             font-weight: 700;
         }
 
+        /* 横屏适配 */
+        @media (orientation: landscape) and (max-height: 700px) {
+            .layout {
+                grid-template-columns: 260px 1fr 260px;
+                gap: 16px;
+            }
+            .question-text {
+                font-size: 26px;
+                min-height: 80px;
+                padding: 10px 8px;
+            }
+            .team-body {
+                padding: 10px;
+                gap: 8px;
+            }
+            .team-header {
+                font-size: 18px;
+                padding: 8px 12px;
+            }
+            .score-dot {
+                font-size: 18px;
+                min-width: 32px;
+                height: 32px;
+            }
+            .arena-stat .value {
+                font-size: 32px;
+            }
+            .timer {
+                font-size: 28px;
+            }
+            .pad-btn,
+            .choice-btn {
+                min-height: 56px;
+                font-size: 20px;
+            }
+            .answer-screen {
+                font-size: 28px;
+                min-height: 50px;
+            }
+            .player {
+                width: 80px;
+                height: 120px;
+            }
+            .team-group {
+                gap: 24px;
+            }
+            .arena-stage {
+                min-height: 260px;
+            }
+            .topbar {
+                margin-bottom: 8px;
+            }
+            .app {
+                padding: 8px;
+            }
+            .pill-btn {
+                padding: 8px 12px;
+                font-size: 14px;
+            }
+            .timer-config input {
+                width: 44px;
+            }
+            .feedback {
+                font-size: 14px;
+                min-height: 24px;
+            }
+            .status-pill {
+                padding: 6px 12px;
+                font-size: 13px;
+            }
+        }
+
+        @media (orientation: landscape) and (max-height: 500px) {
+            .layout {
+                grid-template-columns: 200px 1fr 200px;
+                gap: 10px;
+            }
+            .question-text {
+                font-size: 20px;
+                min-height: 64px;
+                padding: 6px 6px;
+            }
+            .team-body {
+                padding: 6px;
+                gap: 4px;
+            }
+            .team-header {
+                font-size: 14px;
+                padding: 4px 8px;
+            }
+            .score-dot {
+                font-size: 14px;
+                min-width: 24px;
+                height: 24px;
+            }
+            .arena-stat .value {
+                font-size: 24px;
+            }
+            .timer {
+                font-size: 22px;
+            }
+            .pad-btn,
+            .choice-btn {
+                min-height: 44px;
+                font-size: 16px;
+            }
+            .answer-screen {
+                font-size: 22px;
+                min-height: 40px;
+            }
+            .player {
+                width: 60px;
+                height: 90px;
+            }
+            .team-group {
+                gap: 16px;
+            }
+            .arena-stage {
+                min-height: 180px;
+            }
+            .topbar {
+                margin-bottom: 4px;
+            }
+            .app {
+                padding: 4px;
+            }
+            .toolbar {
+                gap: 4px;
+            }
+            .pill-btn {
+                padding: 4px 8px;
+                font-size: 11px;
+            }
+            .timer-config input {
+                width: 36px;
+                font-size: 14px;
+            }
+            .timer-controls button {
+                width: 24px;
+                height: 24px;
+                font-size: 14px;
+            }
+            .feedback {
+                font-size: 12px;
+                min-height: 20px;
+            }
+            .status-pill {
+                padding: 4px 8px;
+                font-size: 11px;
+            }
+            .arena-top {
+                padding: 10px 12px;
+                gap: 8px;
+            }
+            .arena {
+                padding: 6px;
+                gap: 8px;
+            }
+            .choice-actions button {
+                min-height: 36px;
+                font-size: 14px;
+            }
+            .numeric-pad {
+                gap: 4px;
+            }
+            .pad-btn {
+                min-height: 36px;
+                font-size: 14px;
+            }
+            .choice-btn {
+                min-height: 36px;
+                font-size: 14px;
+                padding: 4px 8px;
+            }
+            .floating-controls {
+                left: 8px;
+                bottom: 8px;
+                padding: 4px;
+                gap: 4px;
+            }
+            .control-btn {
+                min-width: 28px;
+                height: 28px;
+                padding: 0 6px;
+                font-size: 14px;
+            }
+            .control-btn.label {
+                min-width: 48px;
+                font-size: 11px;
+            }
+        }
+
         @media (max-width: 1260px) {
             body {
                 overflow: auto;
@@ -1516,17 +1708,17 @@
             document.documentElement.style.setProperty("--group-shift", shiftPx + "px");
 
             let text = "居中";
-            let color = ""; // 默认使用CSS定义的color
+            let color = "";
 
             if (state.pullOffset > 0) {
                 text = "偏向 " + state.teamNameA + " " + state.pullOffset + " 格";
-                color = "#148cff"; // 蓝色
+                color = "#148cff";
             } else if (state.pullOffset < 0) {
                 text = "偏向 " + state.teamNameB + " " + Math.abs(state.pullOffset) + " 格";
-                color = "#f74438"; // 红色
+                color = "#f74438";
             } else {
                 text = "居中";
-                color = ""; // 恢复默认
+                color = "";
             }
 
             els.progressText.textContent = "拔河进度: " + text;
@@ -1770,7 +1962,7 @@
             els.winnerOverlay.classList.add("show");
             createConfetti();
             updateTopInfo();
-            renderProgress(); // 更新进度颜色
+            renderProgress();
         }
 
         function startTimer() {
@@ -1974,7 +2166,7 @@
                 state.timerSec = state.durationSec;
                 startTimer();
             }
-            renderProgress(); // 更新进度颜色
+            renderProgress();
         }
 
         function resetGame() {
@@ -2243,7 +2435,7 @@
             state.teamNameA = els.teamNameInputA.value.trim() || "蓝队";
             updateTeamNames();
             saveBank();
-            renderProgress(); // 更新文字中的队伍名称
+            renderProgress();
         });
         els.teamNameInputB.addEventListener("change", () => {
             state.teamNameB = els.teamNameInputB.value.trim() || "红队";
