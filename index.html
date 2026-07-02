@@ -1660,7 +1660,7 @@
                     <div class="rank-wrapper">
                         <div class="rank-panel" id="rankPanel">
                             <h3>
-                                🏆 今日排行榜
+                                🏆 今日排行榜 (个人最佳)
                                 <button class="refresh-btn" id="refreshRankBtn">刷新</button>
                             </h3>
                             <div id="rankList">
@@ -3235,7 +3235,7 @@
         }
 
         // ============================================================
-        // 排行榜
+        // 排行榜 (仅显示个人最佳)
         // ============================================================
         async function renderRank() {
             const container = els.rankList;
@@ -3248,14 +3248,32 @@
                     return;
                 }
 
-                const sorted = [...submissions].sort((a, b) => (b.score || 0) - (a.score || 0));
+                // 按 班级+姓名 分组，取最高分
+                const bestMap = new Map();
+                for (const item of submissions) {
+                    const cls = String(item.class || '未知班级').trim();
+                    const name = String(item.name || '匿名').trim();
+                    const key = cls + '|' + name;
+                    const score = Number(item.score) || 0;
+                    if (!bestMap.has(key) || score > bestMap.get(key).score) {
+                        bestMap.set(key, {
+                            class: cls,
+                            name: name,
+                            score: score
+                        });
+                    }
+                }
+
+                // 转为数组并按分数降序排序
+                const bestList = Array.from(bestMap.values());
+                const sorted = bestList.sort((a, b) => b.score - a.score);
                 const top = sorted.slice(0, 20);
 
                 let html = '';
                 top.forEach((item, index) => {
-                    const cls = item.class || '未知班级';
-                    const name = item.name || '匿名';
-                    const score = item.score || 0;
+                    const cls = item.class;
+                    const name = item.name;
+                    const score = item.score;
                     let numClass = 'rank-num';
                     if (index === 0) numClass += ' gold';
                     else if (index === 1) numClass += ' silver';
@@ -3356,7 +3374,6 @@
         let rotateOverlayDismissed = false;
 
         function checkOrientation() {
-            // 桌面宽屏不提示
             if (window.innerWidth >= 1024 && window.innerHeight < window.innerWidth) {
                 els.rotateOverlay.classList.remove('show');
                 return;
@@ -3521,10 +3538,8 @@
         updateFullscreenButtonText();
         resetGame();
         els.soundBtn.textContent = '🔊';
-        // 默认启用横屏模式，按钮显示“退出横屏”
         els.appContainer.classList.add('force-landscape');
         els.landscapeBtn.textContent = '退出横屏';
-        // 竖屏时自动显示旋转提示
         setTimeout(checkOrientation, 500);
         setTimeout(checkOrientation, 1200);
         updateReadyUI();
