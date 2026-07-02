@@ -5,9 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>数学大拔河 · 班级对战</title>
     <style>
-        /* ===== 样式与之前完全一致（省略，保持原样） ===== */
-        /* 为避免过长，此处省略完整样式，实际使用时请粘贴原有样式 */
-        /* 但为了可运行，此处保留完整样式（与上一版完全相同） */
+        /* ===== 基础样式 ===== */
         :root {
             --bg: #e9edf2;
             --panel: #ffffff;
@@ -26,7 +24,9 @@
             --ready-green: #2ecc71;
             --ready-grey: #b0b8c4;
         }
-        * { box-sizing: border-box; }
+        * {
+            box-sizing: border-box;
+        }
         body {
             margin: 0;
             font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
@@ -45,8 +45,16 @@
             padding: 18px;
             overflow: hidden;
         }
-        button, input, textarea, select { font: inherit; }
-        button { border: 0; cursor: pointer; }
+        button,
+        input,
+        textarea,
+        select {
+            font: inherit;
+        }
+        button {
+            border: 0;
+            cursor: pointer;
+        }
         .app {
             width: min(1480px, calc((100vw - 40px) / var(--ui-scale)));
             height: min(920px, calc((100dvh - 36px) / var(--ui-scale)));
@@ -122,7 +130,9 @@
             user-select: none;
             -webkit-user-select: none;
         }
-        .timer-controls button:hover { background: #e4ebf3; }
+        .timer-controls button:hover {
+            background: #e4ebf3;
+        }
         .timer-config input {
             width: 54px;
             border: 0;
@@ -135,7 +145,12 @@
             -moz-appearance: textfield;
         }
         .timer-config input::-webkit-outer-spin-button,
-        .timer-config input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+        .timer-config input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        /* 难度选择 */
         .difficulty-select {
             display: inline-flex;
             align-items: center;
@@ -159,6 +174,7 @@
             outline: none;
             font-size: 15px;
         }
+
         .layout {
             display: grid;
             grid-template-columns: 360px minmax(360px, 1fr) 360px;
@@ -189,8 +205,12 @@
             font-size: 22px;
             gap: 8px;
         }
-        .team-header.blue { background: linear-gradient(135deg, #148cff, #3eb1ff); }
-        .team-header.red { background: linear-gradient(135deg, #f74438, #ff6d61); }
+        .team-header.blue {
+            background: linear-gradient(135deg, #148cff, #3eb1ff);
+        }
+        .team-header.red {
+            background: linear-gradient(135deg, #f74438, #ff6d61);
+        }
         .team-header .left-group {
             display: flex;
             align-items: center;
@@ -217,12 +237,14 @@
             border-radius: 999px;
             display: grid;
             place-items: center;
-            background: rgba(255,255,255,0.92);
+            background: rgba(255, 255, 255, 0.92);
             color: var(--text);
             font-weight: 900;
             font-size: 22px;
-            box-shadow: inset 0 0 0 2px rgba(255,255,255,0.5);
+            box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.5);
         }
+
+        /* 准备按钮 */
         .ready-btn {
             padding: 4px 12px;
             border-radius: 999px;
@@ -257,8 +279,13 @@
             opacity: 0.6;
             cursor: not-allowed;
         }
-        .ready-btn:not(:disabled):hover { transform: scale(1.04); }
-        .ready-btn:not(:disabled):active { transform: scale(0.96); }
+        .ready-btn:not(:disabled):hover {
+            transform: scale(1.04);
+        }
+        .ready-btn:not(:disabled):active {
+            transform: scale(0.96);
+        }
+
         .team-body {
             padding: 14px;
             display: flex;
@@ -320,15 +347,23 @@
             font-size: 16px;
             font-weight: 700;
         }
-        .feedback.ok { color: var(--success); }
-        .feedback.bad { color: var(--danger); }
-        .feedback.ai-thinking { color: #8e44ad; font-style: italic; }
+        .feedback.ok {
+            color: var(--success);
+        }
+        .feedback.bad {
+            color: var(--danger);
+        }
+        .feedback.ai-thinking {
+            color: #8e44ad;
+            font-style: italic;
+        }
         .numeric-pad {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 8px;
         }
-        .pad-btn, .choice-btn {
+        .pad-btn,
+        .choice-btn {
             min-height: 70px;
             border-radius: 14px;
             background: #f7f7f8;
@@ -338,7 +373,8 @@
             box-shadow: inset 0 0 0 2px #ededee;
             transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.12s ease;
         }
-        .pad-btn:hover, .choice-btn:hover {
+        .pad-btn:hover,
+        .choice-btn:hover {
             transform: translateY(-1px);
             box-shadow: inset 0 0 0 2px #dce3ec, 0 8px 18px rgba(22, 42, 74, 0.08);
         }
@@ -352,7 +388,8 @@
             color: #fff;
             box-shadow: none;
         }
-        .pad-btn:disabled, .choice-btn:disabled {
+        .pad-btn:disabled,
+        .choice-btn:disabled {
             opacity: 0.5;
             cursor: not-allowed;
             transform: none !important;
@@ -388,8 +425,14 @@
             font-size: 18px;
             font-weight: 800;
         }
-        .secondary { background: #eef3f8; color: var(--text); }
-        .confirm { background: linear-gradient(135deg, #14a1ec, #0c7acc); color: #fff; }
+        .secondary {
+            background: #eef3f8;
+            color: var(--text);
+        }
+        .confirm {
+            background: linear-gradient(135deg, #14a1ec, #0c7acc);
+            color: #fff;
+        }
         .arena {
             padding: 10px;
             display: flex;
@@ -408,7 +451,9 @@
             background: linear-gradient(180deg, #fcfcfd, #eff2f7);
             box-shadow: inset 0 0 0 2px rgba(217, 224, 232, 0.8);
         }
-        .arena-stat { text-align: center; }
+        .arena-stat {
+            text-align: center;
+        }
         .arena-stat .label {
             color: var(--muted);
             font-size: 16px;
@@ -421,7 +466,9 @@
             color: #167ddc;
             font-family: "Bahnschrift", "Arial Black", sans-serif;
         }
-        .arena-stat.right .value { color: #ef483c; }
+        .arena-stat.right .value {
+            color: #ef483c;
+        }
         .timer {
             text-align: center;
             color: #0f86dc;
@@ -472,7 +519,8 @@
             background: linear-gradient(90deg, #3c2b1e, #6c4d35, #3c2b1e);
             transform: translateY(-50%);
         }
-        .rope::before, .rope::after {
+        .rope::before,
+        .rope::after {
             content: "";
             position: absolute;
             top: 0;
@@ -549,24 +597,53 @@
             background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 100 150" xmlns="http://www.w3.org/2000/svg"><g transform="scale(-1, 1) translate(-100, 0)"><path d="M 35,100 L 25,140" stroke="%231a2842" stroke-width="14" stroke-linecap="round"/><path d="M 15,140 h 20 v 8 h -20 z" fill="%23fff" rx="4"/><path d="M 55,100 L 65,140" stroke="%232a3852" stroke-width="14" stroke-linecap="round"/><path d="M 55,140 h 20 v 8 h -20 z" fill="%23fff" rx="4"/><path d="M 25,55 Q 45,45 65,55 L 60,105 L 30,105 Z" fill="%23ff4b14"/><path d="M 25,55 Q 45,45 65,55 L 55,65 Q 45,75 35,65 Z" fill="%23fff"/><path d="M 50,65 L 95,75" stroke="%23ffd7aa" stroke-width="12" stroke-linecap="round"/><circle cx="45" cy="30" r="24" fill="%23ffd7aa"/><path d="M 22,42 C 10,25 25,2 48,4 C 65,5 70,15 68,24 Q 60,18 50,22 Q 40,26 35,32 Q 30,38 22,42 Z" fill="%23333"/><path d="M 24,35 Q 12,28 10,38 Q 16,42 22,40 Z" fill="%23333"/><circle cx="32" cy="34" r="4.5" fill="%23f3bc86"/><path d="M 52,27 Q 55,24 58,27" stroke="%23222" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M 64,27 Q 67,24 70,27" stroke="%23222" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M 53,31 Q 55,29 57,31" stroke="%23222" stroke-width="2.5" fill="none" stroke-linecap="round"/><path d="M 65,31 Q 67,29 69,31" stroke="%23222" stroke-width="2.5" fill="none" stroke-linecap="round"/><path d="M 59,38 Q 61,42 63,38" stroke="%23222" stroke-width="2" fill="none" stroke-linecap="round"/><circle cx="51" cy="35" r="3.5" fill="%23ff9999" opacity="0.7"/><circle cx="71" cy="35" r="3.5" fill="%23ff9999" opacity="0.7"/><path d="M 35,65 L 55,65 L 45,90 Z" fill="%23ff2a00"/><path d="M 35,65 L 65,85" stroke="%23f3bc86" stroke-width="12" stroke-linecap="round"/></g></svg>') no-repeat center;
             background-size: contain;
         }
-        .player.left-lean { transform: rotate(10deg); }
-        .player.right-lean { transform: rotate(-10deg); }
+        .player.left-lean {
+            transform: rotate(10deg);
+        }
+        .player.right-lean {
+            transform: rotate(-10deg);
+        }
         @keyframes pulling-left {
-            0% { transform: rotate(10deg) translate(0,0); }
-            25% { transform: rotate(12deg) translate(-2px,2px); }
-            50% { transform: rotate(10deg) translate(0,0); }
-            75% { transform: rotate(8deg) translate(2px,-1px); }
-            100% { transform: rotate(10deg) translate(0,0); }
+            0% {
+                transform: rotate(10deg) translate(0, 0);
+            }
+            25% {
+                transform: rotate(12deg) translate(-2px, 2px);
+            }
+            50% {
+                transform: rotate(10deg) translate(0, 0);
+            }
+            75% {
+                transform: rotate(8deg) translate(2px, -1px);
+            }
+            100% {
+                transform: rotate(10deg) translate(0, 0);
+            }
         }
         @keyframes pulling-right {
-            0% { transform: rotate(-10deg) translate(0,0); }
-            25% { transform: rotate(-12deg) translate(2px,2px); }
-            50% { transform: rotate(-10deg) translate(0,0); }
-            75% { transform: rotate(-8deg) translate(-2px,-1px); }
-            100% { transform: rotate(-10deg) translate(0,0); }
+            0% {
+                transform: rotate(-10deg) translate(0, 0);
+            }
+            25% {
+                transform: rotate(-12deg) translate(2px, 2px);
+            }
+            50% {
+                transform: rotate(-10deg) translate(0, 0);
+            }
+            75% {
+                transform: rotate(-8deg) translate(-2px, -1px);
+            }
+            100% {
+                transform: rotate(-10deg) translate(0, 0);
+            }
         }
-        .is-playing .player.left-lean { animation: pulling-left 0.8s infinite ease-in-out; }
-        .is-playing .player.right-lean { animation: pulling-right 0.8s infinite ease-in-out; animation-delay: 0.1s; }
+        .is-playing .player.left-lean {
+            animation: pulling-left 0.8s infinite ease-in-out;
+        }
+        .is-playing .player.right-lean {
+            animation: pulling-right 0.8s infinite ease-in-out;
+            animation-delay: 0.1s;
+        }
         .status-bar {
             display: flex;
             justify-content: space-between;
@@ -578,8 +655,8 @@
         .status-pill {
             border-radius: 999px;
             padding: 10px 16px;
-            background: rgba(255,255,255,0.92);
-            box-shadow: 0 6px 16px rgba(22,42,74,0.08);
+            background: rgba(255, 255, 255, 0.92);
+            box-shadow: 0 6px 16px rgba(22, 42, 74, 0.08);
             font-weight: 700;
             color: var(--text);
             transition: color 0.2s;
@@ -587,7 +664,7 @@
         .winner-overlay {
             position: fixed;
             inset: 0;
-            background: rgba(0,0,0,0.8);
+            background: rgba(0, 0, 0, 0.8);
             z-index: 100;
             display: flex;
             justify-content: center;
@@ -606,17 +683,22 @@
             margin-bottom: 20px;
             z-index: 101;
             animation: bounce 2s infinite;
-            text-shadow: 0 10px 30px rgba(255,215,0,0.6);
+            text-shadow: 0 10px 30px rgba(255, 215, 0, 0.6);
         }
         @keyframes bounce {
-            0%,100% { transform: translateY(0); }
-            50% { transform: translateY(-20px); }
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
         }
         .winner-text {
             font-size: 64px;
             font-weight: 900;
             color: #fff;
-            text-shadow: 0 4px 20px rgba(0,0,0,0.5);
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
             margin-bottom: 30px;
             text-align: center;
             z-index: 101;
@@ -630,8 +712,14 @@
             opacity: 0;
         }
         @keyframes fall {
-            0% { transform: translateY(-100vh) rotate(0deg); opacity: 1; }
-            100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+            0% {
+                transform: translateY(-100vh) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(720deg);
+                opacity: 0;
+            }
         }
         .floating-controls {
             position: fixed;
@@ -642,8 +730,8 @@
             gap: 6px;
             padding: 6px;
             border-radius: 14px;
-            background: rgba(255,255,255,0.92);
-            box-shadow: 0 10px 24px rgba(25,45,76,0.16);
+            background: rgba(255, 255, 255, 0.92);
+            box-shadow: 0 10px 24px rgba(25, 45, 76, 0.16);
             backdrop-filter: blur(10px);
             z-index: 18;
         }
@@ -667,21 +755,23 @@
         .settings-modal {
             position: fixed;
             inset: 0;
-            background: rgba(15,22,32,0.42);
+            background: rgba(15, 22, 32, 0.42);
             display: none;
             align-items: center;
             justify-content: center;
             padding: 18px;
             z-index: 20;
         }
-        .settings-modal.show { display: flex; }
+        .settings-modal.show {
+            display: flex;
+        }
         .settings-panel {
             width: min(1180px, 100%);
             max-height: calc(100vh - 36px);
             overflow: auto;
             background: #fff;
             border-radius: 28px;
-            box-shadow: 0 22px 60px rgba(15,22,32,0.24);
+            box-shadow: 0 22px 60px rgba(15, 22, 32, 0.24);
             padding: 22px;
         }
         .settings-head {
@@ -691,13 +781,17 @@
             gap: 12px;
             margin-bottom: 18px;
         }
-        .settings-head h2 { margin: 0; font-size: 32px; }
+        .settings-head h2 {
+            margin: 0;
+            font-size: 32px;
+        }
         .settings-grid {
             display: grid;
             grid-template-columns: 420px 1fr;
             gap: 18px;
         }
-        .form-card, .list-card {
+        .form-card,
+        .list-card {
             border-radius: 22px;
             background: #f7fafc;
             padding: 18px;
@@ -713,7 +807,9 @@
             font-weight: 800;
             color: #445266;
         }
-        .field input, .field textarea, .field select {
+        .field input,
+        .field textarea,
+        .field select {
             width: 100%;
             border: 2px solid #dbe5ef;
             border-radius: 14px;
@@ -721,8 +817,13 @@
             background: #fff;
             color: var(--text);
         }
-        .field textarea { resize: vertical; min-height: 92px; }
-        .field small { color: var(--muted); }
+        .field textarea {
+            resize: vertical;
+            min-height: 92px;
+        }
+        .field small {
+            color: var(--muted);
+        }
         .option-row {
             display: grid;
             grid-template-columns: 1fr auto;
@@ -730,25 +831,34 @@
             margin-bottom: 10px;
             align-items: center;
         }
-        .option-row button, .tiny-btn {
+        .option-row button,
+        .tiny-btn {
             border-radius: 12px;
             padding: 10px 12px;
             font-weight: 800;
             background: #edf2f8;
             color: var(--text);
         }
-        .form-actions, .list-actions {
+        .form-actions,
+        .list-actions {
             display: flex;
             gap: 10px;
             flex-wrap: wrap;
         }
-        .form-actions button, .list-actions button {
+        .form-actions button,
+        .list-actions button {
             border-radius: 14px;
             padding: 12px 16px;
             font-weight: 800;
         }
-        .save-btn { background: linear-gradient(135deg, var(--blue), #4fb8ff); color: #fff; }
-        .warn-btn { background: linear-gradient(135deg, #ff8d5d, #f15a3d); color: #fff; }
+        .save-btn {
+            background: linear-gradient(135deg, var(--blue), #4fb8ff);
+            color: #fff;
+        }
+        .warn-btn {
+            background: linear-gradient(135deg, #ff8d5d, #f15a3d);
+            color: #fff;
+        }
         .bank-list {
             display: flex;
             flex-direction: column;
@@ -764,7 +874,10 @@
             grid-template-columns: 1fr auto;
             gap: 12px;
         }
-        .bank-item h4 { margin: 0 0 8px; font-size: 20px; }
+        .bank-item h4 {
+            margin: 0 0 8px;
+            font-size: 20px;
+        }
         .bank-item p {
             margin: 0;
             color: #526174;
@@ -786,8 +899,12 @@
             font-weight: 800;
             color: #fff;
         }
-        .type-tag.number { background: linear-gradient(135deg, #0f8ff9, #57beff); }
-        .type-tag.choice { background: linear-gradient(135deg, #ff624f, #ff9173); }
+        .type-tag.number {
+            background: linear-gradient(135deg, #0f8ff9, #57beff);
+        }
+        .type-tag.choice {
+            background: linear-gradient(135deg, #ff624f, #ff9173);
+        }
         .helper {
             color: var(--muted);
             font-size: 14px;
@@ -800,72 +917,221 @@
             font-weight: 700;
         }
 
-        /* 横屏模式（与之前完全一致，因篇幅省略部分，实际保留） */
+        /* ===== 横屏模式 ===== */
         .app.force-landscape .layout {
-            grid-template-columns: 280px minmax(280px,1fr) 280px;
+            grid-template-columns: 280px minmax(280px, 1fr) 280px;
             gap: 12px;
         }
-        .app.force-landscape .question-text { font-size: 24px; min-height: 60px; padding: 8px 6px; }
-        .app.force-landscape .answer-screen { font-size: 26px; min-height: 40px; }
-        .app.force-landscape .pad-btn, .app.force-landscape .choice-btn { min-height: 44px; font-size: 20px; }
-        .app.force-landscape .team-body { padding: 8px; gap: 6px; }
-        .app.force-landscape .team-header { padding: 6px 12px; font-size: 18px; }
-        .app.force-landscape .team-header .team-name { font-size: 16px; }
-        .app.force-landscape .score-dot { min-width: 30px; height: 30px; font-size: 18px; }
-        .app.force-landscape .ready-btn { font-size: 12px; padding: 2px 10px; min-height: 28px; }
-        .app.force-landscape .arena-top { padding: 8px 12px; }
-        .app.force-landscape .arena-stat .value { font-size: 28px; }
-        .app.force-landscape .timer { font-size: 26px; }
-        .app.force-landscape .player { width: 70px; height: 105px; }
-        .app.force-landscape .team-group { gap: 20px; }
-        .app.force-landscape .team-group.left { left: calc(50% - 200px + var(--group-shift, 0px)); }
-        .app.force-landscape .team-group.right { right: calc(50% - 200px - var(--group-shift, 0px)); }
-        .app.force-landscape .arena-stage { min-height: 200px; }
-        .app.force-landscape .ground { bottom: 60px; }
-        .app.force-landscape .rope-wrap { top: 50%; }
-        .app.force-landscape .status-pill { padding: 4px 10px; font-size: 13px; }
-        .app.force-landscape .topbar { margin-bottom: 8px; }
-        .app.force-landscape .app { padding: 6px 12px 8px; }
-        .app.force-landscape .difficulty-select { padding: 2px 8px 2px 12px; }
-        .app.force-landscape .difficulty-select select { font-size: 13px; padding: 4px 2px; }
-        .app.force-landscape .difficulty-select label { font-size: 12px; }
+        .app.force-landscape .question-text {
+            font-size: 24px;
+            min-height: 60px;
+            padding: 8px 6px;
+        }
+        .app.force-landscape .answer-screen {
+            font-size: 26px;
+            min-height: 40px;
+        }
+        .app.force-landscape .pad-btn,
+        .app.force-landscape .choice-btn {
+            min-height: 44px;
+            font-size: 20px;
+        }
+        .app.force-landscape .team-body {
+            padding: 8px;
+            gap: 6px;
+        }
+        .app.force-landscape .team-header {
+            padding: 6px 12px;
+            font-size: 18px;
+        }
+        .app.force-landscape .team-header .team-name {
+            font-size: 16px;
+        }
+        .app.force-landscape .score-dot {
+            min-width: 30px;
+            height: 30px;
+            font-size: 18px;
+        }
+        .app.force-landscape .ready-btn {
+            font-size: 12px;
+            padding: 2px 10px;
+            min-height: 28px;
+        }
+        .app.force-landscape .arena-top {
+            padding: 8px 12px;
+        }
+        .app.force-landscape .arena-stat .value {
+            font-size: 28px;
+        }
+        .app.force-landscape .timer {
+            font-size: 26px;
+        }
+        .app.force-landscape .player {
+            width: 70px;
+            height: 105px;
+        }
+        .app.force-landscape .team-group {
+            gap: 20px;
+        }
+        .app.force-landscape .team-group.left {
+            left: calc(50% - 200px + var(--group-shift, 0px));
+        }
+        .app.force-landscape .team-group.right {
+            right: calc(50% - 200px - var(--group-shift, 0px));
+        }
+        .app.force-landscape .arena-stage {
+            min-height: 200px;
+        }
+        .app.force-landscape .ground {
+            bottom: 60px;
+        }
+        .app.force-landscape .rope-wrap {
+            top: 50%;
+        }
+        .app.force-landscape .status-pill {
+            padding: 4px 10px;
+            font-size: 13px;
+        }
+        .app.force-landscape .topbar {
+            margin-bottom: 8px;
+        }
+        .app.force-landscape .app {
+            padding: 6px 12px 8px;
+        }
+        .app.force-landscape .difficulty-select {
+            padding: 2px 8px 2px 12px;
+        }
+        .app.force-landscape .difficulty-select select {
+            font-size: 13px;
+            padding: 4px 2px;
+        }
+        .app.force-landscape .difficulty-select label {
+            font-size: 12px;
+        }
         @media (max-width: 900px) {
-            .app.force-landscape .layout { grid-template-columns: 220px minmax(220px,1fr) 220px; gap: 8px; }
-            .app.force-landscape .question-text { font-size: 20px; min-height: 50px; }
-            .app.force-landscape .player { width: 56px; height: 84px; }
-            .app.force-landscape .team-group.left { left: calc(50% - 160px + var(--group-shift, 0px)); }
-            .app.force-landscape .team-group.right { right: calc(50% - 160px - var(--group-shift, 0px)); }
+            .app.force-landscape .layout {
+                grid-template-columns: 220px minmax(220px, 1fr) 220px;
+                gap: 8px;
+            }
+            .app.force-landscape .question-text {
+                font-size: 20px;
+                min-height: 50px;
+            }
+            .app.force-landscape .player {
+                width: 56px;
+                height: 84px;
+            }
+            .app.force-landscape .team-group.left {
+                left: calc(50% - 160px + var(--group-shift, 0px));
+            }
+            .app.force-landscape .team-group.right {
+                right: calc(50% - 160px - var(--group-shift, 0px));
+            }
         }
         @media (max-width: 720px) {
-            .app.force-landscape .layout { grid-template-columns: 1fr 1.5fr 1fr; gap: 6px; }
-            .app.force-landscape .question-text { font-size: 18px; min-height: 44px; padding: 4px; }
-            .app.force-landscape .answer-screen { font-size: 20px; min-height: 32px; }
-            .app.force-landscape .pad-btn, .app.force-landscape .choice-btn { min-height: 36px; font-size: 16px; }
-            .app.force-landscape .team-body { padding: 4px; gap: 4px; }
-            .app.force-landscape .team-header { font-size: 14px; padding: 4px 8px; }
-            .app.force-landscape .team-header .team-name { font-size: 13px; }
-            .app.force-landscape .score-dot { min-width: 24px; height: 24px; font-size: 14px; }
-            .app.force-landscape .ready-btn { font-size: 10px; padding: 2px 8px; min-height: 22px; }
-            .app.force-landscape .arena-stat .value { font-size: 22px; }
-            .app.force-landscape .timer { font-size: 20px; }
-            .app.force-landscape .player { width: 44px; height: 66px; }
-            .app.force-landscape .team-group { gap: 14px; }
-            .app.force-landscape .team-group.left { left: calc(50% - 120px + var(--group-shift, 0px)); }
-            .app.force-landscape .team-group.right { right: calc(50% - 120px - var(--group-shift, 0px)); }
-            .app.force-landscape .arena-stage { min-height: 140px; }
-            .app.force-landscape .ground { bottom: 40px; }
-            .app.force-landscape .status-pill { font-size: 11px; padding: 3px 6px; }
-            .app.force-landscape .topbar .pill-btn { font-size: 12px; padding: 4px 8px; }
-            .app.force-landscape .topbar { gap: 6px; margin-bottom: 4px; }
-            .app.force-landscape .app { padding: 4px 6px 6px; }
-            .app.force-landscape .timer-controls button { width: 24px; height: 24px; font-size: 14px; }
-            .app.force-landscape .timer-config input { width: 40px; font-size: 14px; }
-            .app.force-landscape .difficulty-select { padding: 2px 6px 2px 10px; }
-            .app.force-landscape .difficulty-select select { font-size: 11px; padding: 2px 2px; }
-            .app.force-landscape .difficulty-select label { font-size: 10px; }
+            .app.force-landscape .layout {
+                grid-template-columns: 1fr 1.5fr 1fr;
+                gap: 6px;
+            }
+            .app.force-landscape .question-text {
+                font-size: 18px;
+                min-height: 44px;
+                padding: 4px;
+            }
+            .app.force-landscape .answer-screen {
+                font-size: 20px;
+                min-height: 32px;
+            }
+            .app.force-landscape .pad-btn,
+            .app.force-landscape .choice-btn {
+                min-height: 36px;
+                font-size: 16px;
+            }
+            .app.force-landscape .team-body {
+                padding: 4px;
+                gap: 4px;
+            }
+            .app.force-landscape .team-header {
+                font-size: 14px;
+                padding: 4px 8px;
+            }
+            .app.force-landscape .team-header .team-name {
+                font-size: 13px;
+            }
+            .app.force-landscape .score-dot {
+                min-width: 24px;
+                height: 24px;
+                font-size: 14px;
+            }
+            .app.force-landscape .ready-btn {
+                font-size: 10px;
+                padding: 2px 8px;
+                min-height: 22px;
+            }
+            .app.force-landscape .arena-stat .value {
+                font-size: 22px;
+            }
+            .app.force-landscape .timer {
+                font-size: 20px;
+            }
+            .app.force-landscape .player {
+                width: 44px;
+                height: 66px;
+            }
+            .app.force-landscape .team-group {
+                gap: 14px;
+            }
+            .app.force-landscape .team-group.left {
+                left: calc(50% - 120px + var(--group-shift, 0px));
+            }
+            .app.force-landscape .team-group.right {
+                right: calc(50% - 120px - var(--group-shift, 0px));
+            }
+            .app.force-landscape .arena-stage {
+                min-height: 140px;
+            }
+            .app.force-landscape .ground {
+                bottom: 40px;
+            }
+            .app.force-landscape .status-pill {
+                font-size: 11px;
+                padding: 3px 6px;
+            }
+            .app.force-landscape .topbar .pill-btn {
+                font-size: 12px;
+                padding: 4px 8px;
+            }
+            .app.force-landscape .topbar {
+                gap: 6px;
+                margin-bottom: 4px;
+            }
+            .app.force-landscape .app {
+                padding: 4px 6px 6px;
+            }
+            .app.force-landscape .timer-controls button {
+                width: 24px;
+                height: 24px;
+                font-size: 14px;
+            }
+            .app.force-landscape .timer-config input {
+                width: 40px;
+                font-size: 14px;
+            }
+            .app.force-landscape .difficulty-select {
+                padding: 2px 6px 2px 10px;
+            }
+            .app.force-landscape .difficulty-select select {
+                font-size: 11px;
+                padding: 2px 2px;
+            }
+            .app.force-landscape .difficulty-select label {
+                font-size: 10px;
+            }
         }
         @media (max-width: 1260px) {
-            body { overflow: auto; }
+            body {
+                overflow: auto;
+            }
             .viewport {
                 position: static;
                 display: block;
@@ -879,13 +1145,25 @@
                 min-height: auto;
                 transform: none;
             }
-            .layout { grid-template-columns: 1fr; }
-            .team-card { min-height: auto; height: auto; }
-            .arena-stage { height: 420px; min-height: 420px; }
-            .settings-grid { grid-template-columns: 1fr; }
+            .layout {
+                grid-template-columns: 1fr;
+            }
+            .team-card {
+                min-height: auto;
+                height: auto;
+            }
+            .arena-stage {
+                height: 420px;
+                min-height: 420px;
+            }
+            .settings-grid {
+                grid-template-columns: 1fr;
+            }
         }
         @media (max-width: 720px) {
-            .app { padding: 12px; }
+            .app {
+                padding: 12px;
+            }
             .floating-controls {
                 left: 12px;
                 bottom: 12px;
@@ -901,30 +1179,40 @@
                 min-width: 56px;
                 font-size: 12px;
             }
-            .topbar, .settings-head {
+            .topbar,
+            .settings-head {
                 flex-direction: column;
                 align-items: stretch;
             }
-            .toolbar { justify-content: center; }
+            .toolbar {
+                justify-content: center;
+            }
             .question-text {
                 font-size: 30px;
                 min-height: 100px;
             }
-            .answer-screen { font-size: 32px; }
-            .pad-btn, .choice-btn { min-height: 72px; }
-            .arena-stage { height: 340px; }
+            .answer-screen {
+                font-size: 32px;
+            }
+            .pad-btn,
+            .choice-btn {
+                min-height: 72px;
+            }
+            .arena-stage {
+                height: 340px;
+            }
             .team-group {
                 transform: scale(0.72) translateY(-69%);
                 transform-origin: top center;
             }
         }
 
-        /* 旋转屏幕提示 */
+        /* ===== 旋转屏幕提示 ===== */
         .rotate-overlay {
             position: fixed;
             inset: 0;
             z-index: 200;
-            background: rgba(20,30,50,0.92);
+            background: rgba(20, 30, 50, 0.92);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
             display: none;
@@ -934,10 +1222,18 @@
             padding: 30px;
             animation: fadeInRotate 0.5s ease;
         }
-        .rotate-overlay.show { display: flex; }
+        .rotate-overlay.show {
+            display: flex;
+        }
         @keyframes fadeInRotate {
-            0% { opacity: 0; transform: scale(0.96); }
-            100% { opacity: 1; transform: scale(1); }
+            0% {
+                opacity: 0;
+                transform: scale(0.96);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
         }
         .rotate-content {
             text-align: center;
@@ -952,10 +1248,18 @@
             animation: rotatePhone 2.4s ease-in-out infinite;
         }
         @keyframes rotatePhone {
-            0% { transform: rotate(0deg); }
-            30% { transform: rotate(90deg); }
-            70% { transform: rotate(90deg); }
-            100% { transform: rotate(0deg); }
+            0% {
+                transform: rotate(0deg);
+            }
+            30% {
+                transform: rotate(90deg);
+            }
+            70% {
+                transform: rotate(90deg);
+            }
+            100% {
+                transform: rotate(0deg);
+            }
         }
         .rotate-title {
             font-size: 34px;
@@ -969,7 +1273,7 @@
         }
         .rotate-sub {
             font-size: 18px;
-            color: rgba(255,255,255,0.7);
+            color: rgba(255, 255, 255, 0.7);
             line-height: 1.6;
             margin-bottom: 28px;
             font-weight: 500;
@@ -981,51 +1285,68 @@
             color: #6eb8ff;
         }
         @keyframes arrowBounce {
-            0%,100% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-12px) rotate(15deg); }
+            0%,
+            100% {
+                transform: translateY(0) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-12px) rotate(15deg);
+            }
         }
         .rotate-close-btn {
             margin-top: 32px;
             padding: 14px 40px;
             border-radius: 999px;
-            background: rgba(255,255,255,0.15);
+            background: rgba(255, 255, 255, 0.15);
             color: #fff;
             font-size: 18px;
             font-weight: 700;
-            border: 2px solid rgba(255,255,255,0.25);
+            border: 2px solid rgba(255, 255, 255, 0.25);
             transition: all 0.2s ease;
             cursor: pointer;
             backdrop-filter: blur(4px);
             letter-spacing: 1px;
         }
         .rotate-close-btn:hover {
-            background: rgba(255,255,255,0.25);
-            border-color: rgba(255,255,255,0.5);
+            background: rgba(255, 255, 255, 0.25);
+            border-color: rgba(255, 255, 255, 0.5);
             transform: scale(1.04);
         }
-        .rotate-close-btn:active { transform: scale(0.96); }
+        .rotate-close-btn:active {
+            transform: scale(0.96);
+        }
+        /* 桌面宽屏不显示旋转提示 */
         @media (min-width: 1024px) and (orientation: landscape) {
-            .rotate-overlay { display: none !important; }
+            .rotate-overlay {
+                display: none !important;
+            }
         }
 
+        /* ===== 模式提示 ===== */
         .mode-badge {
             display: inline-block;
             padding: 4px 14px;
             border-radius: 999px;
             font-size: 13px;
             font-weight: 800;
-            background: rgba(255,255,255,0.2);
+            background: rgba(255, 255, 255, 0.2);
             color: #fff;
             letter-spacing: 1px;
         }
-        .mode-badge.single { background: #8e44ad; color: #fff; }
-        .mode-badge.dual { background: #2ecc71; color: #fff; }
+        .mode-badge.single {
+            background: #8e44ad;
+            color: #fff;
+        }
+        .mode-badge.dual {
+            background: #2ecc71;
+            color: #fff;
+        }
 
-        /* 登录弹窗 */
+        /* ===== 登录弹窗 ===== */
         .login-overlay {
             position: fixed;
             inset: 0;
-            background: rgba(0,0,0,0.65);
+            background: rgba(0, 0, 0, 0.65);
             backdrop-filter: blur(8px);
             -webkit-backdrop-filter: blur(8px);
             z-index: 300;
@@ -1035,10 +1356,18 @@
             padding: 20px;
             animation: fadeIn 0.3s ease;
         }
-        .login-overlay.hidden { display: none; }
+        .login-overlay.hidden {
+            display: none;
+        }
         @keyframes fadeIn {
-            0% { opacity: 0; transform: scale(0.95); }
-            100% { opacity: 1; transform: scale(1); }
+            0% {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
         }
         .login-panel {
             background: #fff;
@@ -1046,7 +1375,7 @@
             padding: 40px 44px;
             max-width: 440px;
             width: 100%;
-            box-shadow: 0 30px 80px rgba(0,0,0,0.35);
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.35);
             text-align: center;
         }
         .login-panel h2 {
@@ -1094,12 +1423,12 @@
             font-size: 20px;
             font-weight: 800;
             transition: transform 0.15s, box-shadow 0.15s;
-            box-shadow: 0 6px 20px rgba(31,143,255,0.3);
+            box-shadow: 0 6px 20px rgba(31, 143, 255, 0.3);
             margin-top: 6px;
         }
         .login-panel .login-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 28px rgba(31,143,255,0.4);
+            box-shadow: 0 10px 28px rgba(31, 143, 255, 0.4);
         }
         .login-panel .login-btn:disabled {
             opacity: 0.6;
@@ -1121,7 +1450,7 @@
             font-size: 14px;
         }
 
-        /* 排行榜 */
+        /* ===== 排行榜 ===== */
         .rank-panel {
             background: #fff;
             border-radius: var(--radius);
@@ -1150,7 +1479,9 @@
             cursor: pointer;
             transition: background 0.2s;
         }
-        .rank-panel h3 .refresh-btn:hover { background: #dce3ec; }
+        .rank-panel h3 .refresh-btn:hover {
+            background: #dce3ec;
+        }
         .rank-item {
             display: flex;
             align-items: center;
@@ -1159,22 +1490,33 @@
             border-bottom: 1px solid #f0f3f7;
             font-size: 14px;
         }
-        .rank-item:last-child { border-bottom: 0; }
+        .rank-item:last-child {
+            border-bottom: 0;
+        }
         .rank-num {
             font-weight: 800;
             color: var(--muted);
             min-width: 28px;
             text-align: center;
         }
-        .rank-num.gold { color: #f5b342; }
-        .rank-num.silver { color: #b0b8c4; }
-        .rank-num.bronze { color: #d4a373; }
+        .rank-num.gold {
+            color: #f5b342;
+        }
+        .rank-num.silver {
+            color: #b0b8c4;
+        }
+        .rank-num.bronze {
+            color: #d4a373;
+        }
         .rank-class {
             font-weight: 700;
             color: var(--blue);
             min-width: 48px;
         }
-        .rank-name { font-weight: 700; flex: 1; }
+        .rank-name {
+            font-weight: 700;
+            flex: 1;
+        }
         .rank-score {
             font-weight: 900;
             color: var(--text);
@@ -1195,19 +1537,31 @@
             padding: 12px 0;
             font-size: 14px;
         }
+
+        /* 排行榜位置 */
         .rank-wrapper {
             grid-column: 1 / -1;
             margin-top: 4px;
         }
-        .app.force-landscape .rank-wrapper { margin-top: 2px; }
+        .app.force-landscape .rank-wrapper {
+            margin-top: 2px;
+        }
         .app.force-landscape .rank-panel {
             max-height: 200px;
             padding: 10px 14px;
         }
-        .app.force-landscape .rank-item { font-size: 13px; padding: 5px 4px; }
-        .app.force-landscape .rank-score { font-size: 14px; padding: 1px 12px; }
+        .app.force-landscape .rank-item {
+            font-size: 13px;
+            padding: 5px 4px;
+        }
+        .app.force-landscape .rank-score {
+            font-size: 14px;
+            padding: 1px 12px;
+        }
         @media (max-width: 1260px) {
-            .rank-wrapper { grid-column: 1; }
+            .rank-wrapper {
+                grid-column: 1;
+            }
         }
     </style>
 </head>
@@ -1342,7 +1696,7 @@
         </div>
     </div>
 
-    <!-- 登录弹窗（默认隐藏） -->
+    <!-- 登录弹窗 -->
     <div class="login-overlay hidden" id="loginOverlay">
         <div class="login-panel">
             <h2>📚 数学大拔河</h2>
@@ -1460,26 +1814,291 @@
         const MAX_PULL = 15;
 
         // ============================================================
-        // 音效（与之前一致，省略详细代码，但保留完整功能）
+        // 音效
         // ============================================================
         let soundEnabled = true;
-        function playSound(type) { /* 同之前，省略具体实现，不影响功能 */ }
-        function playCheer() { /* 同之前 */ }
-        function toggleSound() { soundEnabled = !soundEnabled; els.soundBtn.textContent = soundEnabled ? '🔊' : '🔇'; }
+
+        function playSound(type) {
+            if (!soundEnabled) return;
+            try {
+                const audioCtx = new(window.AudioContext || window.webkitAudioContext)();
+                const gainNode = audioCtx.createGain();
+                gainNode.connect(audioCtx.destination);
+                gainNode.gain.value = 0.3;
+                let oscillator = audioCtx.createOscillator();
+                oscillator.connect(gainNode);
+                switch (type) {
+                    case 'start':
+                        oscillator.frequency.setValueAtTime(523, audioCtx.currentTime);
+                        oscillator.frequency.setValueAtTime(659, audioCtx.currentTime + 0.15);
+                        oscillator.frequency.setValueAtTime(784, audioCtx.currentTime + 0.30);
+                        oscillator.start(audioCtx.currentTime);
+                        oscillator.stop(audioCtx.currentTime + 0.45);
+                        break;
+                    case 'correct':
+                        oscillator.frequency.setValueAtTime(880, audioCtx.currentTime);
+                        oscillator.frequency.setValueAtTime(1100, audioCtx.currentTime + 0.1);
+                        oscillator.start(audioCtx.currentTime);
+                        oscillator.stop(audioCtx.currentTime + 0.15);
+                        gainNode.gain.setValueAtTime(0.3, audioCtx.currentTime);
+                        gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.15);
+                        break;
+                    case 'wrong':
+                        oscillator.frequency.setValueAtTime(400, audioCtx.currentTime);
+                        oscillator.frequency.setValueAtTime(250, audioCtx.currentTime + 0.2);
+                        oscillator.start(audioCtx.currentTime);
+                        oscillator.stop(audioCtx.currentTime + 0.25);
+                        gainNode.gain.setValueAtTime(0.25, audioCtx.currentTime);
+                        gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.25);
+                        break;
+                    case 'end':
+                        playCheer();
+                        return;
+                    default:
+                        oscillator.disconnect();
+                        return;
+                }
+                setTimeout(() => {
+                    try { oscillator.disconnect();
+                        gainNode.disconnect();
+                        audioCtx.close(); } catch (e) {}
+                }, 1000);
+            } catch (e) { /* ignore */ }
+        }
+
+        function playCheer() {
+            if (!soundEnabled) return;
+            try {
+                const audioCtx = new(window.AudioContext || window.webkitAudioContext)();
+                const now = audioCtx.currentTime;
+                const duration = 2.0;
+                const masterGain = audioCtx.createGain();
+                masterGain.connect(audioCtx.destination);
+                masterGain.gain.setValueAtTime(0, now);
+                masterGain.gain.linearRampToValueAtTime(0.25, now + 0.1);
+                masterGain.gain.linearRampToValueAtTime(0.2, now + 1.5);
+                masterGain.gain.linearRampToValueAtTime(0, now + duration);
+
+                const bufferSize = audioCtx.sampleRate * duration;
+                const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+                const data = buffer.getChannelData(0);
+                for (let i = 0; i < bufferSize; i++) {
+                    data[i] = (Math.random() * 2 - 1) * 0.6;
+                }
+                const noise = audioCtx.createBufferSource();
+                noise.buffer = buffer;
+                const noiseGain = audioCtx.createGain();
+                noiseGain.gain.setValueAtTime(0.3, now);
+                noiseGain.gain.linearRampToValueAtTime(0.1, now + duration);
+                noise.connect(noiseGain);
+                noiseGain.connect(masterGain);
+                noise.start(now);
+                noise.stop(now + duration);
+
+                const numOsc = 8;
+                for (let i = 0; i < numOsc; i++) {
+                    const osc = audioCtx.createOscillator();
+                    const gain = audioCtx.createGain();
+                    osc.connect(gain);
+                    gain.connect(masterGain);
+                    const freq = 300 + Math.random() * 1700;
+                    osc.frequency.setValueAtTime(freq, now);
+                    const startTime = now + Math.random() * 0.5;
+                    const dur = 0.1 + Math.random() * 0.3;
+                    gain.gain.setValueAtTime(0, now);
+                    gain.gain.setValueAtTime(0.04 + Math.random() * 0.08, startTime);
+                    gain.gain.exponentialRampToValueAtTime(0.001, startTime + dur);
+                    osc.start(startTime);
+                    osc.stop(startTime + dur + 0.1);
+                    if (Math.random() > 0.5) {
+                        osc.frequency.setValueAtTime(freq * (1 + (Math.random() - 0.5) * 0.2), startTime + dur * 0.5);
+                    }
+                    osc.type = ['sawtooth', 'square', 'triangle'][Math.floor(Math.random() * 3)];
+                }
+                const lfo = audioCtx.createOscillator();
+                const lfoGain = audioCtx.createGain();
+                lfo.connect(lfoGain);
+                lfoGain.connect(masterGain.gain);
+                lfo.frequency.setValueAtTime(5 + Math.random() * 3, now);
+                lfoGain.gain.setValueAtTime(0.05, now);
+                lfo.start(now);
+                lfo.stop(now + duration);
+                setTimeout(() => {
+                    try { audioCtx.close(); } catch (e) {}
+                }, (duration + 0.5) * 1000);
+            } catch (e) { /* ignore */ }
+        }
+
+        function toggleSound() {
+            soundEnabled = !soundEnabled;
+            els.soundBtn.textContent = soundEnabled ? '🔊' : '🔇';
+        }
 
         // ============================================================
-        // 种子随机数 & 题库生成（与之前一致，省略，但保留函数）
+        // 种子随机数 & 题库生成
         // ============================================================
-        function createSeededRandom(seed) { /* 同之前 */ }
-        function generateMathQuestions(count = 100, seed = null) { /* 同之前 */ }
-        function generateOneQuestion(type, randInt) { /* 同之前 */ }
-        function generateDistractors(correct, type, randInt) { /* 同之前 */ }
-        function getTodayStr() { /* 同之前 */ }
+        function createSeededRandom(seed) {
+            let s = seed;
+            return function() {
+                s = (s * 9301 + 49297) % 233280;
+                return s / 233280;
+            };
+        }
+
+        function generateMathQuestions(count = 100, seed = null) {
+            let random = Math.random;
+            if (seed !== null) {
+                random = createSeededRandom(seed);
+            }
+            const randInt = (min, max) => Math.floor(random() * (max - min + 1)) + min;
+            const questions = [];
+            const types = ['add_no_carry', 'sub_no_borrow', 'add_carry', 'sub_borrow'];
+            const perType = Math.floor(count / types.length);
+            let remainder = count - perType * types.length;
+            for (let t of types) {
+                let n = perType + (remainder > 0 ? 1 : 0);
+                if (remainder > 0) remainder--;
+                for (let i = 0; i < n; i++) {
+                    const q = generateOneQuestion(t, randInt);
+                    if (q) questions.push(q);
+                }
+            }
+            for (let i = questions.length - 1; i > 0; i--) {
+                const j = Math.floor(random() * (i + 1));
+                [questions[i], questions[j]] = [questions[j], questions[i]];
+            }
+            return questions;
+        }
+
+        function generateOneQuestion(type, randInt) {
+            let a, b, answer, question, options = [];
+            let attempts = 0;
+            const maxAttempts = 50;
+            while (attempts < maxAttempts) {
+                attempts++;
+                switch (type) {
+                    case 'add_no_carry': {
+                        const t1 = randInt(0, 9);
+                        const t2 = randInt(0, 9 - t1);
+                        const u1 = randInt(0, 9);
+                        const u2 = randInt(0, 9 - u1);
+                        a = t1 * 10 + u1;
+                        b = t2 * 10 + u2;
+                        if (a === 0 || b === 0) continue;
+                        answer = a + b;
+                        question = a + ' + ' + b + ' = ?';
+                        break;
+                    }
+                    case 'sub_no_borrow': {
+                        const t1 = randInt(1, 9);
+                        const t2 = randInt(0, t1);
+                        const u1 = randInt(0, 9);
+                        const u2 = randInt(0, u1);
+                        a = t1 * 10 + u1;
+                        b = t2 * 10 + u2;
+                        if (a === 0 || b === 0 || a <= b) continue;
+                        answer = a - b;
+                        question = a + ' - ' + b + ' = ?';
+                        break;
+                    }
+                    case 'add_carry': {
+                        a = randInt(2, 9);
+                        b = randInt(2, 9);
+                        const sum = a + b;
+                        if (sum <= 10 || sum > 20) continue;
+                        answer = sum;
+                        question = a + ' + ' + b + ' = ?';
+                        break;
+                    }
+                    case 'sub_borrow': {
+                        a = randInt(11, 20);
+                        b = randInt(2, 9);
+                        if (a <= b) continue;
+                        const au = a % 10;
+                        const bu = b % 10;
+                        if (au >= bu) continue;
+                        answer = a - b;
+                        question = a + ' - ' + b + ' = ?';
+                        break;
+                    }
+                }
+                if (answer < 0 || answer > 100) continue;
+                break;
+            }
+            if (attempts >= maxAttempts) return null;
+            const isChoice = Math.random() < 0.4;
+            if (isChoice) {
+                options = generateDistractors(answer, type, randInt);
+                if (!options.includes(String(answer))) {
+                    options[0] = String(answer);
+                }
+                for (let i = options.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [options[i], options[j]] = [options[j], options[i]];
+                }
+                return {
+                    id: crypto.randomUUID(),
+                    type: 'choice',
+                    question: question,
+                    answer: String(answer),
+                    options: options
+                };
+            } else {
+                return {
+                    id: crypto.randomUUID(),
+                    type: 'number',
+                    question: question,
+                    answer: String(answer),
+                    options: []
+                };
+            }
+        }
+
+        function generateDistractors(correct, type, randInt) {
+            const dist = new Set();
+            dist.add(String(correct));
+            const candidates = [];
+            const offsets = [-1, 1, -2, 2, -5, 5, -10, 10, -3, 3];
+            for (let off of offsets) {
+                const val = correct + off;
+                if (val >= 0 && val <= 100 && !dist.has(String(val))) {
+                    candidates.push(String(val));
+                }
+            }
+            let idx = 0;
+            while (candidates.length < 3 && idx < 50) {
+                const r = randInt(0, 100);
+                if (!dist.has(String(r))) {
+                    candidates.push(String(r));
+                }
+                idx++;
+            }
+            const result = [String(correct)];
+            for (let i = 0; i < Math.min(3, candidates.length); i++) {
+                result.push(candidates[i]);
+            }
+            while (result.length < 4) {
+                const r = randInt(0, 100);
+                if (!result.includes(String(r))) {
+                    result.push(String(r));
+                }
+            }
+            return result;
+        }
+
+        function getTodayStr() {
+            const d = new Date();
+            const year = d.getFullYear();
+            const month = String(d.getMonth() + 1).padStart(2, '0');
+            const day = String(d.getDate()).padStart(2, '0');
+            return year + '-' + month + '-' + day;
+        }
 
         // ============================================================
         // API 调用
         // ============================================================
         let whitelistCache = null;
+
         async function fetchWhitelist() {
             try {
                 const resp = await fetch(API_WHITELIST);
@@ -1495,6 +2114,7 @@
                 return [];
             }
         }
+
         function checkWhitelist(classStr, name) {
             if (!whitelistCache) return false;
             const trimmedName = name.trim();
@@ -1504,12 +2124,19 @@
                 return itemClass === classStr && itemName === trimmedName;
             });
         }
+
         async function submitScore(classStr, name, score) {
             try {
-                const payload = { class: classStr, name: name.trim(), score: score };
+                const payload = {
+                    class: classStr,
+                    name: name.trim(),
+                    score: score
+                };
                 const resp = await fetch(API_SUBMIT, {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
                     body: JSON.stringify(payload)
                 });
                 if (!resp.ok) {
@@ -1522,6 +2149,7 @@
                 throw e;
             }
         }
+
         async function fetchRank() {
             try {
                 const resp = await fetch(API_RANK);
@@ -1645,13 +2273,14 @@
         };
 
         // ============================================================
-        // 工具函数（与之前一致）
+        // 工具
         // ============================================================
         function formatTime(seconds) {
             const mm = String(Math.floor(seconds / 60)).padStart(2, "0");
             const ss = String(seconds % 60).padStart(2, "0");
             return mm + ":" + ss;
         }
+
         function saveBank() {
             const data = {
                 bank: state.bank,
@@ -1662,12 +2291,14 @@
             localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
             renderBank();
         }
+
         function updateTeamNames() {
             els.nameDisplayA.textContent = state.teamNameA;
             els.nameDisplayB.textContent = state.teamNameB;
             els.scoreLabelA.textContent = state.teamNameA + "分数";
             els.scoreLabelB.textContent = state.teamNameB + "分数";
         }
+
         function loadBank() {
             let saved = null;
             let today = getTodayStr();
@@ -1709,6 +2340,7 @@
             updateTeamNames();
             renderBank();
         }
+
         function regenerateTodayBank() {
             const today = getTodayStr();
             const seed = new Date(today).getTime();
@@ -1725,6 +2357,7 @@
             resetGame();
             alert('✅ 已重新生成今日题库（100道）！');
         }
+
         function exportBank() {
             if (!state.bank.length) { alert('题库为空'); return; }
             let content = '';
@@ -1738,6 +2371,7 @@
             }
             downloadFile('数学大拔河题库.txt', content);
         }
+
         function downloadFile(filename, text) {
             const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
             const url = URL.createObjectURL(blob);
@@ -1747,6 +2381,7 @@
             a.click();
             URL.revokeObjectURL(url);
         }
+
         function importBankFromFile() {
             const input = document.createElement('input');
             input.type = 'file';
@@ -1766,7 +2401,7 @@
         }
 
         // ============================================================
-        // 准备 & 难度
+        // 准备按钮 & 难度
         // ============================================================
         function updateReadyUI() {
             if (state.readyA) {
@@ -1791,6 +2426,7 @@
             }
             updateModeStatus();
         }
+
         function toggleReady(team) {
             if (state.mode !== 'idle') {
                 alert('比赛进行中，无法更改准备状态');
@@ -1809,6 +2445,7 @@
                 updateReadyUI();
             }
         }
+
         function updateModeStatus() {
             let modeText = '';
             if (state.mode === 'idle') {
@@ -1840,6 +2477,7 @@
                 els.modeBadgeB.textContent = '👨 家长';
             }
         }
+
         function getDifficultyConfig() {
             const d = state.difficulty;
             if (d === 'easy') return { delayMin: 3000, delayMax: 5000, accuracy: 0.60 };
@@ -1849,7 +2487,7 @@
         }
 
         // ============================================================
-        // 游戏逻辑（与之前完全一致，省略部分重复代码，保留关键函数）
+        // 游戏逻辑
         // ============================================================
         function updateTopInfo() {
             els.scoreA.textContent = state.scoreA;
@@ -1859,12 +2497,16 @@
             els.bankInfo.textContent = "题库数量: " + state.bank.length;
             els.timer.textContent = formatTime(state.timerSec);
         }
+
         function getTeamState(team) { return team === "A" ? state.teamA : state.teamB; }
+
         function getTeamQuestion(team) { return team === "A" ? state.activeQuestionA : state.activeQuestionB; }
+
         function setTeamQuestion(team, question) {
             if (team === "A") state.activeQuestionA = question;
             else state.activeQuestionB = question;
         }
+
         function renderProgress() {
             const shiftPx = state.pullOffset * -10;
             document.documentElement.style.setProperty("--rope-shift", shiftPx + "px");
@@ -1884,11 +2526,13 @@
             els.progressText.textContent = "拔河进度: " + text;
             els.progressText.style.color = color || "";
         }
+
         function setFeedback(team, message, type = "") {
             const target = team === "A" ? els.feedbackA : els.feedbackB;
             target.textContent = message;
             target.className = "feedback" + (type ? " " + type : "");
         }
+
         function updateDisplay(team) {
             const t = getTeamState(team);
             const display = team === "A" ? els.displayA : els.displayB;
@@ -1900,39 +2544,209 @@
                 display.textContent = t.selected || "请选择";
             }
         }
+
         function updateQuestionMeta(team, question) {
             const typeText = question ? (question.type === "number" ? "数字题" : "选择题") : "未开始";
             if (team === "A") els.metaAType.textContent = "题型: " + typeText;
             else els.metaBType.textContent = "题型: " + typeText;
         }
-        function createPad(team) { /* 同之前，省略 */ }
-        function createChoices(team) { /* 同之前，省略 */ }
-        function renderInputForTeam(team) { /* 同之前，省略 */ }
-        function stopTimer() { if (state.timerId) { clearInterval(state.timerId); state.timerId = null; } }
+
+        function createPad(team) {
+            const wrap = document.createElement("div");
+            wrap.className = "numeric-pad";
+            const layout = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "清空", "0", "确定"];
+            layout.forEach((key) => {
+                const btn = document.createElement("button");
+                btn.type = "button";
+                btn.className = "pad-btn";
+                btn.textContent = key === "确定" ? "✓" : key === "清空" ? "×" : key;
+                if (key === "清空") btn.classList.add("action-clear");
+                if (key === "确定") btn.classList.add("action-ok");
+                btn.addEventListener("click", () => {
+                    const question = getTeamQuestion(team);
+                    if (!question || question.type !== "number") return;
+                    const teamState = getTeamState(team);
+                    if (teamState.locked) return;
+                    if (state.isAI && team === 'B') return;
+                    if (key === "清空") {
+                        teamState.answer = "";
+                        setFeedback(team, "");
+                        updateDisplay(team);
+                        return;
+                    }
+                    if (key === "确定") {
+                        submitAnswer(team);
+                        return;
+                    }
+                    if (teamState.answer.length >= 8) return;
+                    teamState.answer += key;
+                    updateDisplay(team);
+                });
+                if (state.isAI && team === 'B') btn.disabled = true;
+                wrap.appendChild(btn);
+            });
+            return wrap;
+        }
+
+        function createChoices(team) {
+            const question = getTeamQuestion(team);
+            const outer = document.createElement("div");
+            outer.className = "choice-wrap";
+            const choices = document.createElement("div");
+            choices.className = "choices";
+            const shuffledOptions = [...question.options].sort(() => Math.random() - 0.5);
+            shuffledOptions.forEach((option) => {
+                const btn = document.createElement("button");
+                btn.type = "button";
+                btn.className = "choice-btn";
+                btn.textContent = option;
+                btn.addEventListener("click", () => {
+                    const teamState = getTeamState(team);
+                    if (teamState.locked) return;
+                    if (state.isAI && team === 'B') return;
+                    teamState.selected = option;
+                    updateDisplay(team);
+                    [...choices.children].forEach((node) => node.classList.remove("selected"));
+                    btn.classList.add("selected");
+                    setFeedback(team, "");
+                });
+                if (state.isAI && team === 'B') btn.disabled = true;
+                choices.appendChild(btn);
+            });
+            const actions = document.createElement("div");
+            actions.className = "choice-actions";
+            const clearBtn = document.createElement("button");
+            clearBtn.type = "button";
+            clearBtn.className = "secondary";
+            clearBtn.textContent = "重选";
+            clearBtn.addEventListener("click", () => {
+                const teamState = getTeamState(team);
+                if (teamState.locked) return;
+                if (state.isAI && team === 'B') return;
+                teamState.selected = "";
+                updateDisplay(team);
+                [...choices.children].forEach((node) => node.classList.remove("selected"));
+                setFeedback(team, "");
+            });
+            const okBtn = document.createElement("button");
+            okBtn.type = "button";
+            okBtn.className = "confirm";
+            okBtn.textContent = "提交";
+            okBtn.addEventListener("click", () => {
+                if (state.isAI && team === 'B') return;
+                submitAnswer(team);
+            });
+            if (state.isAI && team === 'B') { clearBtn.disabled = true;
+                okBtn.disabled = true; }
+            actions.append(clearBtn, okBtn);
+            outer.append(choices, actions);
+            return outer;
+        }
+
+        function renderInputForTeam(team) {
+            const input = team === "A" ? els.inputA : els.inputB;
+            const question = getTeamQuestion(team);
+            input.innerHTML = "";
+            if (!question) return;
+            if (state.isAI && team === 'B') {
+                const div = document.createElement('div');
+                div.style.textAlign = 'center';
+                div.style.padding = '20px 0';
+                div.style.fontWeight = '700';
+                div.style.color = '#8e44ad';
+                div.style.fontSize = '20px';
+                div.textContent = '🤖 AI 思考中...';
+                input.appendChild(div);
+                return;
+            }
+            if (question.type === "number") {
+                input.appendChild(createPad(team));
+            } else {
+                input.appendChild(createChoices(team));
+            }
+        }
+
+        function stopTimer() {
+            if (state.timerId) { clearInterval(state.timerId);
+                state.timerId = null; }
+        }
+
         function clearNextQuestionTimer(team) {
             const key = team === "A" ? "nextQuestionTimerA" : "nextQuestionTimerB";
-            if (state[key]) { clearTimeout(state[key]); state[key] = null; }
+            if (state[key]) { clearTimeout(state[key]);
+                state[key] = null; }
         }
+
         function clearAITimer() {
-            if (state.aiTimerId) { clearTimeout(state.aiTimerId); state.aiTimerId = null; }
+            if (state.aiTimerId) { clearTimeout(state.aiTimerId);
+                state.aiTimerId = null; }
             state.aiProcessing = false;
         }
-        function lockAllTeams() { state.teamA.locked = true; state.teamB.locked = true; }
+
+        function lockAllTeams() {
+            state.teamA.locked = true;
+            state.teamB.locked = true;
+        }
+
         function clampScale(scale) { return Math.min(2.0, Math.max(0.5, scale)); }
+
         function updateScale() {
             const safeScale = clampScale(state.uiScale);
             state.uiScale = safeScale;
             document.documentElement.style.setProperty("--ui-scale", safeScale.toFixed(2));
             els.zoomResetBtn.textContent = Math.round(safeScale * 100) + "%";
         }
+
         function changeScale(delta) {
             state.uiScale = clampScale(state.uiScale + delta);
             updateScale();
         }
-        async function toggleFullscreen() { /* 同之前 */ }
-        function updateFullscreenButtonText() { /* 同之前 */ }
-        async function handleFullscreenClick() { /* 同之前 */ }
-        function toggleLandscapeMode() { /* 同之前 */ }
+
+        async function toggleFullscreen() {
+            const element = document.documentElement;
+            const alreadyFullscreen = document.fullscreenElement || document.webkitFullscreenElement;
+            if (alreadyFullscreen) {
+                if (document.exitFullscreen) await document.exitFullscreen();
+                return;
+            }
+            if (!element.requestFullscreen) return;
+            await element.requestFullscreen();
+            try {
+                if (screen.orientation && screen.orientation.lock) {
+                    await screen.orientation.lock('landscape');
+                }
+            } catch (e) {}
+        }
+
+        function updateFullscreenButtonText() {
+            const alreadyFullscreen = document.fullscreenElement || document.webkitFullscreenElement;
+            els.fullscreenBtn.textContent = alreadyFullscreen ? "退出全屏" : "全屏";
+        }
+
+        async function handleFullscreenClick() {
+            try { await toggleFullscreen(); } catch (error) { alert("当前环境不支持全屏或被浏览器拦截。"); }
+            updateFullscreenButtonText();
+        }
+
+        function toggleLandscapeMode() {
+            const app = els.appContainer;
+            app.classList.toggle('force-landscape');
+            const isActive = app.classList.contains('force-landscape');
+            els.landscapeBtn.textContent = isActive ? '退出横屏' : '横屏模式';
+            if (isActive) {
+                try {
+                    if (screen.orientation && screen.orientation.lock) {
+                        screen.orientation.lock('landscape').catch(() => {});
+                    }
+                } catch (e) {}
+            } else {
+                try {
+                    if (screen.orientation && screen.orientation.unlock) {
+                        screen.orientation.unlock();
+                    }
+                } catch (e) {}
+            }
+        }
 
         function buildTimeoutMessage() {
             if (state.scoreA > state.scoreB) {
@@ -1943,7 +2757,20 @@
             }
             return { text: `⏰ 时间到！\n双方平局！`, icon: "🤝" };
         }
-        function createConfetti() { /* 同之前 */ }
+
+        function createConfetti() {
+            const colors = ['#ff2a00', '#0b73eb', '#f3bc86', '#ffd7aa', '#4fb8ff', '#ff9173', '#ffe59b'];
+            for (let i = 0; i < 150; i++) {
+                const conf = document.createElement('div');
+                conf.className = 'confetti';
+                conf.style.left = Math.random() * 100 + 'vw';
+                conf.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                conf.style.animation = `fall ${Math.random() * 3 + 2}s linear forwards`;
+                conf.style.animationDelay = Math.random() * 2 + 's';
+                els.winnerOverlay.appendChild(conf);
+                setTimeout(() => conf.remove(), 5000);
+            }
+        }
 
         // ============================================================
         // 结束 & 提交成绩
@@ -1994,12 +2821,15 @@
                 updateTopInfo();
             }, 1000);
         }
+
         function checkVictory() {
             if (state.pullOffset > MAX_PULL) state.pullOffset = MAX_PULL;
             if (state.pullOffset < -MAX_PULL) state.pullOffset = -MAX_PULL;
             return false;
         }
+
         function normalizeText(value) { return String(value || "").trim(); }
+
         function randomQuestion(team, type) {
             if (!state.bank.length) return null;
             const usedList = team === "A" ? state.usedQuestionsA : state.usedQuestionsB;
@@ -2015,18 +2845,232 @@
         // ============================================================
         // AI 答题
         // ============================================================
-        function aiAnswer() { /* 同之前，省略 */ }
-        function generateWrongAnswer(correct, type) { /* 同之前，省略 */ }
+        function aiAnswer() {
+            if (state.gameEnded || !state.isAI || state.aiProcessing) return;
+            const question = getTeamQuestion('B');
+            if (!question) return;
+            const teamState = getTeamState('B');
+            if (teamState.locked) return;
+
+            state.aiProcessing = true;
+            const config = getDifficultyConfig();
+            const delay = config.delayMin + Math.random() * (config.delayMax - config.delayMin);
+
+            const willCorrect = Math.random() < config.accuracy;
+            let submittedAnswer = '';
+
+            if (question.type === 'number') {
+                submittedAnswer = willCorrect ? question.answer : generateWrongAnswer(question.answer, 'number');
+            } else {
+                if (willCorrect) {
+                    submittedAnswer = question.answer;
+                } else {
+                    const wrongs = question.options.filter(o => o !== question.answer);
+                    if (wrongs.length > 0) {
+                        submittedAnswer = wrongs[Math.floor(Math.random() * wrongs.length)];
+                    } else {
+                        submittedAnswer = question.answer;
+                    }
+                }
+            }
+
+            setFeedback('B', '🤖 AI 思考中...', 'ai-thinking');
+
+            state.aiTimerId = setTimeout(() => {
+                state.aiTimerId = null;
+                state.aiProcessing = false;
+                if (state.gameEnded) return;
+                const q = getTeamQuestion('B');
+                if (!q) return;
+                const ts = getTeamState('B');
+                if (ts.locked) return;
+
+                if (q.type === 'number') {
+                    ts.answer = submittedAnswer;
+                } else {
+                    ts.selected = submittedAnswer;
+                }
+                updateDisplay('B');
+                submitAnswer('B');
+            }, delay);
+        }
+
+        function generateWrongAnswer(correct, type) {
+            const num = Number(correct);
+            if (isNaN(num)) return String(Number(correct) + 1);
+            const offsets = [-1, 1, -2, 2, -5, 5, -10, 10, -3, 3];
+            const shuffled = offsets.sort(() => Math.random() - 0.5);
+            for (let off of shuffled) {
+                const val = num + off;
+                if (val >= 0 && val <= 100 && val !== num) {
+                    return String(val);
+                }
+            }
+            return String(num + 1);
+        }
 
         // ============================================================
         // 加载题目 & 提交答案
         // ============================================================
-        function loadQuestionForTeam(team) { /* 同之前，省略 */ }
-        function submitAnswer(team) { /* 同之前，省略 */ }
+        function loadQuestionForTeam(team) {
+            if (state.gameEnded) return;
+            if (currentRoundType === null) {
+                const types = ['number', 'choice'];
+                const usedList = team === "A" ? state.usedQuestionsA : state.usedQuestionsB;
+                let found = false;
+                for (let t of types) {
+                    const available = state.bank.filter(q => q.type === t && !usedList.includes(q.id));
+                    if (available.length) {
+                        currentRoundType = t;
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found) {
+                    setTeamQuestion(team, null);
+                    const questionEl = team === "A" ? els.questionA : els.questionB;
+                    questionEl.textContent = "🎯 题目已做完";
+                    updateQuestionMeta(team, null);
+                    setFeedback(team, "等待比赛结束...", "ok");
+                    updateDisplay(team);
+                    renderInputForTeam(team);
+                    if (!getTeamQuestion("A") && !getTeamQuestion("B")) {
+                        endMatch(buildTimeoutMessage());
+                    }
+                    return;
+                }
+            }
+
+            let question = randomQuestion(team, currentRoundType);
+            if (!question) {
+                const types = ['number', 'choice'];
+                const otherType = types.find(t => t !== currentRoundType);
+                if (otherType) {
+                    const usedList = team === "A" ? state.usedQuestionsA : state.usedQuestionsB;
+                    const available = state.bank.filter(q => q.type === otherType && !usedList.includes(q.id));
+                    if (available.length) {
+                        currentRoundType = otherType;
+                        question = randomQuestion(team, currentRoundType);
+                    }
+                }
+                if (!question) {
+                    setTeamQuestion(team, null);
+                    const questionEl = team === "A" ? els.questionA : els.questionB;
+                    questionEl.textContent = "🎯 题目已做完";
+                    updateQuestionMeta(team, null);
+                    setFeedback(team, "等待比赛结束...", "ok");
+                    updateDisplay(team);
+                    renderInputForTeam(team);
+                    if (!getTeamQuestion("A") && !getTeamQuestion("B")) {
+                        endMatch(buildTimeoutMessage());
+                    }
+                    return;
+                }
+            }
+
+            const questionEl = team === "A" ? els.questionA : els.questionB;
+            const teamState = getTeamState(team);
+            setTeamQuestion(team, question);
+            if (team === "A") state.roundA += 1;
+            else state.roundB += 1;
+            teamState.answer = "";
+            teamState.selected = "";
+            teamState.locked = false;
+            questionEl.textContent = question.question;
+            updateQuestionMeta(team, question);
+            setFeedback(team, "");
+            updateDisplay(team);
+            renderInputForTeam(team);
+            updateTopInfo();
+
+            if (state.isAI && team === 'B' && !state.gameEnded) {
+                clearAITimer();
+                aiAnswer();
+            }
+        }
+
+        function submitAnswer(team) {
+            if (state.gameEnded) return;
+            const question = getTeamQuestion(team);
+            if (!question) return;
+            const teamState = getTeamState(team);
+            if (teamState.locked) return;
+
+            const submitted = question.type === "number" ?
+                normalizeText(teamState.answer) :
+                normalizeText(teamState.selected);
+
+            if (!submitted) {
+                setFeedback(team, "请先输入或选择答案", "bad");
+                if (!(state.isAI && team === 'B')) playSound('wrong');
+                return;
+            }
+
+            const answer = normalizeText(question.answer);
+            const correct = submitted === answer;
+
+            if (correct) {
+                teamState.locked = true;
+                if (team === "A") {
+                    state.scoreA += 1;
+                    state.pullOffset += 1;
+                } else {
+                    state.scoreB += 1;
+                    state.pullOffset -= 1;
+                }
+                const who = team === "A" ? state.teamNameA : state.teamNameB;
+                setFeedback(team, `✅ 回答正确！${who} 拉动 1 格`, "ok");
+                if (!(state.isAI && team === 'B')) playSound('correct');
+            } else {
+                teamState.answer = "";
+                teamState.selected = "";
+                setFeedback(team, "❌ 回答错误，请再试一次", "bad");
+                if (!(state.isAI && team === 'B')) playSound('wrong');
+                if (state.isAI && team === 'B') {
+                    clearAITimer();
+                    setTimeout(() => {
+                        if (!state.gameEnded && !state.teamB.locked) {
+                            aiAnswer();
+                        }
+                    }, 800);
+                }
+                updateDisplay(team);
+                renderInputForTeam(team);
+                return;
+            }
+
+            updateTopInfo();
+            renderProgress();
+            updateDisplay(team);
+            renderInputForTeam(team);
+
+            if (checkVictory()) return;
+
+            if (correct) {
+                clearNextQuestionTimer(team);
+                const timerKey = team === "A" ? "nextQuestionTimerA" : "nextQuestionTimerB";
+                state[timerKey] = setTimeout(() => {
+                    state[timerKey] = null;
+                    if (!state.gameEnded && !checkVictory()) {
+                        loadQuestionForTeam(team);
+                    }
+                }, 900);
+            }
+        }
 
         // ============================================================
-        // 登录 & 开始（核心修改）
+        // 登录 & 开始
         // ============================================================
+        function showLogin() {
+            els.loginOverlay.classList.remove('hidden');
+            els.loginName.value = '';
+            els.loginError.textContent = '';
+            els.loginSuccess.textContent = '';
+            els.loginBtn.disabled = false;
+            els.loginBtn.textContent = '✅ 验证并开始';
+            els.loginName.focus();
+        }
+
         async function handleLogin() {
             const classVal = els.loginClass.value;
             const nameVal = els.loginName.value.trim();
@@ -2060,11 +3104,10 @@
                 els.loginSuccess.textContent = `✅ 验证通过！欢迎 ${classVal} ${nameVal}`;
                 els.loginBtn.textContent = '✅ 已验证';
 
-                // 隐藏登录框并开始比赛
                 setTimeout(() => {
                     els.loginOverlay.classList.add('hidden');
                     doStartRound();
-                }, 600);
+                }, 500);
 
             } catch (e) {
                 els.loginError.textContent = '⚠️ 网络连接失败，请稍后重试';
@@ -2137,7 +3180,7 @@
         }
 
         // ============================================================
-        // 重置（修改：隐藏登录框）
+        // 重置
         // ============================================================
         function resetGame() {
             stopTimer();
@@ -2189,17 +3232,7 @@
             updateTopInfo();
             updateReadyUI();
             updateModeStatus();
-
-            // 重置时隐藏登录框（如果未登录则保持隐藏）
-            els.loginOverlay.classList.add('hidden');
-            // 但不清除登录状态，让用户可重新开始（若已登录则跳过登录）
         }
-
-        // ============================================================
-        // 批量录入 & 渲染题库
-        // ============================================================
-        function processBatchInput() { /* 同之前 */ }
-        function renderBank() { /* 同之前 */ }
 
         // ============================================================
         // 排行榜
@@ -2207,14 +3240,17 @@
         async function renderRank() {
             const container = els.rankList;
             container.innerHTML = '<div class="rank-loading">加载中...</div>';
+
             try {
                 const submissions = await fetchRank();
                 if (!submissions || submissions.length === 0) {
                     container.innerHTML = '<div class="rank-empty">暂无记录，快来挑战吧！</div>';
                     return;
                 }
+
                 const sorted = [...submissions].sort((a, b) => (b.score || 0) - (a.score || 0));
                 const top = sorted.slice(0, 20);
+
                 let html = '';
                 top.forEach((item, index) => {
                     const cls = item.class || '未知班级';
@@ -2224,6 +3260,7 @@
                     if (index === 0) numClass += ' gold';
                     else if (index === 1) numClass += ' silver';
                     else if (index === 2) numClass += ' bronze';
+
                     html += `
                         <div class="rank-item">
                             <span class="${numClass}">${index + 1}</span>
@@ -2241,78 +3278,165 @@
         }
 
         // ============================================================
+        // 批量录入 & 渲染题库
+        // ============================================================
+        function processBatchInput() {
+            const text = els.batchInput.value.trim();
+            if (!text) { alert("请输入题目内容。"); return; }
+            const lines = text.split("\n");
+            let added = 0;
+            for (let i = 0; i < lines.length; i++) {
+                const line = lines[i].trim();
+                if (!line) continue;
+                const parts = line.split("/").map(p => p.trim()).filter(Boolean);
+                if (parts.length < 2) {
+                    alert(`第 ${i+1} 行格式不正确，跳过。\n内容：${line}`);
+                    continue;
+                }
+                const question = parts[0];
+                const answer = parts[1];
+                const isChoice = parts.length > 2;
+                const newQuestion = {
+                    id: crypto.randomUUID(),
+                    type: isChoice ? "choice" : "number",
+                    question,
+                    answer,
+                    options: isChoice ? parts.slice(1) : [],
+                    difficulty: "未设置"
+                };
+                state.bank.push(newQuestion);
+                added++;
+            }
+            if (added > 0) {
+                saveBank();
+                alert(`✅ 成功批量录入 ${added} 道题目！`);
+                els.batchInput.value = "";
+            }
+        }
+
+        function renderBank() {
+            updateTopInfo();
+            if (!state.bank.length) {
+                els.bankList.innerHTML = '<div class="empty">📭 题库为空，请点击「重新生成今日题库」或手动录入。</div>';
+                return;
+            }
+            els.bankList.innerHTML = "";
+            state.bank.forEach((item) => {
+                const card = document.createElement("div");
+                card.className = "bank-item";
+                const left = document.createElement("div");
+                const title = document.createElement("h4");
+                title.textContent = item.question;
+                const detail = document.createElement("p");
+                const optionText = item.type === "choice" ? "\n选项: " + item.options.join(" / ") : "";
+                detail.textContent = "答案: " + item.answer + optionText;
+                left.append(title, detail);
+                const right = document.createElement("div");
+                right.className = "item-side";
+                const type = document.createElement("div");
+                type.className = "type-tag " + item.type;
+                type.textContent = item.type === "number" ? "数字题" : "选择题";
+                const del = document.createElement("button");
+                del.type = "button";
+                del.className = "tiny-btn";
+                del.textContent = "删除";
+                del.addEventListener("click", () => {
+                    state.bank = state.bank.filter(q => q.id !== item.id);
+                    saveBank();
+                });
+                right.append(type, del);
+                card.append(left, right);
+                els.bankList.appendChild(card);
+            });
+        }
+
+        // ============================================================
         // 旋转提示控制
         // ============================================================
         let rotateOverlayDismissed = false;
-        function checkOrientation() { /* 同之前 */ }
-        function dismissRotateOverlay() { /* 同之前 */ }
+
+        function checkOrientation() {
+            // 桌面宽屏不提示
+            if (window.innerWidth >= 1024 && window.innerHeight < window.innerWidth) {
+                els.rotateOverlay.classList.remove('show');
+                return;
+            }
+            if (rotateOverlayDismissed) {
+                els.rotateOverlay.classList.remove('show');
+                return;
+            }
+            const isPortrait = window.innerHeight > window.innerWidth;
+            if (isPortrait) {
+                els.rotateOverlay.classList.add('show');
+            } else {
+                els.rotateOverlay.classList.remove('show');
+            }
+        }
+
+        function dismissRotateOverlay() {
+            rotateOverlayDismissed = true;
+            els.rotateOverlay.classList.remove('show');
+        }
 
         // ============================================================
-        // 事件绑定（关键：开始按钮触发登录）
+        // 事件绑定
         // ============================================================
-        // 登录
         els.loginBtn.addEventListener('click', handleLogin);
         els.loginName.addEventListener('keydown', (e) => {
             if (e.key === 'Enter') handleLogin();
         });
 
-        // 准备按钮
         els.readyBtnA.addEventListener('click', () => toggleReady('A'));
         els.readyBtnB.addEventListener('click', () => toggleReady('B'));
 
-        // 难度
         els.difficultySelect.addEventListener('change', function() {
             state.difficulty = this.value;
-            if (state.mode === 'idle') updateModeStatus();
+            if (state.mode === 'idle') {
+                updateModeStatus();
+            }
         });
 
-        // ----- 开始按钮（修改：点击后判断登录状态，未登录则显示登录框）-----
         els.startBtn.addEventListener('click', () => {
-            if (state.gameEnded) {
-                alert("比赛已结束，请先点击“重置比赛”再开始。");
+            if (state.mode !== 'idle' && !state.gameEnded) {
                 return;
             }
-            if (!state.isLoggedIn) {
-                // 显示登录框，并清空之前的错误/成功信息
-                els.loginError.textContent = '';
-                els.loginSuccess.textContent = '';
-                els.loginBtn.disabled = false;
-                els.loginBtn.textContent = '✅ 验证并开始';
-                els.loginOverlay.classList.remove('hidden');
+            if (state.isLoggedIn) {
+                doStartRound();
                 return;
             }
-            // 已登录，直接开始
-            doStartRound();
+            showLogin();
         });
 
         els.resetBtn.addEventListener('click', resetGame);
 
-        // 全屏 & 横屏
         els.fullscreenBtn.addEventListener('click', handleFullscreenClick);
         els.landscapeBtn.addEventListener('click', toggleLandscapeMode);
         els.soundBtn.addEventListener('click', toggleSound);
 
-        // 缩放
         els.zoomOutBtn.addEventListener('click', () => changeScale(-0.05));
         els.zoomInBtn.addEventListener('click', () => changeScale(0.05));
-        els.zoomResetBtn.addEventListener('click', () => { state.uiScale = 1; updateScale(); });
+        els.zoomResetBtn.addEventListener('click', () => { state.uiScale = 1;
+            updateScale(); });
 
-        // 倒计时
         els.countdownInput.addEventListener('change', () => {
             const value = Number(els.countdownInput.value);
             const safeValue = Number.isFinite(value) ? Math.min(1800, Math.max(10, Math.round(value))) : 60;
             els.countdownInput.value = String(safeValue);
             state.durationSec = safeValue;
-            if (!state.timerId) { state.timerSec = safeValue; updateTopInfo(); }
+            if (!state.timerId) { state.timerSec = safeValue;
+                updateTopInfo(); }
         });
+
         function updateTimerInput(delta) {
             const current = Number(els.countdownInput.value) || 60;
             const next = current + delta;
             els.countdownInput.value = String(next);
             els.countdownInput.dispatchEvent(new Event('change'));
         }
+
         function setupContinuousTimerControl(btn, delta) {
-            let intervalId = null, timeoutId = null;
+            let intervalId = null,
+                timeoutId = null;
             const start = (e) => {
                 if (e.type === 'touchstart') e.preventDefault();
                 updateTimerInput(delta);
@@ -2335,7 +3459,6 @@
         setupContinuousTimerControl(els.timerMinusBtn, -10);
         setupContinuousTimerControl(els.timerPlusBtn, 10);
 
-        // 设置
         els.settingsBtn.addEventListener('click', () => els.settingsModal.classList.add('show'));
         els.closeSettingsBtn.addEventListener('click', () => els.settingsModal.classList.remove('show'));
         els.settingsModal.addEventListener('click', (event) => {
@@ -2375,10 +3498,8 @@
             updateModeStatus();
         });
 
-        // 排行榜刷新
         els.refreshRankBtn.addEventListener('click', renderRank);
 
-        // 旋转
         els.rotateCloseBtn.addEventListener('click', dismissRotateOverlay);
         let orientationCheckTimer = null;
         window.addEventListener('resize', () => {
@@ -2398,20 +3519,20 @@
         els.countdownInput.value = String(state.durationSec);
         updateScale();
         updateFullscreenButtonText();
-        resetGame(); // 会隐藏登录框
+        resetGame();
         els.soundBtn.textContent = '🔊';
+        // 默认启用横屏模式，按钮显示“退出横屏”
         els.appContainer.classList.add('force-landscape');
         els.landscapeBtn.textContent = '退出横屏';
+        // 竖屏时自动显示旋转提示
         setTimeout(checkOrientation, 500);
         setTimeout(checkOrientation, 1200);
         updateReadyUI();
         updateModeStatus();
 
-        // 登录框默认隐藏（已在 resetGame 中隐藏）
-        // 预加载白名单
-        fetchWhitelist().catch(() => {});
-        // 加载排行榜
+        els.loginOverlay.classList.add('hidden');
         renderRank();
+        fetchWhitelist().catch(() => {});
     </script>
 </body>
 </html>
