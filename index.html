@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>数学大拔河 · 班级对战</title>
+    <title>数学大拔河 · 亲子对战</title>
     <style>
         /* ===== 基础样式 ===== */
         :root {
@@ -1596,15 +1596,15 @@
             </div>
 
             <div class="layout">
-                <!-- 蓝队 (孩子) -->
+                <!-- 蓝队 (家长) -->
                 <section class="card team-card left" id="teamA">
                     <div class="team-header blue">
                         <div class="left-group">
                             <span class="team-name" id="nameDisplayA">蓝队</span>
-                            <span class="mode-badge" id="modeBadgeA">👶 孩子</span>
+                            <span class="mode-badge" id="modeBadgeA">👨 家长</span>
                         </div>
                         <div class="right-group">
-                            <button class="ready-btn ready" id="readyBtnA">✅ 已准备</button>
+                            <button class="ready-btn not-ready" id="readyBtnA">⏳ 未准备</button>
                             <div class="score-dot" id="scoreA">0</div>
                         </div>
                     </div>
@@ -1623,12 +1623,12 @@
                 <section class="card arena">
                     <div class="arena-top">
                         <div class="arena-stat">
-                            <div class="label" id="scoreLabelA">蓝队分数</div>
+                            <div class="label" id="scoreLabelA">家长分数</div>
                             <div class="value" id="arenaScoreA">0</div>
                         </div>
                         <div class="timer" id="timer">00:00</div>
                         <div class="arena-stat right">
-                            <div class="label" id="scoreLabelB">红队分数</div>
+                            <div class="label" id="scoreLabelB">孩子分数</div>
                             <div class="value" id="arenaScoreB">0</div>
                         </div>
                     </div>
@@ -1670,15 +1670,15 @@
                     </div>
                 </section>
 
-                <!-- 红队 (家长) -->
+                <!-- 红队 (孩子) -->
                 <section class="card team-card right" id="teamB">
                     <div class="team-header red">
                         <div class="left-group">
                             <span class="team-name" id="nameDisplayB">红队</span>
-                            <span class="mode-badge" id="modeBadgeB">👨 家长</span>
+                            <span class="mode-badge" id="modeBadgeB">👶 孩子</span>
                         </div>
                         <div class="right-group">
-                            <button class="ready-btn not-ready" id="readyBtnB">⏳ 未准备</button>
+                            <button class="ready-btn ready" id="readyBtnB">✅ 已准备</button>
                             <div class="score-dot" id="scoreB">0</div>
                         </div>
                     </div>
@@ -1700,7 +1700,7 @@
     <div class="login-overlay hidden" id="loginOverlay">
         <div class="login-panel">
             <h2>📚 数学大拔河</h2>
-            <div class="sub">请输入你的班级和姓名，验证身份后开始比赛</div>
+            <div class="sub">请输入孩子的班级和姓名，验证身份后开始比赛</div>
             <div class="field">
                 <label for="loginClass">班级</label>
                 <select id="loginClass">
@@ -1714,8 +1714,8 @@
                 </select>
             </div>
             <div class="field">
-                <label for="loginName">姓名</label>
-                <input type="text" id="loginName" placeholder="请输入你的姓名" maxlength="20" />
+                <label for="loginName">孩子姓名</label>
+                <input type="text" id="loginName" placeholder="请输入孩子的姓名" maxlength="20" />
             </div>
             <button class="login-btn" id="loginBtn">✅ 验证并开始</button>
             <div class="login-error" id="loginError"></div>
@@ -1765,11 +1765,11 @@
                 <div class="form-card" style="grid-column:1/-1;">
                     <div style="display:flex;gap:24px;margin-bottom:10px;">
                         <div class="field" style="width:240px;">
-                            <label for="teamNameInputA">左侧队伍名称</label>
+                            <label for="teamNameInputA">家长队伍名称</label>
                             <input type="text" id="teamNameInputA" value="蓝队" />
                         </div>
                         <div class="field" style="width:240px;">
-                            <label for="teamNameInputB">右侧队伍名称</label>
+                            <label for="teamNameInputB">孩子队伍名称</label>
                             <input type="text" id="teamNameInputB" value="红队" />
                         </div>
                     </div>
@@ -2187,8 +2187,9 @@
             uiScale: 1,
             teamA: { answer: "", selected: "", locked: false },
             teamB: { answer: "", selected: "", locked: false },
-            readyA: true,
-            readyB: false,
+            // 角色互换：蓝队(家长)默认未准备，红队(孩子)默认已准备
+            readyA: false,
+            readyB: true,
             difficulty: 'medium',
             mode: 'idle',
             isAI: false,
@@ -2404,6 +2405,7 @@
         // 准备按钮 & 难度
         // ============================================================
         function updateReadyUI() {
+            // 蓝队（家长）
             if (state.readyA) {
                 els.readyBtnA.className = 'ready-btn ready';
                 els.readyBtnA.textContent = '✅ 已准备';
@@ -2411,6 +2413,7 @@
                 els.readyBtnA.className = 'ready-btn not-ready';
                 els.readyBtnA.textContent = '⏳ 未准备';
             }
+            // 红队（孩子）
             if (state.isAI) {
                 els.readyBtnB.className = 'ready-btn ai-mode';
                 els.readyBtnB.textContent = '🤖 AI对手';
@@ -2434,13 +2437,11 @@
             }
             if (team === 'A') {
                 state.readyA = !state.readyA;
-                if (!state.readyA && state.isAI) {
-                    state.isAI = false;
-                    state.readyB = false;
-                }
+                // 如果家长取消准备，且当前是AI模式，则恢复双人模式？但逻辑上：若家长未准备，则自动AI，家长准备则双人。
+                // 这里只切换状态，模式判断在doStartRound中根据readyA和readyB决定。
                 updateReadyUI();
             } else if (team === 'B') {
-                if (state.isAI) return;
+                if (state.isAI) return; // AI模式下孩子按钮禁用，不会触发
                 state.readyB = !state.readyB;
                 updateReadyUI();
             }
@@ -2452,29 +2453,29 @@
                 if (state.isAI) {
                     modeText = '🤖 单人模式 (孩子 vs AI)';
                 } else if (state.readyA && state.readyB) {
-                    modeText = '👨‍👦 双人模式 (孩子 vs 家长)';
-                } else if (state.readyA && !state.readyB) {
-                    modeText = '⏳ 等待家长准备… (可单人)';
+                    modeText = '👨‍👦 双人模式 (家长 vs 孩子)';
                 } else if (!state.readyA && state.readyB) {
+                    modeText = '⏳ 等待家长准备… (可单人)';
+                } else if (state.readyA && !state.readyB) {
                     modeText = '⏳ 等待孩子准备…';
                 } else {
                     modeText = '⏳ 请双方准备';
                 }
             } else if (state.mode === 'dual') {
-                modeText = '👨‍👦 双人拔河';
+                modeText = '👨‍👦 双人拔河 (家长 vs 孩子)';
             } else if (state.mode === 'single') {
                 modeText = '🤖 单人拔河 (孩子 vs AI)';
             }
             els.modeStatus.textContent = '模式: ' + modeText;
             if (state.mode === 'single') {
-                els.modeBadgeA.textContent = '👶 孩子';
+                els.modeBadgeA.textContent = '👨 家长';
                 els.modeBadgeB.textContent = '🤖 AI';
             } else if (state.mode === 'dual') {
-                els.modeBadgeA.textContent = '👶 孩子';
-                els.modeBadgeB.textContent = '👨 家长';
+                els.modeBadgeA.textContent = '👨 家长';
+                els.modeBadgeB.textContent = '👶 孩子';
             } else {
-                els.modeBadgeA.textContent = '👶 孩子';
-                els.modeBadgeB.textContent = '👨 家长';
+                els.modeBadgeA.textContent = '👨 家长';
+                els.modeBadgeB.textContent = '👶 孩子';
             }
         }
 
@@ -2750,10 +2751,10 @@
 
         function buildTimeoutMessage() {
             if (state.scoreA > state.scoreB) {
-                return { text: `⏰ 时间到！\n${state.teamNameA} 获胜！`, icon: "🥇" };
+                return { text: `⏰ 时间到！\n${state.teamNameA}（家长）获胜！`, icon: "🥇" };
             }
             if (state.scoreB > state.scoreA) {
-                return { text: `⏰ 时间到！\n${state.teamNameB} 获胜！`, icon: "🥇" };
+                return { text: `⏰ 时间到！\n${state.teamNameB}（孩子）获胜！`, icon: "🥇" };
             }
             return { text: `⏰ 时间到！\n双方平局！`, icon: "🤝" };
         }
@@ -2773,7 +2774,7 @@
         }
 
         // ============================================================
-        // 结束 & 提交成绩
+        // 结束 & 提交成绩（提交孩子分数）
         // ============================================================
         async function endMatch(messageObj) {
             if (state.gameEnded) return;
@@ -2794,8 +2795,9 @@
             renderProgress();
             updateModeStatus();
 
+            // 提交孩子（红队）的分数
             if (state.isLoggedIn && !state.scoreSubmitted) {
-                const finalScore = state.scoreA;
+                const finalScore = state.scoreB; // 孩子分数
                 try {
                     await submitScore(state.userClass, state.userName, finalScore);
                     state.scoreSubmitted = true;
@@ -2843,7 +2845,7 @@
         }
 
         // ============================================================
-        // AI 答题
+        // AI 答题（针对红队孩子）
         // ============================================================
         function aiAnswer() {
             if (state.gameEnded || !state.isAI || state.aiProcessing) return;
@@ -3018,7 +3020,7 @@
                     state.scoreB += 1;
                     state.pullOffset -= 1;
                 }
-                const who = team === "A" ? state.teamNameA : state.teamNameB;
+                const who = team === "A" ? state.teamNameA + "(家长)" : state.teamNameB + "(孩子)";
                 setFeedback(team, `✅ 回答正确！${who} 拉动 1 格`, "ok");
                 if (!(state.isAI && team === 'B')) playSound('correct');
             } else {
@@ -3079,7 +3081,7 @@
             els.loginSuccess.textContent = '';
 
             if (!nameVal) {
-                els.loginError.textContent = '⚠️ 请输入姓名';
+                els.loginError.textContent = '⚠️ 请输入孩子姓名';
                 return;
             }
 
@@ -3127,31 +3129,38 @@
                 return;
             }
 
-            if (!state.readyA) {
-                alert(`👶 请先让 ${state.teamNameA}（孩子）点击“准备”按钮！`);
+            // 孩子默认已准备，检查孩子是否准备
+            if (!state.readyB) {
+                alert(`👶 请先让孩子（${state.teamNameB}）点击“准备”按钮！`);
                 return;
             }
 
+            // 判断模式：家长准备 + 孩子准备 = 双人；家长未准备 + 孩子准备 = 单人AI
             if (state.readyA && state.readyB) {
                 state.mode = 'dual';
                 state.isAI = false;
+                els.readyBtnA.className = 'ready-btn ready';
+                els.readyBtnA.textContent = '✅ 已准备';
+                els.readyBtnA.disabled = true;
                 els.readyBtnB.className = 'ready-btn ready';
                 els.readyBtnB.textContent = '✅ 已准备';
                 els.readyBtnB.disabled = true;
-            } else if (state.readyA && !state.readyB) {
+            } else if (!state.readyA && state.readyB) {
                 state.mode = 'single';
                 state.isAI = true;
+                els.readyBtnA.className = 'ready-btn not-ready';
+                els.readyBtnA.textContent = '⏳ 未准备 (AI)';
+                els.readyBtnA.disabled = true;
                 els.readyBtnB.className = 'ready-btn ai-mode';
                 els.readyBtnB.textContent = '🤖 AI对手';
                 els.readyBtnB.disabled = true;
+                // 强制红队为已准备（AI模式）
                 state.readyB = true;
             } else {
-                alert('请至少让一方准备！');
+                alert('请至少让孩子准备！');
                 return;
             }
 
-            els.readyBtnA.disabled = true;
-            els.readyBtnB.disabled = true;
             els.difficultySelect.disabled = true;
 
             currentRoundType = null;
@@ -3209,8 +3218,9 @@
             state.aiProcessing = false;
             clearAITimer();
 
-            state.readyA = true;
-            state.readyB = false;
+            // 恢复准备状态：家长未准备，孩子已准备
+            state.readyA = false;
+            state.readyB = true;
             els.readyBtnA.disabled = false;
             els.readyBtnB.disabled = false;
             els.difficultySelect.disabled = false;
@@ -3264,7 +3274,6 @@
                     }
                 }
 
-                // 转为数组并按分数降序排序
                 const bestList = Array.from(bestMap.values());
                 const sorted = bestList.sort((a, b) => b.score - a.score);
                 const top = sorted.slice(0, 20);
