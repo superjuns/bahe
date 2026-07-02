@@ -3,26 +3,20 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>数学大拔河 · 亲子对战</title>
+    <title>数学大拔河</title>
     <style>
-        /* ===== 基础样式 ===== */
         :root {
             --bg: #e9edf2;
-            --panel: #ffffff;
-            --line: #d8dee8;
+            --panel: #fff;
             --blue: #1f8fff;
-            --blue-dark: #0b6fce;
             --red: #ff4e42;
-            --red-dark: #d93c33;
             --text: #1f2d3d;
             --muted: #6e7d91;
-            --success: #12a150;
-            --danger: #f05a4f;
-            --shadow: 0 10px 24px rgba(25, 45, 76, 0.12);
+            --shadow: 0 10px 24px rgba(25, 45, 76, .12);
             --radius: 22px;
             --ui-scale: 1;
-            --ready-green: #2ecc71;
-            --ready-grey: #b0b8c4;
+            --green: #2ecc71;
+            --grey: #b0b8c4;
         }
         * {
             box-sizing: border-box;
@@ -56,14 +50,14 @@
             cursor: pointer;
         }
         .app {
-            width: min(1480px, calc((100vw - 40px) / var(--ui-scale)));
-            height: min(920px, calc((100dvh - 36px) / var(--ui-scale)));
-            padding: 14px 14px 18px;
+            width: min(1480px, calc((100vw - 40px)/var(--ui-scale)));
+            height: min(920px, calc((100dvh - 36px)/var(--ui-scale)));
+            padding: 14px;
             display: flex;
             flex-direction: column;
             transform: scale(var(--ui-scale));
             transform-origin: center center;
-            transition: transform 0.16s ease;
+            transition: transform .16s;
             position: relative;
         }
         .topbar {
@@ -85,7 +79,7 @@
             color: var(--text);
             border-radius: 999px;
             padding: 10px 16px;
-            box-shadow: 0 6px 16px rgba(22, 42, 74, 0.12);
+            box-shadow: 0 6px 16px rgba(22, 42, 74, .12);
             font-weight: 700;
             white-space: nowrap;
         }
@@ -94,15 +88,11 @@
             color: #fff;
         }
         .pill-btn:disabled {
-            opacity: 0.6;
+            opacity: .6;
             cursor: not-allowed;
             background: #cdd4df;
             color: #7b8a9d;
             box-shadow: none;
-        }
-        .pill-btn.primary:disabled {
-            background: linear-gradient(135deg, #a1cbf2, #b8ddf5);
-            color: #fff;
         }
         .timer-config {
             display: inline-flex;
@@ -126,9 +116,8 @@
             font-size: 18px;
             display: grid;
             place-items: center;
-            transition: background 0.12s;
+            transition: background .12s;
             user-select: none;
-            -webkit-user-select: none;
         }
         .timer-controls button:hover {
             background: #e4ebf3;
@@ -139,18 +128,13 @@
             outline: none;
             text-align: center;
             font-weight: 800;
-            color: var(--text);
             background: transparent;
             padding: 6px 0;
             -moz-appearance: textfield;
         }
-        .timer-config input::-webkit-outer-spin-button,
         .timer-config input::-webkit-inner-spin-button {
             -webkit-appearance: none;
-            margin: 0;
         }
-
-        /* 难度选择 */
         .difficulty-select {
             display: inline-flex;
             align-items: center;
@@ -169,12 +153,10 @@
             border: 0;
             background: transparent;
             font-weight: 800;
-            color: var(--text);
             padding: 6px 4px;
             outline: none;
             font-size: 15px;
         }
-
         .layout {
             display: grid;
             grid-template-columns: 360px minmax(360px, 1fr) 360px;
@@ -237,20 +219,18 @@
             border-radius: 999px;
             display: grid;
             place-items: center;
-            background: rgba(255, 255, 255, 0.92);
+            background: rgba(255, 255, 255, .92);
             color: var(--text);
             font-weight: 900;
             font-size: 22px;
-            box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.5);
+            box-shadow: inset 0 0 0 2px rgba(255, 255, 255, .5);
         }
-
-        /* 准备按钮 */
         .ready-btn {
             padding: 4px 12px;
             border-radius: 999px;
             font-size: 14px;
             font-weight: 800;
-            transition: all 0.2s ease;
+            transition: all .2s;
             white-space: nowrap;
             border: 2px solid transparent;
             min-height: 34px;
@@ -259,12 +239,12 @@
             gap: 4px;
         }
         .ready-btn.ready {
-            background: var(--ready-green);
+            background: var(--green);
             color: #fff;
             border-color: #27ae60;
         }
         .ready-btn.not-ready {
-            background: var(--ready-grey);
+            background: var(--grey);
             color: #4a5568;
             border-color: #9aa5b3;
         }
@@ -273,19 +253,15 @@
             color: #fff;
             border-color: #6c3483;
             cursor: default;
-            opacity: 0.9;
+            opacity: .9;
         }
         .ready-btn:disabled {
-            opacity: 0.6;
+            opacity: .6;
             cursor: not-allowed;
         }
         .ready-btn:not(:disabled):hover {
             transform: scale(1.04);
         }
-        .ready-btn:not(:disabled):active {
-            transform: scale(0.96);
-        }
-
         .team-body {
             padding: 14px;
             display: flex;
@@ -339,7 +315,7 @@
             font-weight: 900;
             color: #5b6877;
             letter-spacing: 2px;
-            font-family: "Bahnschrift", "Arial Black", "Trebuchet MS", sans-serif;
+            font-family: "Bahnschrift", "Arial Black", sans-serif;
         }
         .feedback {
             min-height: 30px;
@@ -348,10 +324,10 @@
             font-weight: 700;
         }
         .feedback.ok {
-            color: var(--success);
+            color: #12a150;
         }
         .feedback.bad {
-            color: var(--danger);
+            color: #f05a4f;
         }
         .feedback.ai-thinking {
             color: #8e44ad;
@@ -371,12 +347,12 @@
             font-size: 26px;
             font-weight: 900;
             box-shadow: inset 0 0 0 2px #ededee;
-            transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.12s ease;
+            transition: transform .12s, box-shadow .12s, background .12s;
         }
         .pad-btn:hover,
         .choice-btn:hover {
             transform: translateY(-1px);
-            box-shadow: inset 0 0 0 2px #dce3ec, 0 8px 18px rgba(22, 42, 74, 0.08);
+            box-shadow: inset 0 0 0 2px #dce3ec, 0 8px 18px rgba(22, 42, 74, .08);
         }
         .pad-btn.action-clear {
             background: linear-gradient(135deg, #f66a4f, #e13a31);
@@ -390,7 +366,7 @@
         }
         .pad-btn:disabled,
         .choice-btn:disabled {
-            opacity: 0.5;
+            opacity: .5;
             cursor: not-allowed;
             transform: none !important;
         }
@@ -449,7 +425,7 @@
             padding: 18px 16px;
             border-radius: 20px;
             background: linear-gradient(180deg, #fcfcfd, #eff2f7);
-            box-shadow: inset 0 0 0 2px rgba(217, 224, 232, 0.8);
+            box-shadow: inset 0 0 0 2px rgba(217, 224, 232, .8);
         }
         .arena-stat {
             text-align: center;
@@ -482,8 +458,8 @@
             min-height: 360px;
             border-radius: 24px;
             overflow: hidden;
-            background: linear-gradient(180deg, #ffffff 0%, #f7f8fa 45%, #f1f3f6 100%);
-            box-shadow: inset 0 0 0 2px rgba(223, 228, 235, 0.9);
+            background: linear-gradient(180deg, #fff 0, #f7f8fa 45%, #f1f3f6 100%);
+            box-shadow: inset 0 0 0 2px rgba(223, 228, 235, .9);
         }
         .center-line {
             position: absolute;
@@ -491,7 +467,7 @@
             top: 24px;
             bottom: 24px;
             width: 0;
-            border-left: 3px dashed rgba(74, 88, 107, 0.45);
+            border-left: 3px dashed rgba(74, 88, 107, .45);
             transform: translateX(-50%);
         }
         .ground {
@@ -500,7 +476,7 @@
             right: 0;
             bottom: 120px;
             height: 5px;
-            background: rgba(55, 77, 103, 0.2);
+            background: rgba(55, 77, 103, .2);
         }
         .rope-wrap {
             position: absolute;
@@ -547,7 +523,7 @@
             width: 20px;
             height: 58px;
             transform: translate(-50%, -50%);
-            transition: left 0.35s ease;
+            transition: left .35s;
         }
         .rope-marker::before {
             content: "";
@@ -575,7 +551,7 @@
             display: flex;
             gap: 34px;
             transform: translateY(-50%);
-            transition: transform 0.35s ease;
+            transition: transform .35s;
         }
         .team-group.left {
             left: calc(50% - 280px + var(--group-shift, 0px));
@@ -588,14 +564,15 @@
             height: 150px;
             position: relative;
             z-index: 5;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
         }
         .player.blue {
-            background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 100 150" xmlns="http://www.w3.org/2000/svg"><path d="M 35,100 L 25,140" stroke="%231a2842" stroke-width="14" stroke-linecap="round"/><path d="M 15,140 h 20 v 8 h -20 z" fill="%23fff" rx="4"/><path d="M 55,100 L 65,140" stroke="%232a3852" stroke-width="14" stroke-linecap="round"/><path d="M 55,140 h 20 v 8 h -20 z" fill="%23fff" rx="4"/><path d="M 25,55 Q 45,45 65,55 L 60,105 L 30,105 Z" fill="%230b73eb"/><path d="M 25,55 Q 45,45 65,55 L 55,65 Q 45,75 35,65 Z" fill="%23fff"/><path d="M 50,65 L 95,75" stroke="%23ffd7aa" stroke-width="12" stroke-linecap="round"/><circle cx="45" cy="30" r="24" fill="%23ffd7aa"/><path d="M 22,42 C 10,25 25,2 48,4 C 65,5 70,15 68,24 Q 60,18 50,22 Q 40,26 35,32 Q 30,38 22,42 Z" fill="%23333"/><path d="M 24,35 Q 12,28 10,38 Q 16,42 22,40 Z" fill="%23333"/><circle cx="32" cy="34" r="4.5" fill="%23f3bc86"/><path d="M 52,27 Q 55,24 58,27" stroke="%23222" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M 64,27 Q 67,24 70,27" stroke="%23222" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M 53,31 Q 55,29 57,31" stroke="%23222" stroke-width="2.5" fill="none" stroke-linecap="round"/><path d="M 65,31 Q 67,29 69,31" stroke="%23222" stroke-width="2.5" fill="none" stroke-linecap="round"/><path d="M 59,38 Q 61,42 63,38" stroke="%23222" stroke-width="2" fill="none" stroke-linecap="round"/><circle cx="51" cy="35" r="3.5" fill="%23ff9999" opacity="0.7"/><circle cx="71" cy="35" r="3.5" fill="%23ff9999" opacity="0.7"/><path d="M 35,65 L 55,65 L 45,90 Z" fill="%23ff2a00"/><path d="M 35,65 L 65,85" stroke="%23f3bc86" stroke-width="12" stroke-linecap="round"/></svg>') no-repeat center;
-            background-size: contain;
+            background-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 100 150" xmlns="http://www.w3.org/2000/svg"><path d="M35,100L25,140" stroke="%231a2842" stroke-width="14" stroke-linecap="round"/><path d="M15,140h20v8h-20z" fill="%23fff"/><path d="M55,100L65,140" stroke="%232a3852" stroke-width="14" stroke-linecap="round"/><path d="M55,140h20v8h-20z" fill="%23fff"/><path d="M25,55Q45,45,65,55L60,105L30,105Z" fill="%230b73eb"/><path d="M25,55Q45,45,65,55L55,65Q45,75,35,65Z" fill="%23fff"/><path d="M50,65L95,75" stroke="%23ffd7aa" stroke-width="12" stroke-linecap="round"/><circle cx="45" cy="30" r="24" fill="%23ffd7aa"/><path d="M22,42C10,25,25,2,48,4C65,5,70,15,68,24Q60,18,50,22Q40,26,35,32Q30,38,22,42Z" fill="%23333"/><path d="M24,35Q12,28,10,38Q16,42,22,40Z" fill="%23333"/><circle cx="32" cy="34" r="4.5" fill="%23f3bc86"/><path d="M52,27Q55,24,58,27" stroke="%23222" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M64,27Q67,24,70,27" stroke="%23222" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M53,31Q55,29,57,31" stroke="%23222" stroke-width="2.5" fill="none" stroke-linecap="round"/><path d="M65,31Q67,29,69,31" stroke="%23222" stroke-width="2.5" fill="none" stroke-linecap="round"/><path d="M59,38Q61,42,63,38" stroke="%23222" stroke-width="2" fill="none" stroke-linecap="round"/><circle cx="51" cy="35" r="3.5" fill="%23ff9999" opacity=".7"/><circle cx="71" cy="35" r="3.5" fill="%23ff9999" opacity=".7"/><path d="M35,65L55,65L45,90Z" fill="%23ff2a00"/><path d="M35,65L65,85" stroke="%23f3bc86" stroke-width="12" stroke-linecap="round"/></svg>');
         }
         .player.red {
-            background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 100 150" xmlns="http://www.w3.org/2000/svg"><g transform="scale(-1, 1) translate(-100, 0)"><path d="M 35,100 L 25,140" stroke="%231a2842" stroke-width="14" stroke-linecap="round"/><path d="M 15,140 h 20 v 8 h -20 z" fill="%23fff" rx="4"/><path d="M 55,100 L 65,140" stroke="%232a3852" stroke-width="14" stroke-linecap="round"/><path d="M 55,140 h 20 v 8 h -20 z" fill="%23fff" rx="4"/><path d="M 25,55 Q 45,45 65,55 L 60,105 L 30,105 Z" fill="%23ff4b14"/><path d="M 25,55 Q 45,45 65,55 L 55,65 Q 45,75 35,65 Z" fill="%23fff"/><path d="M 50,65 L 95,75" stroke="%23ffd7aa" stroke-width="12" stroke-linecap="round"/><circle cx="45" cy="30" r="24" fill="%23ffd7aa"/><path d="M 22,42 C 10,25 25,2 48,4 C 65,5 70,15 68,24 Q 60,18 50,22 Q 40,26 35,32 Q 30,38 22,42 Z" fill="%23333"/><path d="M 24,35 Q 12,28 10,38 Q 16,42 22,40 Z" fill="%23333"/><circle cx="32" cy="34" r="4.5" fill="%23f3bc86"/><path d="M 52,27 Q 55,24 58,27" stroke="%23222" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M 64,27 Q 67,24 70,27" stroke="%23222" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M 53,31 Q 55,29 57,31" stroke="%23222" stroke-width="2.5" fill="none" stroke-linecap="round"/><path d="M 65,31 Q 67,29 69,31" stroke="%23222" stroke-width="2.5" fill="none" stroke-linecap="round"/><path d="M 59,38 Q 61,42 63,38" stroke="%23222" stroke-width="2" fill="none" stroke-linecap="round"/><circle cx="51" cy="35" r="3.5" fill="%23ff9999" opacity="0.7"/><circle cx="71" cy="35" r="3.5" fill="%23ff9999" opacity="0.7"/><path d="M 35,65 L 55,65 L 45,90 Z" fill="%23ff2a00"/><path d="M 35,65 L 65,85" stroke="%23f3bc86" stroke-width="12" stroke-linecap="round"/></g></svg>') no-repeat center;
-            background-size: contain;
+            background-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 100 150" xmlns="http://www.w3.org/2000/svg"><g transform="scale(-1,1) translate(-100,0)"><path d="M35,100L25,140" stroke="%231a2842" stroke-width="14" stroke-linecap="round"/><path d="M15,140h20v8h-20z" fill="%23fff"/><path d="M55,100L65,140" stroke="%232a3852" stroke-width="14" stroke-linecap="round"/><path d="M55,140h20v8h-20z" fill="%23fff"/><path d="M25,55Q45,45,65,55L60,105L30,105Z" fill="%23ff4b14"/><path d="M25,55Q45,45,65,55L55,65Q45,75,35,65Z" fill="%23fff"/><path d="M50,65L95,75" stroke="%23ffd7aa" stroke-width="12" stroke-linecap="round"/><circle cx="45" cy="30" r="24" fill="%23ffd7aa"/><path d="M22,42C10,25,25,2,48,4C65,5,70,15,68,24Q60,18,50,22Q40,26,35,32Q30,38,22,42Z" fill="%23333"/><path d="M24,35Q12,28,10,38Q16,42,22,40Z" fill="%23333"/><circle cx="32" cy="34" r="4.5" fill="%23f3bc86"/><path d="M52,27Q55,24,58,27" stroke="%23222" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M64,27Q67,24,70,27" stroke="%23222" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M53,31Q55,29,57,31" stroke="%23222" stroke-width="2.5" fill="none" stroke-linecap="round"/><path d="M65,31Q67,29,69,31" stroke="%23222" stroke-width="2.5" fill="none" stroke-linecap="round"/><path d="M59,38Q61,42,63,38" stroke="%23222" stroke-width="2" fill="none" stroke-linecap="round"/><circle cx="51" cy="35" r="3.5" fill="%23ff9999" opacity=".7"/><circle cx="71" cy="35" r="3.5" fill="%23ff9999" opacity=".7"/><path d="M35,65L55,65L45,90Z" fill="%23ff2a00"/><path d="M35,65L65,85" stroke="%23f3bc86" stroke-width="12" stroke-linecap="round"/></g></svg>');
         }
         .player.left-lean {
             transform: rotate(10deg);
@@ -604,45 +581,35 @@
             transform: rotate(-10deg);
         }
         @keyframes pulling-left {
-            0% {
+            0%,
+            100% {
                 transform: rotate(10deg) translate(0, 0);
             }
             25% {
                 transform: rotate(12deg) translate(-2px, 2px);
             }
-            50% {
-                transform: rotate(10deg) translate(0, 0);
-            }
             75% {
                 transform: rotate(8deg) translate(2px, -1px);
             }
-            100% {
-                transform: rotate(10deg) translate(0, 0);
-            }
         }
         @keyframes pulling-right {
-            0% {
+            0%,
+            100% {
                 transform: rotate(-10deg) translate(0, 0);
             }
             25% {
                 transform: rotate(-12deg) translate(2px, 2px);
             }
-            50% {
-                transform: rotate(-10deg) translate(0, 0);
-            }
             75% {
                 transform: rotate(-8deg) translate(-2px, -1px);
             }
-            100% {
-                transform: rotate(-10deg) translate(0, 0);
-            }
         }
         .is-playing .player.left-lean {
-            animation: pulling-left 0.8s infinite ease-in-out;
+            animation: pulling-left .8s infinite ease-in-out;
         }
         .is-playing .player.right-lean {
-            animation: pulling-right 0.8s infinite ease-in-out;
-            animation-delay: 0.1s;
+            animation: pulling-right .8s infinite ease-in-out;
+            animation-delay: .1s;
         }
         .status-bar {
             display: flex;
@@ -655,16 +622,15 @@
         .status-pill {
             border-radius: 999px;
             padding: 10px 16px;
-            background: rgba(255, 255, 255, 0.92);
-            box-shadow: 0 6px 16px rgba(22, 42, 74, 0.08);
+            background: rgba(255, 255, 255, .92);
+            box-shadow: 0 6px 16px rgba(22, 42, 74, .08);
             font-weight: 700;
             color: var(--text);
-            transition: color 0.2s;
         }
         .winner-overlay {
             position: fixed;
             inset: 0;
-            background: rgba(0, 0, 0, 0.8);
+            background: rgba(0, 0, 0, .8);
             z-index: 100;
             display: flex;
             justify-content: center;
@@ -672,7 +638,7 @@
             flex-direction: column;
             opacity: 0;
             pointer-events: none;
-            transition: opacity 0.3s;
+            transition: opacity .3s;
         }
         .winner-overlay.show {
             opacity: 1;
@@ -683,7 +649,7 @@
             margin-bottom: 20px;
             z-index: 101;
             animation: bounce 2s infinite;
-            text-shadow: 0 10px 30px rgba(255, 215, 0, 0.6);
+            text-shadow: 0 10px 30px rgba(255, 215, 0, .6);
         }
         @keyframes bounce {
             0%,
@@ -698,7 +664,7 @@
             font-size: 64px;
             font-weight: 900;
             color: #fff;
-            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            text-shadow: 0 4px 20px rgba(0, 0, 0, .5);
             margin-bottom: 30px;
             text-align: center;
             z-index: 101;
@@ -713,7 +679,7 @@
         }
         @keyframes fall {
             0% {
-                transform: translateY(-100vh) rotate(0deg);
+                transform: translateY(-100vh) rotate(0);
                 opacity: 1;
             }
             100% {
@@ -730,8 +696,8 @@
             gap: 6px;
             padding: 6px;
             border-radius: 14px;
-            background: rgba(255, 255, 255, 0.92);
-            box-shadow: 0 10px 24px rgba(25, 45, 76, 0.16);
+            background: rgba(255, 255, 255, .92);
+            box-shadow: 0 10px 24px rgba(25, 45, 76, .16);
             backdrop-filter: blur(10px);
             z-index: 18;
         }
@@ -755,7 +721,7 @@
         .settings-modal {
             position: fixed;
             inset: 0;
-            background: rgba(15, 22, 32, 0.42);
+            background: rgba(15, 22, 32, .42);
             display: none;
             align-items: center;
             justify-content: center;
@@ -771,7 +737,7 @@
             overflow: auto;
             background: #fff;
             border-radius: 28px;
-            box-shadow: 0 22px 60px rgba(15, 22, 32, 0.24);
+            box-shadow: 0 22px 60px rgba(15, 22, 32, .24);
             padding: 22px;
         }
         .settings-head {
@@ -821,17 +787,11 @@
             resize: vertical;
             min-height: 92px;
         }
-        .field small {
+        .helper {
             color: var(--muted);
+            font-size: 14px;
+            margin-top: 6px;
         }
-        .option-row {
-            display: grid;
-            grid-template-columns: 1fr auto;
-            gap: 10px;
-            margin-bottom: 10px;
-            align-items: center;
-        }
-        .option-row button,
         .tiny-btn {
             border-radius: 12px;
             padding: 10px 12px;
@@ -905,19 +865,323 @@
         .type-tag.choice {
             background: linear-gradient(135deg, #ff624f, #ff9173);
         }
-        .helper {
-            color: var(--muted);
-            font-size: 14px;
-            margin-top: 6px;
-        }
         .empty {
             padding: 24px;
             text-align: center;
             color: var(--muted);
             font-weight: 700;
         }
-
-        /* ===== 横屏模式 ===== */
+        .mode-badge {
+            display: inline-block;
+            padding: 4px 14px;
+            border-radius: 999px;
+            font-size: 13px;
+            font-weight: 800;
+            background: rgba(255, 255, 255, .2);
+            color: #fff;
+            letter-spacing: 1px;
+        }
+        .mode-badge.single {
+            background: #8e44ad;
+        }
+        .mode-badge.dual {
+            background: var(--green);
+        }
+        .login-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, .65);
+            backdrop-filter: blur(8px);
+            z-index: 300;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            animation: fadeIn .3s;
+        }
+        .login-overlay.hidden {
+            display: none;
+        }
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+                transform: scale(.95);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        .login-panel {
+            background: #fff;
+            border-radius: 32px;
+            padding: 40px 44px;
+            max-width: 440px;
+            width: 100%;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, .35);
+            text-align: center;
+        }
+        .login-panel h2 {
+            font-size: 28px;
+            margin: 0 0 8px;
+        }
+        .login-panel .sub {
+            color: var(--muted);
+            font-size: 15px;
+            margin-bottom: 28px;
+        }
+        .login-panel .field {
+            text-align: left;
+            margin-bottom: 18px;
+        }
+        .login-panel .field label {
+            font-weight: 700;
+            color: #445266;
+            display: block;
+            margin-bottom: 6px;
+        }
+        .login-panel .field select,
+        .login-panel .field input {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid #dbe5ef;
+            border-radius: 14px;
+            font-size: 16px;
+            background: #f9fbfd;
+            transition: border-color .2s;
+        }
+        .login-panel .field select:focus,
+        .login-panel .field input:focus {
+            border-color: var(--blue);
+            outline: none;
+            background: #fff;
+        }
+        .login-panel .login-btn {
+            width: 100%;
+            padding: 16px;
+            border-radius: 999px;
+            background: linear-gradient(135deg, var(--blue), #4fb8ff);
+            color: #fff;
+            font-size: 20px;
+            font-weight: 800;
+            transition: transform .15s, box-shadow .15s;
+            box-shadow: 0 6px 20px rgba(31, 143, 255, .3);
+            margin-top: 6px;
+        }
+        .login-panel .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 28px rgba(31, 143, 255, .4);
+        }
+        .login-panel .login-btn:disabled {
+            opacity: .6;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+        .login-panel .login-error {
+            color: #f05a4f;
+            font-weight: 700;
+            min-height: 28px;
+            margin-top: 12px;
+            font-size: 14px;
+        }
+        .login-panel .login-success {
+            color: #12a150;
+            font-weight: 700;
+            min-height: 28px;
+            margin-top: 12px;
+            font-size: 14px;
+        }
+        .rank-panel {
+            background: #fff;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 16px 18px;
+            margin-top: 10px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        .rank-panel h3 {
+            margin: 0 0 12px;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .rank-panel h3 .refresh-btn {
+            background: #eef3fb;
+            border: 0;
+            border-radius: 999px;
+            padding: 2px 14px;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--muted);
+            cursor: pointer;
+            transition: background .2s;
+        }
+        .rank-panel h3 .refresh-btn:hover {
+            background: #dce3ec;
+        }
+        .rank-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 8px 6px;
+            border-bottom: 1px solid #f0f3f7;
+            font-size: 14px;
+        }
+        .rank-item:last-child {
+            border-bottom: 0;
+        }
+        .rank-num {
+            font-weight: 800;
+            color: var(--muted);
+            min-width: 28px;
+            text-align: center;
+        }
+        .rank-num.gold {
+            color: #f5b342;
+        }
+        .rank-num.silver {
+            color: #b0b8c4;
+        }
+        .rank-num.bronze {
+            color: #d4a373;
+        }
+        .rank-class {
+            font-weight: 700;
+            color: var(--blue);
+            min-width: 48px;
+        }
+        .rank-name {
+            font-weight: 700;
+            flex: 1;
+        }
+        .rank-score {
+            font-weight: 900;
+            background: #f3f7fb;
+            padding: 2px 14px;
+            border-radius: 999px;
+            font-size: 16px;
+        }
+        .rank-empty,
+        .rank-loading {
+            color: var(--muted);
+            text-align: center;
+            padding: 24px 0;
+            font-weight: 700;
+        }
+        .rank-loading {
+            padding: 12px 0;
+            font-size: 14px;
+        }
+        .rank-wrapper {
+            grid-column: 1/-1;
+            margin-top: 4px;
+        }
+        .rotate-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 200;
+            background: rgba(20, 30, 50, .92);
+            backdrop-filter: blur(12px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            padding: 30px;
+            animation: fadeInRotate .5s;
+        }
+        .rotate-overlay.show {
+            display: flex;
+        }
+        @keyframes fadeInRotate {
+            0% {
+                opacity: 0;
+                transform: scale(.96);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        .rotate-content {
+            text-align: center;
+            max-width: 420px;
+            color: #fff;
+            user-select: none;
+        }
+        .rotate-icon {
+            font-size: 100px;
+            margin-bottom: 16px;
+            display: inline-block;
+            animation: rotatePhone 2.4s ease-in-out infinite;
+        }
+        @keyframes rotatePhone {
+            0%,
+            100% {
+                transform: rotate(0);
+            }
+            30%,
+            70% {
+                transform: rotate(90deg);
+            }
+        }
+        .rotate-title {
+            font-size: 34px;
+            font-weight: 900;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+            background: linear-gradient(135deg, #f0f8ff, #8fcbff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .rotate-sub {
+            font-size: 18px;
+            color: rgba(255, 255, 255, .7);
+            line-height: 1.6;
+            margin-bottom: 28px;
+            font-weight: 500;
+        }
+        .rotate-arrow {
+            font-size: 48px;
+            display: inline-block;
+            animation: arrowBounce 1.6s ease-in-out infinite;
+            color: #6eb8ff;
+        }
+        @keyframes arrowBounce {
+            0%,
+            100% {
+                transform: translateY(0) rotate(0);
+            }
+            50% {
+                transform: translateY(-12px) rotate(15deg);
+            }
+        }
+        .rotate-close-btn {
+            margin-top: 32px;
+            padding: 14px 40px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, .15);
+            color: #fff;
+            font-size: 18px;
+            font-weight: 700;
+            border: 2px solid rgba(255, 255, 255, .25);
+            transition: all .2s;
+            cursor: pointer;
+            backdrop-filter: blur(4px);
+            letter-spacing: 1px;
+        }
+        .rotate-close-btn:hover {
+            background: rgba(255, 255, 255, .25);
+            border-color: rgba(255, 255, 255, .5);
+            transform: scale(1.04);
+        }
+        @media (min-width:1024px) and (orientation:landscape) {
+            .rotate-overlay {
+                display: none !important;
+            }
+        }
         .app.force-landscape .layout {
             grid-template-columns: 280px minmax(280px, 1fr) 280px;
             gap: 12px;
@@ -1008,7 +1272,19 @@
         .app.force-landscape .difficulty-select label {
             font-size: 12px;
         }
-        @media (max-width: 900px) {
+        .app.force-landscape .rank-panel {
+            max-height: 200px;
+            padding: 10px 14px;
+        }
+        .app.force-landscape .rank-item {
+            font-size: 13px;
+            padding: 5px 4px;
+        }
+        .app.force-landscape .rank-score {
+            font-size: 14px;
+            padding: 1px 12px;
+        }
+        @media (max-width:900px) {
             .app.force-landscape .layout {
                 grid-template-columns: 220px minmax(220px, 1fr) 220px;
                 gap: 8px;
@@ -1028,7 +1304,7 @@
                 right: calc(50% - 160px - var(--group-shift, 0px));
             }
         }
-        @media (max-width: 720px) {
+        @media (max-width:720px) {
             .app.force-landscape .layout {
                 grid-template-columns: 1fr 1.5fr 1fr;
                 gap: 6px;
@@ -1128,7 +1404,7 @@
                 font-size: 10px;
             }
         }
-        @media (max-width: 1260px) {
+        @media (max-width:1260px) {
             body {
                 overflow: auto;
             }
@@ -1140,7 +1416,7 @@
                 overflow: visible;
             }
             .app {
-                width: min(1480px, 100%);
+                width: 100%;
                 height: auto;
                 min-height: auto;
                 transform: none;
@@ -1159,8 +1435,11 @@
             .settings-grid {
                 grid-template-columns: 1fr;
             }
+            .rank-wrapper {
+                grid-column: 1;
+            }
         }
-        @media (max-width: 720px) {
+        @media (max-width:720px) {
             .app {
                 padding: 12px;
             }
@@ -1202,365 +1481,8 @@
                 height: 340px;
             }
             .team-group {
-                transform: scale(0.72) translateY(-69%);
+                transform: scale(.72) translateY(-69%);
                 transform-origin: top center;
-            }
-        }
-
-        /* ===== 旋转屏幕提示 ===== */
-        .rotate-overlay {
-            position: fixed;
-            inset: 0;
-            z-index: 200;
-            background: rgba(20, 30, 50, 0.92);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-            padding: 30px;
-            animation: fadeInRotate 0.5s ease;
-        }
-        .rotate-overlay.show {
-            display: flex;
-        }
-        @keyframes fadeInRotate {
-            0% {
-                opacity: 0;
-                transform: scale(0.96);
-            }
-            100% {
-                opacity: 1;
-                transform: scale(1);
-            }
-        }
-        .rotate-content {
-            text-align: center;
-            max-width: 420px;
-            color: #fff;
-            user-select: none;
-        }
-        .rotate-icon {
-            font-size: 100px;
-            margin-bottom: 16px;
-            display: inline-block;
-            animation: rotatePhone 2.4s ease-in-out infinite;
-        }
-        @keyframes rotatePhone {
-            0% {
-                transform: rotate(0deg);
-            }
-            30% {
-                transform: rotate(90deg);
-            }
-            70% {
-                transform: rotate(90deg);
-            }
-            100% {
-                transform: rotate(0deg);
-            }
-        }
-        .rotate-title {
-            font-size: 34px;
-            font-weight: 900;
-            margin-bottom: 10px;
-            letter-spacing: 2px;
-            background: linear-gradient(135deg, #f0f8ff, #8fcbff);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        .rotate-sub {
-            font-size: 18px;
-            color: rgba(255, 255, 255, 0.7);
-            line-height: 1.6;
-            margin-bottom: 28px;
-            font-weight: 500;
-        }
-        .rotate-arrow {
-            font-size: 48px;
-            display: inline-block;
-            animation: arrowBounce 1.6s ease-in-out infinite;
-            color: #6eb8ff;
-        }
-        @keyframes arrowBounce {
-            0%,
-            100% {
-                transform: translateY(0) rotate(0deg);
-            }
-            50% {
-                transform: translateY(-12px) rotate(15deg);
-            }
-        }
-        .rotate-close-btn {
-            margin-top: 32px;
-            padding: 14px 40px;
-            border-radius: 999px;
-            background: rgba(255, 255, 255, 0.15);
-            color: #fff;
-            font-size: 18px;
-            font-weight: 700;
-            border: 2px solid rgba(255, 255, 255, 0.25);
-            transition: all 0.2s ease;
-            cursor: pointer;
-            backdrop-filter: blur(4px);
-            letter-spacing: 1px;
-        }
-        .rotate-close-btn:hover {
-            background: rgba(255, 255, 255, 0.25);
-            border-color: rgba(255, 255, 255, 0.5);
-            transform: scale(1.04);
-        }
-        .rotate-close-btn:active {
-            transform: scale(0.96);
-        }
-        /* 桌面宽屏不显示旋转提示 */
-        @media (min-width: 1024px) and (orientation: landscape) {
-            .rotate-overlay {
-                display: none !important;
-            }
-        }
-
-        /* ===== 模式提示 ===== */
-        .mode-badge {
-            display: inline-block;
-            padding: 4px 14px;
-            border-radius: 999px;
-            font-size: 13px;
-            font-weight: 800;
-            background: rgba(255, 255, 255, 0.2);
-            color: #fff;
-            letter-spacing: 1px;
-        }
-        .mode-badge.single {
-            background: #8e44ad;
-            color: #fff;
-        }
-        .mode-badge.dual {
-            background: #2ecc71;
-            color: #fff;
-        }
-
-        /* ===== 登录弹窗 ===== */
-        .login-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.65);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            z-index: 300;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-            animation: fadeIn 0.3s ease;
-        }
-        .login-overlay.hidden {
-            display: none;
-        }
-        @keyframes fadeIn {
-            0% {
-                opacity: 0;
-                transform: scale(0.95);
-            }
-            100% {
-                opacity: 1;
-                transform: scale(1);
-            }
-        }
-        .login-panel {
-            background: #fff;
-            border-radius: 32px;
-            padding: 40px 44px;
-            max-width: 440px;
-            width: 100%;
-            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.35);
-            text-align: center;
-        }
-        .login-panel h2 {
-            font-size: 28px;
-            margin: 0 0 8px;
-            color: var(--text);
-        }
-        .login-panel .sub {
-            color: var(--muted);
-            font-size: 15px;
-            margin-bottom: 28px;
-        }
-        .login-panel .field {
-            text-align: left;
-            margin-bottom: 18px;
-        }
-        .login-panel .field label {
-            font-weight: 700;
-            color: #445266;
-            display: block;
-            margin-bottom: 6px;
-        }
-        .login-panel .field select,
-        .login-panel .field input {
-            width: 100%;
-            padding: 14px 16px;
-            border: 2px solid #dbe5ef;
-            border-radius: 14px;
-            font-size: 16px;
-            background: #f9fbfd;
-            transition: border-color 0.2s;
-        }
-        .login-panel .field select:focus,
-        .login-panel .field input:focus {
-            border-color: var(--blue);
-            outline: none;
-            background: #fff;
-        }
-        .login-panel .login-btn {
-            width: 100%;
-            padding: 16px;
-            border-radius: 999px;
-            background: linear-gradient(135deg, var(--blue), #4fb8ff);
-            color: #fff;
-            font-size: 20px;
-            font-weight: 800;
-            transition: transform 0.15s, box-shadow 0.15s;
-            box-shadow: 0 6px 20px rgba(31, 143, 255, 0.3);
-            margin-top: 6px;
-        }
-        .login-panel .login-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 28px rgba(31, 143, 255, 0.4);
-        }
-        .login-panel .login-btn:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-            transform: none !important;
-        }
-        .login-panel .login-error {
-            color: var(--danger);
-            font-weight: 700;
-            min-height: 28px;
-            margin-top: 12px;
-            font-size: 14px;
-        }
-        .login-panel .login-success {
-            color: var(--success);
-            font-weight: 700;
-            min-height: 28px;
-            margin-top: 12px;
-            font-size: 14px;
-        }
-
-        /* ===== 排行榜 ===== */
-        .rank-panel {
-            background: #fff;
-            border-radius: var(--radius);
-            box-shadow: var(--shadow);
-            padding: 16px 18px;
-            margin-top: 10px;
-            max-height: 300px;
-            overflow-y: auto;
-        }
-        .rank-panel h3 {
-            margin: 0 0 12px;
-            font-size: 18px;
-            color: var(--text);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .rank-panel h3 .refresh-btn {
-            background: #eef3fb;
-            border: 0;
-            border-radius: 999px;
-            padding: 2px 14px;
-            font-size: 13px;
-            font-weight: 700;
-            color: var(--muted);
-            cursor: pointer;
-            transition: background 0.2s;
-        }
-        .rank-panel h3 .refresh-btn:hover {
-            background: #dce3ec;
-        }
-        .rank-item {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 8px 6px;
-            border-bottom: 1px solid #f0f3f7;
-            font-size: 14px;
-        }
-        .rank-item:last-child {
-            border-bottom: 0;
-        }
-        .rank-num {
-            font-weight: 800;
-            color: var(--muted);
-            min-width: 28px;
-            text-align: center;
-        }
-        .rank-num.gold {
-            color: #f5b342;
-        }
-        .rank-num.silver {
-            color: #b0b8c4;
-        }
-        .rank-num.bronze {
-            color: #d4a373;
-        }
-        .rank-class {
-            font-weight: 700;
-            color: var(--blue);
-            min-width: 48px;
-        }
-        .rank-name {
-            font-weight: 700;
-            flex: 1;
-        }
-        .rank-score {
-            font-weight: 900;
-            color: var(--text);
-            background: #f3f7fb;
-            padding: 2px 14px;
-            border-radius: 999px;
-            font-size: 16px;
-        }
-        .rank-empty {
-            color: var(--muted);
-            text-align: center;
-            padding: 24px 0;
-            font-weight: 700;
-        }
-        .rank-loading {
-            color: var(--muted);
-            text-align: center;
-            padding: 12px 0;
-            font-size: 14px;
-        }
-
-        /* 排行榜位置 */
-        .rank-wrapper {
-            grid-column: 1 / -1;
-            margin-top: 4px;
-        }
-        .app.force-landscape .rank-wrapper {
-            margin-top: 2px;
-        }
-        .app.force-landscape .rank-panel {
-            max-height: 200px;
-            padding: 10px 14px;
-        }
-        .app.force-landscape .rank-item {
-            font-size: 13px;
-            padding: 5px 4px;
-        }
-        .app.force-landscape .rank-score {
-            font-size: 14px;
-            padding: 1px 12px;
-        }
-        @media (max-width: 1260px) {
-            .rank-wrapper {
-                grid-column: 1;
             }
         }
     </style>
@@ -1570,7 +1492,7 @@
         <div class="app" id="appContainer">
             <div class="topbar">
                 <div class="toolbar">
-                    <label class="pill-btn timer-config" for="countdownInput">
+                    <label class="pill-btn timer-config">
                         倒计时
                         <div class="timer-controls">
                             <button type="button" id="timerMinusBtn">-</button>
@@ -1579,7 +1501,6 @@
                         </div>
                         <span>秒</span>
                     </label>
-
                     <div class="difficulty-select">
                         <label for="difficultySelect">难度</label>
                         <select id="difficultySelect">
@@ -1588,15 +1509,13 @@
                             <option value="hard">🔥 困难</option>
                         </select>
                     </div>
-
-                    <button class="pill-btn primary" id="startBtn" style="min-width:88px;">开始</button>
+                    <button class="pill-btn primary" id="startBtn">开始</button>
                     <button class="pill-btn" id="resetBtn">重置比赛</button>
                     <button class="pill-btn" id="settingsBtn">比赛设置</button>
                 </div>
             </div>
-
             <div class="layout">
-                <!-- 蓝队 (家长) -->
+                <!-- 蓝队 - 家长 -->
                 <section class="card team-card left" id="teamA">
                     <div class="team-header blue">
                         <div class="left-group">
@@ -1610,67 +1529,39 @@
                     </div>
                     <div class="team-body">
                         <div class="question-text" id="questionA">？？？？</div>
-                        <div class="question-meta">
-                            <span class="badge" id="metaAType">题型: 未开始</span>
-                        </div>
+                        <div class="question-meta"><span class="badge" id="metaAType">题型: 未开始</span></div>
                         <div class="answer-screen" id="displayA">0</div>
                         <div class="feedback" id="feedbackA"></div>
                         <div id="inputA"></div>
                     </div>
                 </section>
-
                 <!-- 中央竞技场 -->
                 <section class="card arena">
                     <div class="arena-top">
-                        <div class="arena-stat">
-                            <div class="label" id="scoreLabelA">家长分数</div>
-                            <div class="value" id="arenaScoreA">0</div>
-                        </div>
+                        <div class="arena-stat"><div class="label" id="scoreLabelA">家长分数</div><div class="value" id="arenaScoreA">0</div></div>
                         <div class="timer" id="timer">00:00</div>
-                        <div class="arena-stat right">
-                            <div class="label" id="scoreLabelB">孩子分数</div>
-                            <div class="value" id="arenaScoreB">0</div>
-                        </div>
+                        <div class="arena-stat right"><div class="label" id="scoreLabelB">孩子分数</div><div class="value" id="arenaScoreB">0</div></div>
                     </div>
-
                     <div class="arena-stage" id="arenaStage">
                         <div class="center-line"></div>
                         <div class="ground"></div>
-                        <div class="rope-wrap">
-                            <div class="rope"></div>
-                            <div class="rope-marker" id="ropeMarker"></div>
-                        </div>
-                        <div class="team-group left" id="groupLeft">
-                            <div class="player blue left-lean"></div>
-                            <div class="player blue left-lean"></div>
-                        </div>
-                        <div class="team-group right" id="groupRight">
-                            <div class="player red right-lean"></div>
-                            <div class="player red right-lean"></div>
-                        </div>
+                        <div class="rope-wrap"><div class="rope"></div><div class="rope-marker" id="ropeMarker"></div></div>
+                        <div class="team-group left" id="groupLeft"><div class="player blue left-lean"></div><div class="player blue left-lean"></div></div>
+                        <div class="team-group right" id="groupRight"><div class="player red right-lean"></div><div class="player red right-lean"></div></div>
                     </div>
-
                     <div class="status-bar">
                         <div class="status-pill" id="progressText">拔河进度: 居中</div>
                         <div class="status-pill" id="bankInfo">题库数量: 0</div>
                         <div class="status-pill" id="modeStatus">模式: 等待开始</div>
                     </div>
-
-                    <!-- 排行榜 -->
                     <div class="rank-wrapper">
                         <div class="rank-panel" id="rankPanel">
-                            <h3>
-                                🏆 今日排行榜 (个人最佳)
-                                <button class="refresh-btn" id="refreshRankBtn">刷新</button>
-                            </h3>
-                            <div id="rankList">
-                                <div class="rank-loading">加载中...</div>
-                            </div>
+                            <h3>🏆 今日排行榜 (个人最佳) <button class="refresh-btn" id="refreshRankBtn">刷新</button></h3>
+                            <div id="rankList"><div class="rank-loading">加载中...</div></div>
                         </div>
                     </div>
                 </section>
-
-                <!-- 红队 (孩子) -->
+                <!-- 红队 - 孩子 -->
                 <section class="card team-card right" id="teamB">
                     <div class="team-header red">
                         <div class="left-group">
@@ -1684,9 +1575,7 @@
                     </div>
                     <div class="team-body">
                         <div class="question-text" id="questionB">？？？？</div>
-                        <div class="question-meta">
-                            <span class="badge" id="metaBType">题型: 未开始</span>
-                        </div>
+                        <div class="question-meta"><span class="badge" id="metaBType">题型: 未开始</span></div>
                         <div class="answer-screen" id="displayB">0</div>
                         <div class="feedback" id="feedbackB"></div>
                         <div id="inputB"></div>
@@ -1701,22 +1590,8 @@
         <div class="login-panel">
             <h2>📚 数学大拔河</h2>
             <div class="sub">请输入孩子的班级和姓名，验证身份后开始比赛</div>
-            <div class="field">
-                <label for="loginClass">班级</label>
-                <select id="loginClass">
-                    <option value="1班">1班</option>
-                    <option value="2班">2班</option>
-                    <option value="3班" selected>3班</option>
-                    <option value="4班">4班</option>
-                    <option value="5班">5班</option>
-                    <option value="6班">6班</option>
-                    <option value="7班">7班</option>
-                </select>
-            </div>
-            <div class="field">
-                <label for="loginName">孩子姓名</label>
-                <input type="text" id="loginName" placeholder="请输入孩子的姓名" maxlength="20" />
-            </div>
+            <div class="field"><label for="loginClass">班级</label><select id="loginClass"><option value="1班">1班</option><option value="2班">2班</option><option value="3班" selected>3班</option><option value="4班">4班</option><option value="5班">5班</option><option value="6班">6班</option><option value="7班">7班</option></select></div>
+            <div class="field"><label for="loginName">孩子姓名</label><input type="text" id="loginName" placeholder="请输入孩子的姓名" maxlength="20" /></div>
             <button class="login-btn" id="loginBtn">✅ 验证并开始</button>
             <div class="login-error" id="loginError"></div>
             <div class="login-success" id="loginSuccess"></div>
@@ -1738,63 +1613,40 @@
     <div class="winner-overlay" id="winnerOverlay">
         <div class="winner-icon" id="winnerIcon">🏆</div>
         <div class="winner-text" id="winnerText"></div>
-        <button class="save-btn" style="z-index:101;font-size:24px;padding:15px 40px;border-radius:16px;cursor:pointer;border:none;box-shadow:0 4px 12px rgba(0,0,0,0.3);" onclick="document.getElementById('winnerOverlay').classList.remove('show')">关闭</button>
+        <button class="save-btn" style="z-index:101;font-size:24px;padding:15px 40px;border-radius:16px;cursor:pointer;border:none;box-shadow:0 4px 12px rgba(0,0,0,.3);" onclick="document.getElementById('winnerOverlay').classList.remove('show')">关闭</button>
     </div>
 
     <!-- 底部控制 -->
     <div class="floating-controls">
-        <button class="control-btn" id="zoomOutBtn" type="button">-</button>
-        <button class="control-btn label" id="zoomResetBtn" type="button">100%</button>
-        <button class="control-btn" id="zoomInBtn" type="button">+</button>
-        <button class="control-btn label" id="fullscreenBtn" type="button">全屏</button>
-        <button class="control-btn label" id="landscapeBtn" type="button">横屏模式</button>
-        <button class="control-btn label" id="soundBtn" type="button">🔊</button>
+        <button class="control-btn" id="zoomOutBtn">-</button>
+        <button class="control-btn label" id="zoomResetBtn">100%</button>
+        <button class="control-btn" id="zoomInBtn">+</button>
+        <button class="control-btn label" id="fullscreenBtn">全屏</button>
+        <button class="control-btn label" id="landscapeBtn">横屏模式</button>
+        <button class="control-btn label" id="soundBtn">🔊</button>
     </div>
 
     <!-- 设置弹窗 -->
     <div class="settings-modal" id="settingsModal">
         <div class="settings-panel">
-            <div class="settings-head">
-                <h2>📐 数学大拔河 · 设置</h2>
-                <div class="toolbar">
-                    <button class="pill-btn primary" id="useSampleBtn">重新生成今日题库</button>
-                    <button class="pill-btn" id="closeSettingsBtn">关闭</button>
-                </div>
-            </div>
+            <div class="settings-head"><h2>📐 数学大拔河 · 设置</h2><div class="toolbar"><button class="pill-btn primary" id="useSampleBtn">重新生成今日题库</button><button class="pill-btn" id="closeSettingsBtn">关闭</button></div></div>
             <div class="settings-grid">
                 <div class="form-card" style="grid-column:1/-1;">
                     <div style="display:flex;gap:24px;margin-bottom:10px;">
-                        <div class="field" style="width:240px;">
-                            <label for="teamNameInputA">家长队伍名称</label>
-                            <input type="text" id="teamNameInputA" value="蓝队" />
-                        </div>
-                        <div class="field" style="width:240px;">
-                            <label for="teamNameInputB">孩子队伍名称</label>
-                            <input type="text" id="teamNameInputB" value="红队" />
-                        </div>
+                        <div class="field" style="width:240px;"><label for="teamNameInputA">家长队伍名称</label><input type="text" id="teamNameInputA" value="蓝队" /></div>
+                        <div class="field" style="width:240px;"><label for="teamNameInputB">孩子队伍名称</label><input type="text" id="teamNameInputB" value="红队" /></div>
                     </div>
                 </div>
                 <div class="form-card" style="grid-column:1/-1;">
                     <div class="field">
                         <label for="batchInput">批量录入题目</label>
-                        <div class="helper" style="margin-bottom:8px;">
-                            <strong>格式：</strong>题目 / 答案 / 错误答案1 / 错误答案2...<br>
-                            每行一题，多个部分使用 <code>/</code> 分隔。<br>
-                            如果只有一个答案，就是<strong>数字题</strong>；如果有多个，则是<strong>选择题</strong>（第一个为正确答案，选项会自动打乱）。
-                        </div>
+                        <div class="helper"><strong>格式：</strong>题目 / 答案 / 错误答案1 / 错误答案2...<br>每行一题，多个部分使用 <code>/</code> 分隔。</div>
                         <textarea id="batchInput" rows="10" placeholder="例如：&#10;23 + 45 = ? / 68&#10;67 - 23 = ? / 44&#10;8 + 7 = ? / 15 / 13 / 14 / 16"></textarea>
                     </div>
-                    <div class="form-actions">
-                        <button class="save-btn" id="batchSaveBtn" type="button">批量保存到题库</button>
-                        <button class="tiny-btn" id="clearBatchBtn" type="button">清空输入</button>
-                    </div>
+                    <div class="form-actions"><button class="save-btn" id="batchSaveBtn">批量保存到题库</button><button class="tiny-btn" id="clearBatchBtn">清空输入</button></div>
                 </div>
                 <div class="list-card" style="grid-column:1/-1;">
-                    <div class="list-actions">
-                        <button class="tiny-btn" id="exportBankBtn" type="button">导出题库</button>
-                        <button class="tiny-btn" id="importBankBtn" type="button">导入题库</button>
-                        <button class="warn-btn" id="clearBankBtn" type="button">清空题库</button>
-                    </div>
+                    <div class="list-actions"><button class="tiny-btn" id="exportBankBtn">导出题库</button><button class="tiny-btn" id="importBankBtn">导入题库</button><button class="warn-btn" id="clearBankBtn">清空题库</button></div>
                     <div class="helper">题库自动保存在浏览器中，刷新页面不会丢失。</div>
                     <div class="bank-list" id="bankList"></div>
                 </div>
@@ -1803,1758 +1655,1184 @@
     </div>
 
     <script>
-        // ============================================================
-        // 配置
-        // ============================================================
-        const API_WHITELIST = 'https://wzkjgz.site/api/5tmbx2o6rg/all';
-        const API_RANK = 'https://wzkjgz.site/api/sc37wirvgg/all';
-        const API_SUBMIT = 'https://wzkjgz.site/api/sc37wirvgg';
+        // ======= 配置 =======
+        const API_WHITELIST = 'https://wzkjgz.site/api/5tmbx2o6rg/all',
+            API_RANK = 'https://wzkjgz.site/api/sc37wirvgg/all',
+            API_SUBMIT = 'https://wzkjgz.site/api/sc37wirvgg',
+            STORAGE_KEY = 'math-tug-of-war-bank-v4',
+            MAX_PULL = 15;
+        let soundEnabled = !0,
+            whitelistCache = null,
+            rotateDismissed = !1;
 
-        const STORAGE_KEY = "math-tug-of-war-bank-v4";
-        const MAX_PULL = 15;
-
-        // ============================================================
-        // 音效
-        // ============================================================
-        let soundEnabled = true;
-
-        function playSound(type) {
+        // ======= 音效 =======
+        function playSound(t) {
             if (!soundEnabled) return;
             try {
-                const audioCtx = new(window.AudioContext || window.webkitAudioContext)();
-                const gainNode = audioCtx.createGain();
-                gainNode.connect(audioCtx.destination);
-                gainNode.gain.value = 0.3;
-                let oscillator = audioCtx.createOscillator();
-                oscillator.connect(gainNode);
-                switch (type) {
-                    case 'start':
-                        oscillator.frequency.setValueAtTime(523, audioCtx.currentTime);
-                        oscillator.frequency.setValueAtTime(659, audioCtx.currentTime + 0.15);
-                        oscillator.frequency.setValueAtTime(784, audioCtx.currentTime + 0.30);
-                        oscillator.start(audioCtx.currentTime);
-                        oscillator.stop(audioCtx.currentTime + 0.45);
-                        break;
-                    case 'correct':
-                        oscillator.frequency.setValueAtTime(880, audioCtx.currentTime);
-                        oscillator.frequency.setValueAtTime(1100, audioCtx.currentTime + 0.1);
-                        oscillator.start(audioCtx.currentTime);
-                        oscillator.stop(audioCtx.currentTime + 0.15);
-                        gainNode.gain.setValueAtTime(0.3, audioCtx.currentTime);
-                        gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.15);
-                        break;
-                    case 'wrong':
-                        oscillator.frequency.setValueAtTime(400, audioCtx.currentTime);
-                        oscillator.frequency.setValueAtTime(250, audioCtx.currentTime + 0.2);
-                        oscillator.start(audioCtx.currentTime);
-                        oscillator.stop(audioCtx.currentTime + 0.25);
-                        gainNode.gain.setValueAtTime(0.25, audioCtx.currentTime);
-                        gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.25);
-                        break;
-                    case 'end':
-                        playCheer();
-                        return;
-                    default:
-                        oscillator.disconnect();
-                        return;
-                }
-                setTimeout(() => {
-                    try { oscillator.disconnect();
-                        gainNode.disconnect();
-                        audioCtx.close(); } catch (e) {}
-                }, 1000);
-            } catch (e) { /* ignore */ }
+                const ctx = new(window.AudioContext || window.webkitAudioContext)(),
+                    g = ctx.createGain();
+                g.connect(ctx.destination);
+                g.gain.value = .3;
+                const o = ctx.createOscillator();
+                o.connect(g);
+                if (t === 'end') { playCheer(); return }
+                if (t === 'start') { o.frequency.setValueAtTime(523, ctx.currentTime);
+                    o.frequency.setValueAtTime(659, ctx.currentTime + .15);
+                    o.frequency.setValueAtTime(784, ctx.currentTime + .3);
+                    o.start(ctx.currentTime);
+                    o.stop(ctx.currentTime + .45) } else if (t === 'correct') { o.frequency.setValueAtTime(880, ctx
+                        .currentTime);
+                    o.frequency.setValueAtTime(1100, ctx.currentTime + .1);
+                    o.start(ctx.currentTime);
+                    o.stop(ctx.currentTime + .15);
+                    g.gain.setValueAtTime(.3, ctx.currentTime);
+                    g.gain.exponentialRampToValueAtTime(.01, ctx.currentTime + .15) } else if (t === 'wrong') { o
+                        .frequency.setValueAtTime(400, ctx.currentTime);
+                    o.frequency.setValueAtTime(250, ctx.currentTime + .2);
+                    o.start(ctx.currentTime);
+                    o.stop(ctx.currentTime + .25);
+                    g.gain.setValueAtTime(.25, ctx.currentTime);
+                    g.gain.exponentialRampToValueAtTime(.01, ctx.currentTime + .25) } else { o.disconnect(); return }
+                setTimeout(() => { try { o.disconnect();
+                        g.disconnect();
+                        ctx.close() } catch (e) {} }, 1e3)
+            } catch (e) {}
         }
 
         function playCheer() {
             if (!soundEnabled) return;
             try {
-                const audioCtx = new(window.AudioContext || window.webkitAudioContext)();
-                const now = audioCtx.currentTime;
-                const duration = 2.0;
-                const masterGain = audioCtx.createGain();
-                masterGain.connect(audioCtx.destination);
-                masterGain.gain.setValueAtTime(0, now);
-                masterGain.gain.linearRampToValueAtTime(0.25, now + 0.1);
-                masterGain.gain.linearRampToValueAtTime(0.2, now + 1.5);
-                masterGain.gain.linearRampToValueAtTime(0, now + duration);
-
-                const bufferSize = audioCtx.sampleRate * duration;
-                const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
-                const data = buffer.getChannelData(0);
-                for (let i = 0; i < bufferSize; i++) {
-                    data[i] = (Math.random() * 2 - 1) * 0.6;
+                const ctx = new(window.AudioContext || window.webkitAudioContext)(),
+                    now = ctx.currentTime,
+                    dur = 2,
+                    mg = ctx.createGain();
+                mg.connect(ctx.destination);
+                mg.gain.setValueAtTime(0, now);
+                mg.gain.linearRampToValueAtTime(.25, now + .1);
+                mg.gain.linearRampToValueAtTime(.2, now + 1.5);
+                mg.gain.linearRampToValueAtTime(0, now + dur);
+                const bs = ctx.sampleRate * dur,
+                    buf = ctx.createBuffer(1, bs, ctx.sampleRate),
+                    d = buf.getChannelData(0);
+                for (let i = 0; i < bs; i++) d[i] = (Math.random() * 2 - 1) * .6;
+                const n = ctx.createBufferSource();
+                n.buffer = buf;
+                const ng = ctx.createGain();
+                ng.gain.setValueAtTime(.3, now);
+                ng.gain.linearRampToValueAtTime(.1, now + dur);
+                n.connect(ng);
+                ng.connect(mg);
+                n.start(now);
+                n.stop(now + dur);
+                for (let i = 0; i < 8; i++) {
+                    const o = ctx.createOscillator(),
+                        g = ctx.createGain();
+                    o.connect(g);
+                    g.connect(mg);
+                    const f = 300 + Math.random() * 1700;
+                    o.frequency.setValueAtTime(f, now);
+                    const st = now + Math.random() * .5,
+                        d2 = .1 + Math.random() * .3;
+                    g.gain.setValueAtTime(0, now);
+                    g.gain.setValueAtTime(.04 + Math.random() * .08, st);
+                    g.gain.exponentialRampToValueAtTime(.001, st + d2);
+                    o.start(st);
+                    o.stop(st + d2 + .1);
+                    if (Math.random() > .5) o.frequency.setValueAtTime(f * (1 + (Math.random() - .5) * .2), st + d2 * .5);
+                    o.type = ['sawtooth', 'square', 'triangle'][Math.floor(Math.random() * 3)]
                 }
-                const noise = audioCtx.createBufferSource();
-                noise.buffer = buffer;
-                const noiseGain = audioCtx.createGain();
-                noiseGain.gain.setValueAtTime(0.3, now);
-                noiseGain.gain.linearRampToValueAtTime(0.1, now + duration);
-                noise.connect(noiseGain);
-                noiseGain.connect(masterGain);
-                noise.start(now);
-                noise.stop(now + duration);
-
-                const numOsc = 8;
-                for (let i = 0; i < numOsc; i++) {
-                    const osc = audioCtx.createOscillator();
-                    const gain = audioCtx.createGain();
-                    osc.connect(gain);
-                    gain.connect(masterGain);
-                    const freq = 300 + Math.random() * 1700;
-                    osc.frequency.setValueAtTime(freq, now);
-                    const startTime = now + Math.random() * 0.5;
-                    const dur = 0.1 + Math.random() * 0.3;
-                    gain.gain.setValueAtTime(0, now);
-                    gain.gain.setValueAtTime(0.04 + Math.random() * 0.08, startTime);
-                    gain.gain.exponentialRampToValueAtTime(0.001, startTime + dur);
-                    osc.start(startTime);
-                    osc.stop(startTime + dur + 0.1);
-                    if (Math.random() > 0.5) {
-                        osc.frequency.setValueAtTime(freq * (1 + (Math.random() - 0.5) * 0.2), startTime + dur * 0.5);
-                    }
-                    osc.type = ['sawtooth', 'square', 'triangle'][Math.floor(Math.random() * 3)];
-                }
-                const lfo = audioCtx.createOscillator();
-                const lfoGain = audioCtx.createGain();
-                lfo.connect(lfoGain);
-                lfoGain.connect(masterGain.gain);
+                const lfo = ctx.createOscillator(),
+                    lg = ctx.createGain();
+                lfo.connect(lg);
+                lg.connect(mg.gain);
                 lfo.frequency.setValueAtTime(5 + Math.random() * 3, now);
-                lfoGain.gain.setValueAtTime(0.05, now);
+                lg.gain.setValueAtTime(.05, now);
                 lfo.start(now);
-                lfo.stop(now + duration);
-                setTimeout(() => {
-                    try { audioCtx.close(); } catch (e) {}
-                }, (duration + 0.5) * 1000);
-            } catch (e) { /* ignore */ }
-        }
-
-        function toggleSound() {
-            soundEnabled = !soundEnabled;
-            els.soundBtn.textContent = soundEnabled ? '🔊' : '🔇';
-        }
-
-        // ============================================================
-        // 种子随机数 & 题库生成
-        // ============================================================
-        function createSeededRandom(seed) {
-            let s = seed;
-            return function() {
-                s = (s * 9301 + 49297) % 233280;
-                return s / 233280;
-            };
-        }
-
-        function generateMathQuestions(count = 100, seed = null) {
-            let random = Math.random;
-            if (seed !== null) {
-                random = createSeededRandom(seed);
-            }
-            const randInt = (min, max) => Math.floor(random() * (max - min + 1)) + min;
-            const questions = [];
-            const types = ['add_no_carry', 'sub_no_borrow', 'add_carry', 'sub_borrow'];
-            const perType = Math.floor(count / types.length);
-            let remainder = count - perType * types.length;
-            for (let t of types) {
-                let n = perType + (remainder > 0 ? 1 : 0);
-                if (remainder > 0) remainder--;
-                for (let i = 0; i < n; i++) {
-                    const q = generateOneQuestion(t, randInt);
-                    if (q) questions.push(q);
-                }
-            }
-            for (let i = questions.length - 1; i > 0; i--) {
-                const j = Math.floor(random() * (i + 1));
-                [questions[i], questions[j]] = [questions[j], questions[i]];
-            }
-            return questions;
-        }
-
-        function generateOneQuestion(type, randInt) {
-            let a, b, answer, question, options = [];
-            let attempts = 0;
-            const maxAttempts = 50;
-            while (attempts < maxAttempts) {
-                attempts++;
-                switch (type) {
-                    case 'add_no_carry': {
-                        const t1 = randInt(0, 9);
-                        const t2 = randInt(0, 9 - t1);
-                        const u1 = randInt(0, 9);
-                        const u2 = randInt(0, 9 - u1);
-                        a = t1 * 10 + u1;
-                        b = t2 * 10 + u2;
-                        if (a === 0 || b === 0) continue;
-                        answer = a + b;
-                        question = a + ' + ' + b + ' = ?';
-                        break;
-                    }
-                    case 'sub_no_borrow': {
-                        const t1 = randInt(1, 9);
-                        const t2 = randInt(0, t1);
-                        const u1 = randInt(0, 9);
-                        const u2 = randInt(0, u1);
-                        a = t1 * 10 + u1;
-                        b = t2 * 10 + u2;
-                        if (a === 0 || b === 0 || a <= b) continue;
-                        answer = a - b;
-                        question = a + ' - ' + b + ' = ?';
-                        break;
-                    }
-                    case 'add_carry': {
-                        a = randInt(2, 9);
-                        b = randInt(2, 9);
-                        const sum = a + b;
-                        if (sum <= 10 || sum > 20) continue;
-                        answer = sum;
-                        question = a + ' + ' + b + ' = ?';
-                        break;
-                    }
-                    case 'sub_borrow': {
-                        a = randInt(11, 20);
-                        b = randInt(2, 9);
-                        if (a <= b) continue;
-                        const au = a % 10;
-                        const bu = b % 10;
-                        if (au >= bu) continue;
-                        answer = a - b;
-                        question = a + ' - ' + b + ' = ?';
-                        break;
-                    }
-                }
-                if (answer < 0 || answer > 100) continue;
-                break;
-            }
-            if (attempts >= maxAttempts) return null;
-            const isChoice = Math.random() < 0.4;
-            if (isChoice) {
-                options = generateDistractors(answer, type, randInt);
-                if (!options.includes(String(answer))) {
-                    options[0] = String(answer);
-                }
-                for (let i = options.length - 1; i > 0; i--) {
-                    const j = Math.floor(Math.random() * (i + 1));
-                    [options[i], options[j]] = [options[j], options[i]];
-                }
-                return {
-                    id: crypto.randomUUID(),
-                    type: 'choice',
-                    question: question,
-                    answer: String(answer),
-                    options: options
-                };
-            } else {
-                return {
-                    id: crypto.randomUUID(),
-                    type: 'number',
-                    question: question,
-                    answer: String(answer),
-                    options: []
-                };
-            }
-        }
-
-        function generateDistractors(correct, type, randInt) {
-            const dist = new Set();
-            dist.add(String(correct));
-            const candidates = [];
-            const offsets = [-1, 1, -2, 2, -5, 5, -10, 10, -3, 3];
-            for (let off of offsets) {
-                const val = correct + off;
-                if (val >= 0 && val <= 100 && !dist.has(String(val))) {
-                    candidates.push(String(val));
-                }
-            }
-            let idx = 0;
-            while (candidates.length < 3 && idx < 50) {
-                const r = randInt(0, 100);
-                if (!dist.has(String(r))) {
-                    candidates.push(String(r));
-                }
-                idx++;
-            }
-            const result = [String(correct)];
-            for (let i = 0; i < Math.min(3, candidates.length); i++) {
-                result.push(candidates[i]);
-            }
-            while (result.length < 4) {
-                const r = randInt(0, 100);
-                if (!result.includes(String(r))) {
-                    result.push(String(r));
-                }
-            }
-            return result;
-        }
-
-        function getTodayStr() {
-            const d = new Date();
-            const year = d.getFullYear();
-            const month = String(d.getMonth() + 1).padStart(2, '0');
-            const day = String(d.getDate()).padStart(2, '0');
-            return year + '-' + month + '-' + day;
-        }
-
-        // ============================================================
-        // API 调用
-        // ============================================================
-        let whitelistCache = null;
-
-        async function fetchWhitelist() {
-            try {
-                const resp = await fetch(API_WHITELIST);
-                if (!resp.ok) throw new Error('网络请求失败');
-                const data = await resp.json();
-                if (data && data.submissions) {
-                    whitelistCache = data.submissions;
-                    return whitelistCache;
-                }
-                return [];
-            } catch (e) {
-                console.warn('获取白名单失败:', e);
-                return [];
-            }
-        }
-
-        function checkWhitelist(classStr, name) {
-            if (!whitelistCache) return false;
-            const trimmedName = name.trim();
-            return whitelistCache.some(item => {
-                const itemClass = String(item.class || '').trim();
-                const itemName = String(item.name || '').trim();
-                return itemClass === classStr && itemName === trimmedName;
-            });
-        }
-
-        async function submitScore(classStr, name, score) {
-            try {
-                const payload = {
-                    class: classStr,
-                    name: name.trim(),
-                    score: score
-                };
-                const resp = await fetch(API_SUBMIT, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(payload)
-                });
-                if (!resp.ok) {
-                    const text = await resp.text();
-                    throw new Error(`提交失败 (${resp.status}): ${text}`);
-                }
-                return await resp.json();
-            } catch (e) {
-                console.error('提交成绩失败:', e);
-                throw e;
-            }
-        }
-
-        async function fetchRank() {
-            try {
-                const resp = await fetch(API_RANK);
-                if (!resp.ok) throw new Error('获取排行榜失败');
-                const data = await resp.json();
-                return data.submissions || [];
-            } catch (e) {
-                console.warn('获取排行榜失败:', e);
-                return [];
-            }
-        }
-
-        // ============================================================
-        // 主状态
-        // ============================================================
-        const state = {
-            bank: [],
-            teamNameA: "蓝队",
-            teamNameB: "红队",
-            usedQuestionsA: [],
-            usedQuestionsB: [],
-            scoreA: 0,
-            scoreB: 0,
-            pullOffset: 0,
-            roundA: 0,
-            roundB: 0,
-            durationSec: 60,
-            timerSec: 60,
-            timerId: null,
-            nextQuestionTimerA: null,
-            nextQuestionTimerB: null,
-            activeQuestionA: null,
-            activeQuestionB: null,
-            gameEnded: false,
-            uiScale: 1,
-            teamA: { answer: "", selected: "", locked: false },
-            teamB: { answer: "", selected: "", locked: false },
-            // 角色互换：蓝队(家长)默认未准备，红队(孩子)默认已准备
-            readyA: false,
-            readyB: true,
-            difficulty: 'medium',
-            mode: 'idle',
-            isAI: false,
-            aiTimerId: null,
-            aiProcessing: false,
-            userClass: '',
-            userName: '',
-            isLoggedIn: false,
-            scoreSubmitted: false,
-        };
-        let currentRoundType = null;
-
-        // DOM
-        const els = {
-            questionA: document.getElementById("questionA"),
-            questionB: document.getElementById("questionB"),
-            displayA: document.getElementById("displayA"),
-            displayB: document.getElementById("displayB"),
-            inputA: document.getElementById("inputA"),
-            inputB: document.getElementById("inputB"),
-            feedbackA: document.getElementById("feedbackA"),
-            feedbackB: document.getElementById("feedbackB"),
-            scoreA: document.getElementById("scoreA"),
-            scoreB: document.getElementById("scoreB"),
-            arenaScoreA: document.getElementById("arenaScoreA"),
-            arenaScoreB: document.getElementById("arenaScoreB"),
-            timer: document.getElementById("timer"),
-            progressText: document.getElementById("progressText"),
-            ropeMarker: document.getElementById("ropeMarker"),
-            groupLeft: document.getElementById("groupLeft"),
-            groupRight: document.getElementById("groupRight"),
-            winnerOverlay: document.getElementById("winnerOverlay"),
-            winnerText: document.getElementById("winnerText"),
-            nameDisplayA: document.getElementById("nameDisplayA"),
-            nameDisplayB: document.getElementById("nameDisplayB"),
-            scoreLabelA: document.getElementById("scoreLabelA"),
-            scoreLabelB: document.getElementById("scoreLabelB"),
-            teamNameInputA: document.getElementById("teamNameInputA"),
-            teamNameInputB: document.getElementById("teamNameInputB"),
-            metaAType: document.getElementById("metaAType"),
-            metaBType: document.getElementById("metaBType"),
-            countdownInput: document.getElementById("countdownInput"),
-            timerMinusBtn: document.getElementById("timerMinusBtn"),
-            timerPlusBtn: document.getElementById("timerPlusBtn"),
-            zoomOutBtn: document.getElementById("zoomOutBtn"),
-            zoomInBtn: document.getElementById("zoomInBtn"),
-            zoomResetBtn: document.getElementById("zoomResetBtn"),
-            fullscreenBtn: document.getElementById("fullscreenBtn"),
-            landscapeBtn: document.getElementById("landscapeBtn"),
-            soundBtn: document.getElementById("soundBtn"),
-            bankInfo: document.getElementById("bankInfo"),
-            settingsModal: document.getElementById("settingsModal"),
-            settingsBtn: document.getElementById("settingsBtn"),
-            closeSettingsBtn: document.getElementById("closeSettingsBtn"),
-            startBtn: document.getElementById("startBtn"),
-            resetBtn: document.getElementById("resetBtn"),
-            useSampleBtn: document.getElementById("useSampleBtn"),
-            batchInput: document.getElementById("batchInput"),
-            batchSaveBtn: document.getElementById("batchSaveBtn"),
-            clearBatchBtn: document.getElementById("clearBatchBtn"),
-            bankList: document.getElementById("bankList"),
-            exportBankBtn: document.getElementById("exportBankBtn"),
-            importBankBtn: document.getElementById("importBankBtn"),
-            clearBankBtn: document.getElementById("clearBankBtn"),
-            appContainer: document.getElementById("appContainer"),
-            rotateOverlay: document.getElementById("rotateOverlay"),
-            rotateCloseBtn: document.getElementById("rotateCloseBtn"),
-            readyBtnA: document.getElementById("readyBtnA"),
-            readyBtnB: document.getElementById("readyBtnB"),
-            difficultySelect: document.getElementById("difficultySelect"),
-            modeStatus: document.getElementById("modeStatus"),
-            modeBadgeA: document.getElementById("modeBadgeA"),
-            modeBadgeB: document.getElementById("modeBadgeB"),
-            loginOverlay: document.getElementById("loginOverlay"),
-            loginClass: document.getElementById("loginClass"),
-            loginName: document.getElementById("loginName"),
-            loginBtn: document.getElementById("loginBtn"),
-            loginError: document.getElementById("loginError"),
-            loginSuccess: document.getElementById("loginSuccess"),
-            rankList: document.getElementById("rankList"),
-            refreshRankBtn: document.getElementById("refreshRankBtn"),
-        };
-
-        // ============================================================
-        // 工具
-        // ============================================================
-        function formatTime(seconds) {
-            const mm = String(Math.floor(seconds / 60)).padStart(2, "0");
-            const ss = String(seconds % 60).padStart(2, "0");
-            return mm + ":" + ss;
-        }
-
-        function saveBank() {
-            const data = {
-                bank: state.bank,
-                teamNameA: state.teamNameA,
-                teamNameB: state.teamNameB,
-                generatedDate: getTodayStr()
-            };
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-            renderBank();
-        }
-
-        function updateTeamNames() {
-            els.nameDisplayA.textContent = state.teamNameA;
-            els.nameDisplayB.textContent = state.teamNameB;
-            els.scoreLabelA.textContent = state.teamNameA + "分数";
-            els.scoreLabelB.textContent = state.teamNameB + "分数";
-        }
-
-        function loadBank() {
-            let saved = null;
-            let today = getTodayStr();
-            let needGenerate = true;
-            try {
-                saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
-                if (saved && typeof saved === 'object') {
-                    const savedDate = saved.generatedDate || '';
-                    if (savedDate === today && Array.isArray(saved.bank) && saved.bank.length > 0) {
-                        state.bank = saved.bank;
-                        state.teamNameA = saved.teamNameA || "蓝队";
-                        state.teamNameB = saved.teamNameB || "红队";
-                        needGenerate = false;
-                    } else {
-                        needGenerate = true;
-                    }
-                } else {
-                    needGenerate = true;
-                }
-            } catch (e) {
-                needGenerate = true;
-            }
-            if (needGenerate) {
-                const seed = new Date(today).getTime();
-                const newBank = generateMathQuestions(100, seed);
-                state.bank = newBank;
-                state.teamNameA = "蓝队";
-                state.teamNameB = "红队";
-                const data = {
-                    bank: state.bank,
-                    teamNameA: state.teamNameA,
-                    teamNameB: state.teamNameB,
-                    generatedDate: today
-                };
-                localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-            }
-            els.teamNameInputA.value = state.teamNameA;
-            els.teamNameInputB.value = state.teamNameB;
-            updateTeamNames();
-            renderBank();
-        }
-
-        function regenerateTodayBank() {
-            const today = getTodayStr();
-            const seed = new Date(today).getTime();
-            const newBank = generateMathQuestions(100, seed);
-            state.bank = newBank;
-            const data = {
-                bank: state.bank,
-                teamNameA: state.teamNameA,
-                teamNameB: state.teamNameB,
-                generatedDate: today
-            };
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-            renderBank();
-            resetGame();
-            alert('✅ 已重新生成今日题库（100道）！');
-        }
-
-        function exportBank() {
-            if (!state.bank.length) { alert('题库为空'); return; }
-            let content = '';
-            for (const item of state.bank) {
-                if (item.type === 'choice') {
-                    const wrongOptions = item.options.filter(o => o !== item.answer);
-                    content += `${item.question} / ${item.answer} / ${wrongOptions.join(' / ')}\n`;
-                } else {
-                    content += `${item.question} / ${item.answer}\n`;
-                }
-            }
-            downloadFile('数学大拔河题库.txt', content);
-        }
-
-        function downloadFile(filename, text) {
-            const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = filename;
-            a.click();
-            URL.revokeObjectURL(url);
-        }
-
-        function importBankFromFile() {
-            const input = document.createElement('input');
-            input.type = 'file';
-            input.accept = '.txt';
-            input.onchange = function(e) {
-                const file = e.target.files[0];
-                if (!file) return;
-                const reader = new FileReader();
-                reader.onload = function(ev) {
-                    const text = ev.target.result;
-                    els.batchInput.value = text;
-                    alert('✅ 文件内容已导入到“批量录入”框，请检查后点击“批量保存到题库”完成导入。');
-                };
-                reader.readAsText(file, 'UTF-8');
-            };
-            input.click();
-        }
-
-        // ============================================================
-        // 准备按钮 & 难度
-        // ============================================================
-        function updateReadyUI() {
-            // 蓝队（家长）
-            if (state.readyA) {
-                els.readyBtnA.className = 'ready-btn ready';
-                els.readyBtnA.textContent = '✅ 已准备';
-            } else {
-                els.readyBtnA.className = 'ready-btn not-ready';
-                els.readyBtnA.textContent = '⏳ 未准备';
-            }
-            // 红队（孩子）
-            if (state.isAI) {
-                els.readyBtnB.className = 'ready-btn ai-mode';
-                els.readyBtnB.textContent = '🤖 AI对手';
-                els.readyBtnB.disabled = true;
-            } else if (state.readyB) {
-                els.readyBtnB.className = 'ready-btn ready';
-                els.readyBtnB.textContent = '✅ 已准备';
-                els.readyBtnB.disabled = false;
-            } else {
-                els.readyBtnB.className = 'ready-btn not-ready';
-                els.readyBtnB.textContent = '⏳ 未准备';
-                els.readyBtnB.disabled = false;
-            }
-            updateModeStatus();
-        }
-
-        function toggleReady(team) {
-            if (state.mode !== 'idle') {
-                alert('比赛进行中，无法更改准备状态');
-                return;
-            }
-            if (team === 'A') {
-                state.readyA = !state.readyA;
-                // 如果家长取消准备，且当前是AI模式，则恢复双人模式？但逻辑上：若家长未准备，则自动AI，家长准备则双人。
-                // 这里只切换状态，模式判断在doStartRound中根据readyA和readyB决定。
-                updateReadyUI();
-            } else if (team === 'B') {
-                if (state.isAI) return; // AI模式下孩子按钮禁用，不会触发
-                state.readyB = !state.readyB;
-                updateReadyUI();
-            }
-        }
-
-        function updateModeStatus() {
-            let modeText = '';
-            if (state.mode === 'idle') {
-                if (state.isAI) {
-                    modeText = '🤖 单人模式 (孩子 vs AI)';
-                } else if (state.readyA && state.readyB) {
-                    modeText = '👨‍👦 双人模式 (家长 vs 孩子)';
-                } else if (!state.readyA && state.readyB) {
-                    modeText = '⏳ 等待家长准备… (可单人)';
-                } else if (state.readyA && !state.readyB) {
-                    modeText = '⏳ 等待孩子准备…';
-                } else {
-                    modeText = '⏳ 请双方准备';
-                }
-            } else if (state.mode === 'dual') {
-                modeText = '👨‍👦 双人拔河 (家长 vs 孩子)';
-            } else if (state.mode === 'single') {
-                modeText = '🤖 单人拔河 (孩子 vs AI)';
-            }
-            els.modeStatus.textContent = '模式: ' + modeText;
-            if (state.mode === 'single') {
-                els.modeBadgeA.textContent = '👨 家长';
-                els.modeBadgeB.textContent = '🤖 AI';
-            } else if (state.mode === 'dual') {
-                els.modeBadgeA.textContent = '👨 家长';
-                els.modeBadgeB.textContent = '👶 孩子';
-            } else {
-                els.modeBadgeA.textContent = '👨 家长';
-                els.modeBadgeB.textContent = '👶 孩子';
-            }
-        }
-
-        function getDifficultyConfig() {
-            const d = state.difficulty;
-            if (d === 'easy') return { delayMin: 3000, delayMax: 5000, accuracy: 0.60 };
-            if (d === 'medium') return { delayMin: 1800, delayMax: 3200, accuracy: 0.80 };
-            if (d === 'hard') return { delayMin: 700, delayMax: 1800, accuracy: 0.95 };
-            return { delayMin: 2000, delayMax: 3500, accuracy: 0.75 };
-        }
-
-        // ============================================================
-        // 游戏逻辑
-        // ============================================================
-        function updateTopInfo() {
-            els.scoreA.textContent = state.scoreA;
-            els.scoreB.textContent = state.scoreB;
-            els.arenaScoreA.textContent = state.scoreA;
-            els.arenaScoreB.textContent = state.scoreB;
-            els.bankInfo.textContent = "题库数量: " + state.bank.length;
-            els.timer.textContent = formatTime(state.timerSec);
-        }
-
-        function getTeamState(team) { return team === "A" ? state.teamA : state.teamB; }
-
-        function getTeamQuestion(team) { return team === "A" ? state.activeQuestionA : state.activeQuestionB; }
-
-        function setTeamQuestion(team, question) {
-            if (team === "A") state.activeQuestionA = question;
-            else state.activeQuestionB = question;
-        }
-
-        function renderProgress() {
-            const shiftPx = state.pullOffset * -10;
-            document.documentElement.style.setProperty("--rope-shift", shiftPx + "px");
-            document.documentElement.style.setProperty("--group-shift", shiftPx + "px");
-            let text = "居中";
-            let color = "";
-            if (state.pullOffset > 0) {
-                text = "偏向 " + state.teamNameA + " " + state.pullOffset + " 格";
-                color = "#148cff";
-            } else if (state.pullOffset < 0) {
-                text = "偏向 " + state.teamNameB + " " + Math.abs(state.pullOffset) + " 格";
-                color = "#f74438";
-            } else {
-                text = "居中";
-                color = "";
-            }
-            els.progressText.textContent = "拔河进度: " + text;
-            els.progressText.style.color = color || "";
-        }
-
-        function setFeedback(team, message, type = "") {
-            const target = team === "A" ? els.feedbackA : els.feedbackB;
-            target.textContent = message;
-            target.className = "feedback" + (type ? " " + type : "");
-        }
-
-        function updateDisplay(team) {
-            const t = getTeamState(team);
-            const display = team === "A" ? els.displayA : els.displayB;
-            const question = getTeamQuestion(team);
-            if (!question) { display.textContent = "0"; return; }
-            if (question.type === "number") {
-                display.textContent = t.answer || "0";
-            } else {
-                display.textContent = t.selected || "请选择";
-            }
-        }
-
-        function updateQuestionMeta(team, question) {
-            const typeText = question ? (question.type === "number" ? "数字题" : "选择题") : "未开始";
-            if (team === "A") els.metaAType.textContent = "题型: " + typeText;
-            else els.metaBType.textContent = "题型: " + typeText;
-        }
-
-        function createPad(team) {
-            const wrap = document.createElement("div");
-            wrap.className = "numeric-pad";
-            const layout = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "清空", "0", "确定"];
-            layout.forEach((key) => {
-                const btn = document.createElement("button");
-                btn.type = "button";
-                btn.className = "pad-btn";
-                btn.textContent = key === "确定" ? "✓" : key === "清空" ? "×" : key;
-                if (key === "清空") btn.classList.add("action-clear");
-                if (key === "确定") btn.classList.add("action-ok");
-                btn.addEventListener("click", () => {
-                    const question = getTeamQuestion(team);
-                    if (!question || question.type !== "number") return;
-                    const teamState = getTeamState(team);
-                    if (teamState.locked) return;
-                    if (state.isAI && team === 'B') return;
-                    if (key === "清空") {
-                        teamState.answer = "";
-                        setFeedback(team, "");
-                        updateDisplay(team);
-                        return;
-                    }
-                    if (key === "确定") {
-                        submitAnswer(team);
-                        return;
-                    }
-                    if (teamState.answer.length >= 8) return;
-                    teamState.answer += key;
-                    updateDisplay(team);
-                });
-                if (state.isAI && team === 'B') btn.disabled = true;
-                wrap.appendChild(btn);
-            });
-            return wrap;
-        }
-
-        function createChoices(team) {
-            const question = getTeamQuestion(team);
-            const outer = document.createElement("div");
-            outer.className = "choice-wrap";
-            const choices = document.createElement("div");
-            choices.className = "choices";
-            const shuffledOptions = [...question.options].sort(() => Math.random() - 0.5);
-            shuffledOptions.forEach((option) => {
-                const btn = document.createElement("button");
-                btn.type = "button";
-                btn.className = "choice-btn";
-                btn.textContent = option;
-                btn.addEventListener("click", () => {
-                    const teamState = getTeamState(team);
-                    if (teamState.locked) return;
-                    if (state.isAI && team === 'B') return;
-                    teamState.selected = option;
-                    updateDisplay(team);
-                    [...choices.children].forEach((node) => node.classList.remove("selected"));
-                    btn.classList.add("selected");
-                    setFeedback(team, "");
-                });
-                if (state.isAI && team === 'B') btn.disabled = true;
-                choices.appendChild(btn);
-            });
-            const actions = document.createElement("div");
-            actions.className = "choice-actions";
-            const clearBtn = document.createElement("button");
-            clearBtn.type = "button";
-            clearBtn.className = "secondary";
-            clearBtn.textContent = "重选";
-            clearBtn.addEventListener("click", () => {
-                const teamState = getTeamState(team);
-                if (teamState.locked) return;
-                if (state.isAI && team === 'B') return;
-                teamState.selected = "";
-                updateDisplay(team);
-                [...choices.children].forEach((node) => node.classList.remove("selected"));
-                setFeedback(team, "");
-            });
-            const okBtn = document.createElement("button");
-            okBtn.type = "button";
-            okBtn.className = "confirm";
-            okBtn.textContent = "提交";
-            okBtn.addEventListener("click", () => {
-                if (state.isAI && team === 'B') return;
-                submitAnswer(team);
-            });
-            if (state.isAI && team === 'B') { clearBtn.disabled = true;
-                okBtn.disabled = true; }
-            actions.append(clearBtn, okBtn);
-            outer.append(choices, actions);
-            return outer;
-        }
-
-        function renderInputForTeam(team) {
-            const input = team === "A" ? els.inputA : els.inputB;
-            const question = getTeamQuestion(team);
-            input.innerHTML = "";
-            if (!question) return;
-            if (state.isAI && team === 'B') {
-                const div = document.createElement('div');
-                div.style.textAlign = 'center';
-                div.style.padding = '20px 0';
-                div.style.fontWeight = '700';
-                div.style.color = '#8e44ad';
-                div.style.fontSize = '20px';
-                div.textContent = '🤖 AI 思考中...';
-                input.appendChild(div);
-                return;
-            }
-            if (question.type === "number") {
-                input.appendChild(createPad(team));
-            } else {
-                input.appendChild(createChoices(team));
-            }
-        }
-
-        function stopTimer() {
-            if (state.timerId) { clearInterval(state.timerId);
-                state.timerId = null; }
-        }
-
-        function clearNextQuestionTimer(team) {
-            const key = team === "A" ? "nextQuestionTimerA" : "nextQuestionTimerB";
-            if (state[key]) { clearTimeout(state[key]);
-                state[key] = null; }
-        }
-
-        function clearAITimer() {
-            if (state.aiTimerId) { clearTimeout(state.aiTimerId);
-                state.aiTimerId = null; }
-            state.aiProcessing = false;
-        }
-
-        function lockAllTeams() {
-            state.teamA.locked = true;
-            state.teamB.locked = true;
-        }
-
-        function clampScale(scale) { return Math.min(2.0, Math.max(0.5, scale)); }
-
-        function updateScale() {
-            const safeScale = clampScale(state.uiScale);
-            state.uiScale = safeScale;
-            document.documentElement.style.setProperty("--ui-scale", safeScale.toFixed(2));
-            els.zoomResetBtn.textContent = Math.round(safeScale * 100) + "%";
-        }
-
-        function changeScale(delta) {
-            state.uiScale = clampScale(state.uiScale + delta);
-            updateScale();
-        }
-
-        async function toggleFullscreen() {
-            const element = document.documentElement;
-            const alreadyFullscreen = document.fullscreenElement || document.webkitFullscreenElement;
-            if (alreadyFullscreen) {
-                if (document.exitFullscreen) await document.exitFullscreen();
-                return;
-            }
-            if (!element.requestFullscreen) return;
-            await element.requestFullscreen();
-            try {
-                if (screen.orientation && screen.orientation.lock) {
-                    await screen.orientation.lock('landscape');
-                }
+                lfo.stop(now + dur);
+                setTimeout(() => { try { ctx.close() } catch (e) {} }, (dur + .5) * 1e3)
             } catch (e) {}
         }
 
-        function updateFullscreenButtonText() {
-            const alreadyFullscreen = document.fullscreenElement || document.webkitFullscreenElement;
-            els.fullscreenBtn.textContent = alreadyFullscreen ? "退出全屏" : "全屏";
+        function toggleSound() { soundEnabled = !soundEnabled;
+            el.soundBtn.textContent = soundEnabled ? '🔊' : '🔇' }
+
+        // ======= 题库生成 =======
+        function createSeededRandom(s) { return function() { s = (s * 9301 + 49297) % 233280; return s / 233280 } }
+
+        function generateMathQuestions(c = 100, seed = null) {
+            let r = Math.random;
+            if (seed !== null) r = createSeededRandom(seed);
+            const rand = (min, max) => Math.floor(r() * (max - min + 1)) + min,
+                qs = [],
+                types = ['add_no_carry', 'sub_no_borrow', 'add_carry', 'sub_borrow'],
+                per = Math.floor(c / types.length);
+            let rem = c - per * types.length;
+            for (let t of types) {
+                let n = per + (rem > 0 ? 1 : 0);
+                if (rem > 0) rem--;
+                for (let i = 0; i < n; i++) { const q = genOne(t, rand); if (q) qs.push(q) }
+            }
+            for (let i = qs.length - 1; i > 0; i--) { const j = Math.floor(r() * (i + 1));
+                [qs[i], qs[j]] = [qs[j], qs[i]] }
+            return qs
         }
 
-        async function handleFullscreenClick() {
-            try { await toggleFullscreen(); } catch (error) { alert("当前环境不支持全屏或被浏览器拦截。"); }
-            updateFullscreenButtonText();
-        }
-
-        function toggleLandscapeMode() {
-            const app = els.appContainer;
-            app.classList.toggle('force-landscape');
-            const isActive = app.classList.contains('force-landscape');
-            els.landscapeBtn.textContent = isActive ? '退出横屏' : '横屏模式';
-            if (isActive) {
-                try {
-                    if (screen.orientation && screen.orientation.lock) {
-                        screen.orientation.lock('landscape').catch(() => {});
+        function genOne(type, rand) {
+            let a, b, ans, q, opts = [],
+                tries = 0;
+            while (tries++ < 50) {
+                switch (type) {
+                    case 'add_no_carry': {
+                        const t1 = rand(0, 9),
+                            t2 = rand(0, 9 - t1),
+                            u1 = rand(0, 9),
+                            u2 = rand(0, 9 - u1);
+                        a = t1 * 10 + u1;
+                        b = t2 * 10 + u2;
+                        if (!a || !b) continue;
+                        ans = a + b;
+                        q = a + ' + ' + b + ' = ?';
+                        break
                     }
-                } catch (e) {}
-            } else {
-                try {
-                    if (screen.orientation && screen.orientation.unlock) {
-                        screen.orientation.unlock();
+                    case 'sub_no_borrow': {
+                        const t1 = rand(1, 9),
+                            t2 = rand(0, t1),
+                            u1 = rand(0, 9),
+                            u2 = rand(0, u1);
+                        a = t1 * 10 + u1;
+                        b = t2 * 10 + u2;
+                        if (!a || !b || a <= b) continue;
+                        ans = a - b;
+                        q = a + ' - ' + b + ' = ?';
+                        break
                     }
-                } catch (e) {}
+                    case 'add_carry': {
+                        a = rand(2, 9);
+                        b = rand(2, 9);
+                        const s = a + b;
+                        if (s <= 10 || s > 20) continue;
+                        ans = s;
+                        q = a + ' + ' + b + ' = ?';
+                        break
+                    }
+                    case 'sub_borrow': {
+                        a = rand(11, 20);
+                        b = rand(2, 9);
+                        if (a <= b) continue;
+                        if (a % 10 >= b % 10) continue;
+                        ans = a - b;
+                        q = a + ' - ' + b + ' = ?';
+                        break
+                    }
+                }
+                if (ans < 0 || ans > 100) continue;
+                break
             }
+            if (tries >= 50) return null;
+            if (Math.random() < .4) {
+                opts = genDistractors(ans, type, rand);
+                if (!opts.includes(String(ans))) opts[0] = String(ans);
+                for (let i = opts.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1));
+                    [opts[i], opts[j]] = [opts[j], opts[i]] }
+                return { id: crypto.randomUUID(), type: 'choice', question: q, answer: String(ans), options: opts }
+            }
+            return { id: crypto.randomUUID(), type: 'number', question: q, answer: String(ans), options: [] }
         }
 
-        function buildTimeoutMessage() {
-            if (state.scoreA > state.scoreB) {
-                return { text: `⏰ 时间到！\n${state.teamNameA}（家长）获胜！`, icon: "🥇" };
+        function genDistractors(correct, type, rand) {
+            const s = new Set([String(correct)]),
+                cand = [],
+                offs = [-1, 1, -2, 2, -5, 5, -10, 10, -3, 3];
+            for (let o of offs) { const v = correct + o; if (v >= 0 && v <= 100 && !s.has(String(v))) cand.push(String(v)) }
+            let idx = 0;
+            while (cand.length < 3 && idx < 50) { const v = rand(0, 100); if (!s.has(String(v))) cand.push(String(v));
+                idx++ }
+            const res = [String(correct)];
+            for (let i = 0; i < Math.min(3, cand.length); i++) res.push(cand[i]);
+            while (res.length < 4) { const v = rand(0, 100); if (!res.includes(String(v))) res.push(String(v)) }
+            return res
+        }
+
+        function getToday() { const d = new Date(); return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') +
+                '-' + String(d.getDate()).padStart(2, '0') }
+
+        // ======= API =======
+        async function fetchWhitelist() {
+            try { const r = await fetch(API_WHITELIST); if (!r.ok) throw Error(); const d = await r.json(); if (d && d
+                    .submissions) { whitelistCache = d.submissions; return whitelistCache } return [] } catch (e) { return[] }
+        }
+
+        function checkWhitelist(cls, name) {
+            if (!whitelistCache) return !1;
+            const n = name.trim();
+            return whitelistCache.some(i => String(i.class || '').trim() === cls && String(i.name || '').trim() === n)
+        }
+        async function submitScore(cls, name, score) {
+            const r = await fetch(API_SUBMIT, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON
+                    .stringify({ class: cls, name: name.trim(), score }) });
+            if (!r.ok) throw Error(await r.text());
+            return r.json()
+        }
+        async function fetchRank() { try { const r = await fetch(API_RANK); if (!r.ok) throw Error(); const d = await r
+                .json(); return d.submissions || [] } catch (e) { return[] } }
+
+        // ======= 状态 =======
+        const state = {
+            bank: [],
+            teamNameA: '蓝队',
+            teamNameB: '红队',
+            usedA: [],
+            usedB: [],
+            scoreA: 0,
+            scoreB: 0,
+            pull: 0,
+            duration: 60,
+            timerSec: 60,
+            timerId: null,
+            nextTimerA: null,
+            nextTimerB: null,
+            qA: null,
+            qB: null,
+            ended: !1,
+            scale: 1,
+            teamA: { answer: '', selected: '', locked: !1 },
+            teamB: { answer: '', selected: '', locked: !1 },
+            readyA: !1,
+            readyB: !0,
+            difficulty: 'medium',
+            mode: 'idle',
+            isAI: !1,
+            aiTimer: null,
+            aiProcessing: !1,
+            userClass: '',
+            userName: '',
+            loggedIn: !1,
+            submitted: !1,
+        };
+        let roundType = null;
+
+        // ======= DOM =======
+        const el = {
+            qA: document.getElementById('questionA'),
+            qB: document.getElementById('questionB'),
+            dA: document.getElementById('displayA'),
+            dB: document.getElementById('displayB'),
+            iA: document.getElementById('inputA'),
+            iB: document.getElementById('inputB'),
+            fA: document.getElementById('feedbackA'),
+            fB: document.getElementById('feedbackB'),
+            sA: document.getElementById('scoreA'),
+            sB: document.getElementById('scoreB'),
+            asA: document.getElementById('arenaScoreA'),
+            asB: document.getElementById('arenaScoreB'),
+            timer: document.getElementById('timer'),
+            progress: document.getElementById('progressText'),
+            rope: document.getElementById('ropeMarker'),
+            groupL: document.getElementById('groupLeft'),
+            groupR: document.getElementById('groupRight'),
+            winOverlay: document.getElementById('winnerOverlay'),
+            winText: document.getElementById('winnerText'),
+            nameA: document.getElementById('nameDisplayA'),
+            nameB: document.getElementById('nameDisplayB'),
+            labelA: document.getElementById('scoreLabelA'),
+            labelB: document.getElementById('scoreLabelB'),
+            inputNameA: document.getElementById('teamNameInputA'),
+            inputNameB: document.getElementById('teamNameInputB'),
+            metaA: document.getElementById('metaAType'),
+            metaB: document.getElementById('metaBType'),
+            countdown: document.getElementById('countdownInput'),
+            minus: document.getElementById('timerMinusBtn'),
+            plus: document.getElementById('timerPlusBtn'),
+            zoomOut: document.getElementById('zoomOutBtn'),
+            zoomIn: document.getElementById('zoomInBtn'),
+            zoomReset: document.getElementById('zoomResetBtn'),
+            fullscreen: document.getElementById('fullscreenBtn'),
+            landscape: document.getElementById('landscapeBtn'),
+            sound: document.getElementById('soundBtn'),
+            bankInfo: document.getElementById('bankInfo'),
+            settings: document.getElementById('settingsModal'),
+            settingsBtn: document.getElementById('settingsBtn'),
+            closeSettings: document.getElementById('closeSettingsBtn'),
+            start: document.getElementById('startBtn'),
+            reset: document.getElementById('resetBtn'),
+            sample: document.getElementById('useSampleBtn'),
+            batch: document.getElementById('batchInput'),
+            batchSave: document.getElementById('batchSaveBtn'),
+            clearBatch: document.getElementById('clearBatchBtn'),
+            bankList: document.getElementById('bankList'),
+            exportBtn: document.getElementById('exportBankBtn'),
+            importBtn: document.getElementById('importBankBtn'),
+            clearBank: document.getElementById('clearBankBtn'),
+            app: document.getElementById('appContainer'),
+            rotate: document.getElementById('rotateOverlay'),
+            rotateClose: document.getElementById('rotateCloseBtn'),
+            readyA: document.getElementById('readyBtnA'),
+            readyB: document.getElementById('readyBtnB'),
+            diff: document.getElementById('difficultySelect'),
+            modeStatus: document.getElementById('modeStatus'),
+            badgeA: document.getElementById('modeBadgeA'),
+            badgeB: document.getElementById('modeBadgeB'),
+            login: document.getElementById('loginOverlay'),
+            loginClass: document.getElementById('loginClass'),
+            loginName: document.getElementById('loginName'),
+            loginBtn: document.getElementById('loginBtn'),
+            loginErr: document.getElementById('loginError'),
+            loginOk: document.getElementById('loginSuccess'),
+            rankList: document.getElementById('rankList'),
+            refreshRank: document.getElementById('refreshRankBtn'),
+            winnerIcon: document.getElementById('winnerIcon'),
+        };
+
+        // ======= 工具 =======
+        const fmt = s => String(Math.floor(s / 60)).padStart(2, '0') + ':' + String(s % 60).padStart(2, '0');
+
+        function saveBank() {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify({ bank: state.bank, teamNameA: state.teamNameA, teamNameB: state
+                        .teamNameB, generatedDate: getToday() }));
+            renderBank()
+        }
+
+        function updateNames() {
+            el.nameA.textContent = state.teamNameA;
+            el.nameB.textContent = state.teamNameB;
+            el.labelA.textContent = state.teamNameA + '分数';
+            el.labelB.textContent = state.teamNameB + '分数'
+        }
+
+        function loadBank() {
+            let saved = null,
+                today = getToday(),
+                need = !0;
+            try {
+                saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
+                if (saved && typeof saved === 'object' && saved.generatedDate === today && Array.isArray(saved.bank) &&
+                    saved.bank.length) { state.bank = saved.bank;
+                    state.teamNameA = saved.teamNameA || '蓝队';
+                    state.teamNameB = saved.teamNameB || '红队';
+                    need = !1 }
+            } catch (e) {}
+            if (need) {
+                const seed = new Date(today).getTime();
+                state.bank = generateMathQuestions(100, seed);
+                state.teamNameA = '蓝队';
+                state.teamNameB = '红队';
+                localStorage.setItem(STORAGE_KEY, JSON.stringify({ bank: state.bank, teamNameA: state.teamNameA,
+                        teamNameB: state.teamNameB, generatedDate: today }))
             }
-            if (state.scoreB > state.scoreA) {
-                return { text: `⏰ 时间到！\n${state.teamNameB}（孩子）获胜！`, icon: "🥇" };
+            el.inputNameA.value = state.teamNameA;
+            el.inputNameB.value = state.teamNameB;
+            updateNames();
+            renderBank()
+        }
+
+        function regenerateBank() {
+            const today = getToday(),
+                seed = new Date(today).getTime();
+            state.bank = generateMathQuestions(100, seed);
+            localStorage.setItem(STORAGE_KEY, JSON.stringify({ bank: state.bank, teamNameA: state.teamNameA, teamNameB: state
+                        .teamNameB, generatedDate: today }));
+            renderBank();
+            resetGame();
+            alert('✅ 已重新生成今日题库（100道）！')
+        }
+
+        function exportBank() {
+            if (!state.bank.length) return alert('题库为空');
+            let c = '';
+            for (const i of state.bank) {
+                if (i.type === 'choice') { const w = i.options.filter(o => o !== i.answer);
+                    c += i.question + ' / ' + i.answer + ' / ' + w.join(' / ') + '\n' } else c += i.question + ' / ' + i
+                        .answer + '\n'
             }
-            return { text: `⏰ 时间到！\n双方平局！`, icon: "🤝" };
+            const b = new Blob([c], { type: 'text/plain;charset=utf-8' }),
+                u = URL.createObjectURL(b),
+                a = document.createElement('a');
+            a.href = u;
+            a.download = '数学大拔河题库.txt';
+            a.click();
+            URL.revokeObjectURL(u)
+        }
+
+        function importBank() {
+            const inp = document.createElement('input');
+            inp.type = 'file';
+            inp.accept = '.txt';
+            inp.onchange = function(e) {
+                const f = e.target.files[0];
+                if (!f) return;
+                const r = new FileReader();
+                r.onload = function(ev) { el.batch.value = ev.target.result;
+                    alert('✅ 文件已导入到批量录入框，请检查后点击“批量保存到题库”') };
+                r.readAsText(f, 'UTF-8')
+            };
+            inp.click()
+        }
+
+        // ======= 准备 & 模式 =======
+        function updateReadyUI() {
+            el.readyA.className = 'ready-btn ' + (state.readyA ? 'ready' : 'not-ready');
+            el.readyA.textContent = state.readyA ? '✅ 已准备' : '⏳ 未准备';
+            if (state.isAI) { el.readyB.className = 'ready-btn ai-mode';
+                el.readyB.textContent = '🤖 AI对手';
+                el.readyB.disabled = !0 } else { el.readyB.className = 'ready-btn ' + (state.readyB ? 'ready' : 'not-ready');
+                el.readyB.textContent = state.readyB ? '✅ 已准备' : '⏳ 未准备';
+                el.readyB.disabled = !1 }
+            updateModeStatus()
+        }
+
+        function toggleReady(team) {
+            if (state.mode !== 'idle') return alert('比赛进行中，无法更改准备状态');
+            if (team === 'A') { state.readyA = !state.readyA; if (!state.readyA && state.isAI) { state.isAI = !1;
+                    state.readyB = !1 } } else if (team === 'B') { if (state.isAI) return;
+                state.readyB = !state.readyB }
+            updateReadyUI()
+        }
+
+        function updateModeStatus() {
+            let txt = '';
+            if (state.mode === 'idle') {
+                if (state.isAI) txt = '🤖 单人模式 (孩子 vs AI)';
+                else if (state.readyA && state.readyB) txt = '👨‍👦 双人模式 (家长 vs 孩子)';
+                else if (!state.readyA && state.readyB) txt = '⏳ 等待家长准备… (可单人)';
+                else if (state.readyA && !state.readyB) txt = '⏳ 等待孩子准备…';
+                else txt = '⏳ 请双方准备'
+            } else if (state.mode === 'dual') txt = '👨‍👦 双人拔河 (家长 vs 孩子)';
+            else if (state.mode === 'single') txt = '🤖 单人拔河 (孩子 vs AI)';
+            el.modeStatus.textContent = '模式: ' + txt;
+            if (state.mode === 'single') { el.badgeA.textContent = '👨 家长';
+                el.badgeB.textContent = '🤖 AI' } else if (state.mode === 'dual') { el.badgeA.textContent = '👨 家长';
+                el.badgeB.textContent = '👶 孩子' } else { el.badgeA.textContent = '👨 家长';
+                el.badgeB.textContent = '👶 孩子' }
+        }
+
+        function getDiffConfig() {
+            const d = state.difficulty;
+            if (d === 'easy') return { delayMin: 3000, delayMax: 5000, accuracy: .6 };
+            if (d === 'medium') return { delayMin: 1800, delayMax: 3200, accuracy: .8 };
+            if (d === 'hard') return { delayMin: 700, delayMax: 1800, accuracy: .95 };
+            return { delayMin: 2000, delayMax: 3500, accuracy: .75 }
+        }
+
+        // ======= 游戏逻辑 =======
+        function updateTop() {
+            el.sA.textContent = state.scoreA;
+            el.sB.textContent = state.scoreB;
+            el.asA.textContent = state.scoreA;
+            el.asB.textContent = state.scoreB;
+            el.bankInfo.textContent = '题库数量: ' + state.bank.length;
+            el.timer.textContent = fmt(state.timerSec)
+        }
+
+        function getTeamState(t) { return t === 'A' ? state.teamA : state.teamB }
+
+        function getTeamQuestion(t) { return t === 'A' ? state.qA : state.qB }
+
+        function setTeamQuestion(t, q) { t === 'A' ? state.qA = q : state.qB = q }
+
+        function renderProgress() {
+            const s = state.pull * -10;
+            document.documentElement.style.setProperty('--rope-shift', s + 'px');
+            document.documentElement.style.setProperty('--group-shift', s + 'px');
+            let txt = '居中',
+                col = '';
+            if (state.pull > 0) { txt = '偏向 ' + state.teamNameA + ' ' + state.pull + ' 格';
+                col = '#148cff' } else if (state.pull < 0) { txt = '偏向 ' + state.teamNameB + ' ' + Math.abs(state.pull) +
+                    ' 格';
+                col = '#f74438' }
+            el.progress.textContent = '拔河进度: ' + txt;
+            el.progress.style.color = col || ''
+        }
+
+        function setFeedback(team, msg, type = '') {
+            const t = team === 'A' ? el.fA : el.fB;
+            t.textContent = msg;
+            t.className = 'feedback' + (type ? ' ' + type : '')
+        }
+
+        function updateDisplay(team) {
+            const t = getTeamState(team),
+                disp = team === 'A' ? el.dA : el.dB,
+                q = getTeamQuestion(team);
+            if (!q) { disp.textContent = '0'; return }
+            disp.textContent = q.type === 'number' ? (t.answer || '0') : (t.selected || '请选择')
+        }
+
+        function updateMeta(team, q) {
+            const txt = q ? (q.type === 'number' ? '数字题' : '选择题') : '未开始';
+            if (team === 'A') el.metaA.textContent = '题型: ' + txt;
+            else el.metaB.textContent = '题型: ' + txt
+        }
+
+        function createPad(team) {
+            const w = document.createElement('div');
+            w.className = 'numeric-pad';
+            ['1', '2', '3', '4', '5', '6', '7', '8', '9', '清空', '0', '确定'].forEach(k => {
+                const b = document.createElement('button');
+                b.type = 'button';
+                b.className = 'pad-btn';
+                b.textContent = k === '确定' ? '✓' : k === '清空' ? '×' : k;
+                if (k === '清空') b.classList.add('action-clear');
+                if (k === '确定') b.classList.add('action-ok');
+                b.addEventListener('click', () => {
+                    const q = getTeamQuestion(team);
+                    if (!q || q.type !== 'number') return;
+                    const ts = getTeamState(team);
+                    if (ts.locked || (state.isAI && team === 'B')) return;
+                    if (k === '清空') { ts.answer = '';
+                        setFeedback(team, '');
+                        updateDisplay(team); return }
+                    if (k === '确定') { submitAnswer(team); return }
+                    if (ts.answer.length >= 8) return;
+                    ts.answer += k;
+                    updateDisplay(team)
+                });
+                if (state.isAI && team === 'B') b.disabled = !0;
+                w.appendChild(b)
+            });
+            return w
+        }
+
+        function createChoices(team) {
+            const q = getTeamQuestion(team),
+                outer = document.createElement('div');
+            outer.className = 'choice-wrap';
+            const c = document.createElement('div');
+            c.className = 'choices';
+            [...q.options].sort(() => Math.random() - .5).forEach(opt => {
+                const b = document.createElement('button');
+                b.type = 'button';
+                b.className = 'choice-btn';
+                b.textContent = opt;
+                b.addEventListener('click', () => {
+                    const ts = getTeamState(team);
+                    if (ts.locked || (state.isAI && team === 'B')) return;
+                    ts.selected = opt;
+                    updateDisplay(team);
+                    [...c.children].forEach(n => n.classList.remove('selected'));
+                    b.classList.add('selected');
+                    setFeedback(team, '')
+                });
+                if (state.isAI && team === 'B') b.disabled = !0;
+                c.appendChild(b)
+            });
+            const a = document.createElement('div');
+            a.className = 'choice-actions';
+            const cl = document.createElement('button');
+            cl.type = 'button';
+            cl.className = 'secondary';
+            cl.textContent = '重选';
+            cl.addEventListener('click', () => {
+                const ts = getTeamState(team);
+                if (ts.locked || (state.isAI && team === 'B')) return;
+                ts.selected = '';
+                updateDisplay(team);
+                [...c.children].forEach(n => n.classList.remove('selected'));
+                setFeedback(team, '')
+            });
+            const ok = document.createElement('button');
+            ok.type = 'button';
+            ok.className = 'confirm';
+            ok.textContent = '提交';
+            ok.addEventListener('click', () => { if (!(state.isAI && team === 'B')) submitAnswer(team) });
+            if (state.isAI && team === 'B') { cl.disabled = !0;
+                ok.disabled = !0 }
+            a.append(cl, ok);
+            outer.append(c, a);
+            return outer
+        }
+
+        function renderInput(team) {
+            const inp = team === 'A' ? el.iA : el.iB,
+                q = getTeamQuestion(team);
+            inp.innerHTML = '';
+            if (!q) return;
+            if (state.isAI && team === 'B') {
+                const d = document.createElement('div');
+                d.style.cssText = 'text-align:center;padding:20px 0;font-weight:700;color:#8e44ad;font-size:20px';
+                d.textContent = '🤖 AI 思考中...';
+                inp.appendChild(d);
+                return
+            }
+            inp.appendChild(q.type === 'number' ? createPad(team) : createChoices(team))
+        }
+
+        function stopTimer() { if (state.timerId) { clearInterval(state.timerId);
+                state.timerId = null } }
+
+        function clearNextTimer(team) { const k = team === 'A' ? 'nextTimerA' : 'nextTimerB'; if (state[k]) { clearTimeout(
+                    state[k]);
+                state[k] = null } }
+
+        function clearAI() { if (state.aiTimer) { clearTimeout(state.aiTimer);
+                state.aiTimer = null };
+            state.aiProcessing = !1 }
+
+        function lockAll() { state.teamA.locked = !0;
+            state.teamB.locked = !0 }
+
+        function clampScale(s) { return Math.min(2, Math.max(.5, s)) }
+
+        function updateScale() {
+            const s = clampScale(state.scale);
+            state.scale = s;
+            document.documentElement.style.setProperty('--ui-scale', s.toFixed(2));
+            el.zoomReset.textContent = Math.round(s * 100) + '%'
+        }
+
+        function changeScale(d) { state.scale = clampScale(state.scale + d);
+            updateScale() }
+        async function toggleFullscreen() {
+            const e = document.documentElement,
+                fs = document.fullscreenElement || document.webkitFullscreenElement;
+            if (fs) { if (document.exitFullscreen) await document.exitFullscreen(); return }
+            if (!e.requestFullscreen) return;
+            await e.requestFullscreen();
+            try { if (screen.orientation && screen.orientation.lock) await screen.orientation.lock('landscape') } catch (
+            e) {}
+        }
+
+        function updateFS() { el.fullscreen.textContent = (document.fullscreenElement || document.webkitFullscreenElement) ?
+                '退出全屏' : '全屏' }
+
+        function toggleLandscape() {
+            el.app.classList.toggle('force-landscape');
+            el.landscape.textContent = el.app.classList.contains('force-landscape') ? '退出横屏' : '横屏模式';
+            try { if (screen.orientation && screen.orientation.lock) screen.orientation.lock('landscape').catch(() => {}) } catch (
+                e) {}
+        }
+
+        function buildTimeoutMsg() {
+            if (state.scoreA > state.scoreB) return { text: '⏰ 时间到！\n' + state.teamNameA + '（家长）获胜！', icon: '🥇' };
+            if (state.scoreB > state.scoreA) return { text: '⏰ 时间到！\n' + state.teamNameB + '（孩子）获胜！', icon: '🥇' };
+            return { text: '⏰ 时间到！\n双方平局！', icon: '🤝' }
         }
 
         function createConfetti() {
             const colors = ['#ff2a00', '#0b73eb', '#f3bc86', '#ffd7aa', '#4fb8ff', '#ff9173', '#ffe59b'];
             for (let i = 0; i < 150; i++) {
-                const conf = document.createElement('div');
-                conf.className = 'confetti';
-                conf.style.left = Math.random() * 100 + 'vw';
-                conf.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-                conf.style.animation = `fall ${Math.random() * 3 + 2}s linear forwards`;
-                conf.style.animationDelay = Math.random() * 2 + 's';
-                els.winnerOverlay.appendChild(conf);
-                setTimeout(() => conf.remove(), 5000);
+                const c = document.createElement('div');
+                c.className = 'confetti';
+                c.style.left = Math.random() * 100 + 'vw';
+                c.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                c.style.animation = 'fall ' + (Math.random() * 3 + 2) + 's linear forwards';
+                c.style.animationDelay = Math.random() * 2 + 's';
+                el.winOverlay.appendChild(c);
+                setTimeout(() => c.remove(), 5e3)
             }
         }
 
-        // ============================================================
-        // 结束 & 提交成绩（提交孩子分数）
-        // ============================================================
-        async function endMatch(messageObj) {
-            if (state.gameEnded) return;
-            state.gameEnded = true;
+        async function endMatch(msg) {
+            if (state.ended) return;
+            state.ended = !0;
             state.timerSec = Math.max(state.timerSec, 0);
             stopTimer();
-            clearNextQuestionTimer("A");
-            clearNextQuestionTimer("B");
-            clearAITimer();
+            clearNextTimer('A');
+            clearNextTimer('B');
+            clearAI();
             document.querySelector('.arena-stage').classList.remove('is-playing');
-            lockAllTeams();
+            lockAll();
             playSound('end');
-            document.getElementById("winnerIcon").innerText = messageObj.icon || "🏆";
-            els.winnerText.innerText = messageObj.text || messageObj;
-            els.winnerOverlay.classList.add("show");
+            el.winnerIcon.textContent = msg.icon || '🏆';
+            el.winText.textContent = msg.text || msg;
+            el.winOverlay.classList.add('show');
             createConfetti();
-            updateTopInfo();
+            updateTop();
             renderProgress();
             updateModeStatus();
-
-            // 提交孩子（红队）的分数
-            if (state.isLoggedIn && !state.scoreSubmitted) {
-                const finalScore = state.scoreB; // 孩子分数
-                try {
-                    await submitScore(state.userClass, state.userName, finalScore);
-                    state.scoreSubmitted = true;
-                    console.log('✅ 成绩已提交');
-                } catch (e) {
-                    console.error('提交成绩失败:', e);
-                }
-                await renderRank();
+            if (state.loggedIn && !state.submitted) {
+                try { await submitScore(state.userClass, state.userName, state.scoreB);
+                    state.submitted = !0 } catch (e) { console.error(e) }
+                await renderRank()
             }
         }
 
         function startTimer() {
             stopTimer();
-            if (state.timerSec <= 0) state.timerSec = state.durationSec;
-            updateTopInfo();
+            if (state.timerSec <= 0) state.timerSec = state.duration;
+            updateTop();
             state.timerId = setInterval(() => {
-                state.timerSec -= 1;
-                if (state.timerSec <= 0) {
-                    state.timerSec = 0;
-                    endMatch(buildTimeoutMessage());
-                    return;
-                }
-                updateTopInfo();
-            }, 1000);
+                state.timerSec--;
+                if (state.timerSec <= 0) { state.timerSec = 0;
+                    endMatch(buildTimeoutMsg()); return }
+                updateTop()
+            }, 1e3)
         }
 
-        function checkVictory() {
-            if (state.pullOffset > MAX_PULL) state.pullOffset = MAX_PULL;
-            if (state.pullOffset < -MAX_PULL) state.pullOffset = -MAX_PULL;
-            return false;
-        }
-
-        function normalizeText(value) { return String(value || "").trim(); }
+        function norm(v) { return String(v || '').trim() }
 
         function randomQuestion(team, type) {
             if (!state.bank.length) return null;
-            const usedList = team === "A" ? state.usedQuestionsA : state.usedQuestionsB;
-            let available = state.bank.filter(q => !usedList.includes(q.id));
-            if (type) available = available.filter(q => q.type === type);
-            if (!available.length) return null;
-            const index = Math.floor(Math.random() * available.length);
-            const question = available[index];
-            usedList.push(question.id);
-            return structuredClone(question);
+            const used = team === 'A' ? state.usedA : state.usedB;
+            let avail = state.bank.filter(q => !used.includes(q.id));
+            if (type) avail = avail.filter(q => q.type === type);
+            if (!avail.length) return null;
+            const idx = Math.floor(Math.random() * avail.length),
+                q = avail[idx];
+            used.push(q.id);
+            return structuredClone(q)
         }
 
-        // ============================================================
-        // AI 答题（针对红队孩子）
-        // ============================================================
+        // ======= AI =======
         function aiAnswer() {
-            if (state.gameEnded || !state.isAI || state.aiProcessing) return;
-            const question = getTeamQuestion('B');
-            if (!question) return;
-            const teamState = getTeamState('B');
-            if (teamState.locked) return;
-
-            state.aiProcessing = true;
-            const config = getDifficultyConfig();
-            const delay = config.delayMin + Math.random() * (config.delayMax - config.delayMin);
-
-            const willCorrect = Math.random() < config.accuracy;
-            let submittedAnswer = '';
-
-            if (question.type === 'number') {
-                submittedAnswer = willCorrect ? question.answer : generateWrongAnswer(question.answer, 'number');
-            } else {
-                if (willCorrect) {
-                    submittedAnswer = question.answer;
-                } else {
-                    const wrongs = question.options.filter(o => o !== question.answer);
-                    if (wrongs.length > 0) {
-                        submittedAnswer = wrongs[Math.floor(Math.random() * wrongs.length)];
-                    } else {
-                        submittedAnswer = question.answer;
-                    }
-                }
-            }
-
+            if (state.ended || !state.isAI || state.aiProcessing) return;
+            const q = getTeamQuestion('B');
+            if (!q) return;
+            const ts = getTeamState('B');
+            if (ts.locked) return;
+            state.aiProcessing = !0;
+            const cfg = getDiffConfig(),
+                delay = cfg.delayMin + Math.random() * (cfg.delayMax - cfg.delayMin),
+                willCorrect = Math.random() < cfg.accuracy;
+            let sub = '';
+            if (q.type === 'number') sub = willCorrect ? q.answer : genWrong(q.answer);
+            else sub = willCorrect ? q.answer : (q.options.filter(o => o !== q.answer)[Math.floor(Math.random() * q.options
+                    .filter(o => o !== q.answer).length)] || q.answer);
             setFeedback('B', '🤖 AI 思考中...', 'ai-thinking');
-
-            state.aiTimerId = setTimeout(() => {
-                state.aiTimerId = null;
-                state.aiProcessing = false;
-                if (state.gameEnded) return;
-                const q = getTeamQuestion('B');
-                if (!q) return;
-                const ts = getTeamState('B');
-                if (ts.locked) return;
-
-                if (q.type === 'number') {
-                    ts.answer = submittedAnswer;
-                } else {
-                    ts.selected = submittedAnswer;
-                }
+            state.aiTimer = setTimeout(() => {
+                state.aiTimer = null;
+                state.aiProcessing = !1;
+                if (state.ended) return;
+                const q2 = getTeamQuestion('B');
+                if (!q2) return;
+                const ts2 = getTeamState('B');
+                if (ts2.locked) return;
+                if (q2.type === 'number') ts2.answer = sub;
+                else ts2.selected = sub;
                 updateDisplay('B');
-                submitAnswer('B');
-            }, delay);
+                submitAnswer('B')
+            }, delay)
         }
 
-        function generateWrongAnswer(correct, type) {
-            const num = Number(correct);
-            if (isNaN(num)) return String(Number(correct) + 1);
-            const offsets = [-1, 1, -2, 2, -5, 5, -10, 10, -3, 3];
-            const shuffled = offsets.sort(() => Math.random() - 0.5);
-            for (let off of shuffled) {
-                const val = num + off;
-                if (val >= 0 && val <= 100 && val !== num) {
-                    return String(val);
-                }
-            }
-            return String(num + 1);
+        function genWrong(correct) {
+            const n = Number(correct);
+            if (isNaN(n)) return String(Number(correct) + 1);
+            const offs = [-1, 1, -2, 2, -5, 5, -10, 10, -3, 3].sort(() => Math.random() - .5);
+            for (let o of offs) { const v = n + o; if (v >= 0 && v <= 100 && v !== n) return String(v) }
+            return String(n + 1)
         }
 
-        // ============================================================
-        // 加载题目 & 提交答案
-        // ============================================================
-        function loadQuestionForTeam(team) {
-            if (state.gameEnded) return;
-            if (currentRoundType === null) {
-                const types = ['number', 'choice'];
-                const usedList = team === "A" ? state.usedQuestionsA : state.usedQuestionsB;
-                let found = false;
-                for (let t of types) {
-                    const available = state.bank.filter(q => q.type === t && !usedList.includes(q.id));
-                    if (available.length) {
-                        currentRoundType = t;
-                        found = true;
-                        break;
-                    }
-                }
+        // ======= 加载题目 & 提交 =======
+        function loadQuestion(team) {
+            if (state.ended) return;
+            if (roundType === null) {
+                const types = ['number', 'choice'],
+                    used = team === 'A' ? state.usedA : state.usedB;
+                let found = !1;
+                for (let t of types) { if (state.bank.filter(q => q.type === t && !used.includes(q.id)).length) { roundType =
+                            t;
+                        found = !0; break } }
                 if (!found) {
                     setTeamQuestion(team, null);
-                    const questionEl = team === "A" ? els.questionA : els.questionB;
-                    questionEl.textContent = "🎯 题目已做完";
-                    updateQuestionMeta(team, null);
-                    setFeedback(team, "等待比赛结束...", "ok");
+                    const qe = team === 'A' ? el.qA : el.qB;
+                    qe.textContent = '🎯 题目已做完';
+                    updateMeta(team, null);
+                    setFeedback(team, '等待比赛结束...', 'ok');
                     updateDisplay(team);
-                    renderInputForTeam(team);
-                    if (!getTeamQuestion("A") && !getTeamQuestion("B")) {
-                        endMatch(buildTimeoutMessage());
-                    }
-                    return;
+                    renderInput(team);
+                    if (!getTeamQuestion('A') && !getTeamQuestion('B')) endMatch(buildTimeoutMsg());
+                    return
                 }
             }
-
-            let question = randomQuestion(team, currentRoundType);
-            if (!question) {
-                const types = ['number', 'choice'];
-                const otherType = types.find(t => t !== currentRoundType);
-                if (otherType) {
-                    const usedList = team === "A" ? state.usedQuestionsA : state.usedQuestionsB;
-                    const available = state.bank.filter(q => q.type === otherType && !usedList.includes(q.id));
-                    if (available.length) {
-                        currentRoundType = otherType;
-                        question = randomQuestion(team, currentRoundType);
-                    }
+            let q = randomQuestion(team, roundType);
+            if (!q) {
+                const types = ['number', 'choice'],
+                    other = types.find(t => t !== roundType);
+                if (other) {
+                    const used = team === 'A' ? state.usedA : state.usedB;
+                    if (state.bank.filter(q2 => q2.type === other && !used.includes(q2.id)).length) { roundType = other;
+                        q = randomQuestion(team, roundType) }
                 }
-                if (!question) {
+                if (!q) {
                     setTeamQuestion(team, null);
-                    const questionEl = team === "A" ? els.questionA : els.questionB;
-                    questionEl.textContent = "🎯 题目已做完";
-                    updateQuestionMeta(team, null);
-                    setFeedback(team, "等待比赛结束...", "ok");
+                    const qe = team === 'A' ? el.qA : el.qB;
+                    qe.textContent = '🎯 题目已做完';
+                    updateMeta(team, null);
+                    setFeedback(team, '等待比赛结束...', 'ok');
                     updateDisplay(team);
-                    renderInputForTeam(team);
-                    if (!getTeamQuestion("A") && !getTeamQuestion("B")) {
-                        endMatch(buildTimeoutMessage());
-                    }
-                    return;
+                    renderInput(team);
+                    if (!getTeamQuestion('A') && !getTeamQuestion('B')) endMatch(buildTimeoutMsg());
+                    return
                 }
             }
-
-            const questionEl = team === "A" ? els.questionA : els.questionB;
-            const teamState = getTeamState(team);
-            setTeamQuestion(team, question);
-            if (team === "A") state.roundA += 1;
-            else state.roundB += 1;
-            teamState.answer = "";
-            teamState.selected = "";
-            teamState.locked = false;
-            questionEl.textContent = question.question;
-            updateQuestionMeta(team, question);
-            setFeedback(team, "");
+            const qe = team === 'A' ? el.qA : el.qB,
+                ts = getTeamState(team);
+            setTeamQuestion(team, q);
+            ts.answer = '';
+            ts.selected = '';
+            ts.locked = !1;
+            qe.textContent = q.question;
+            updateMeta(team, q);
+            setFeedback(team, '');
             updateDisplay(team);
-            renderInputForTeam(team);
-            updateTopInfo();
-
-            if (state.isAI && team === 'B' && !state.gameEnded) {
-                clearAITimer();
-                aiAnswer();
-            }
+            renderInput(team);
+            updateTop();
+            if (state.isAI && team === 'B' && !state.ended) { clearAI();
+                aiAnswer() }
         }
 
         function submitAnswer(team) {
-            if (state.gameEnded) return;
-            const question = getTeamQuestion(team);
-            if (!question) return;
-            const teamState = getTeamState(team);
-            if (teamState.locked) return;
-
-            const submitted = question.type === "number" ?
-                normalizeText(teamState.answer) :
-                normalizeText(teamState.selected);
-
-            if (!submitted) {
-                setFeedback(team, "请先输入或选择答案", "bad");
-                if (!(state.isAI && team === 'B')) playSound('wrong');
-                return;
-            }
-
-            const answer = normalizeText(question.answer);
-            const correct = submitted === answer;
-
+            if (state.ended) return;
+            const q = getTeamQuestion(team);
+            if (!q) return;
+            const ts = getTeamState(team);
+            if (ts.locked) return;
+            const sub = norm(q.type === 'number' ? ts.answer : ts.selected);
+            if (!sub) { setFeedback(team, '请先输入或选择答案', 'bad'); if (!(state.isAI && team === 'B')) playSound('wrong'); return }
+            const ans = norm(q.answer),
+                correct = sub === ans;
             if (correct) {
-                teamState.locked = true;
-                if (team === "A") {
-                    state.scoreA += 1;
-                    state.pullOffset += 1;
-                } else {
-                    state.scoreB += 1;
-                    state.pullOffset -= 1;
-                }
-                const who = team === "A" ? state.teamNameA + "(家长)" : state.teamNameB + "(孩子)";
-                setFeedback(team, `✅ 回答正确！${who} 拉动 1 格`, "ok");
-                if (!(state.isAI && team === 'B')) playSound('correct');
+                ts.locked = !0;
+                if (team === 'A') { state.scoreA++;
+                    state.pull++ } else { state.scoreB++;
+                    state.pull-- }
+                const who = team === 'A' ? state.teamNameA + '(家长)' : state.teamNameB + '(孩子)';
+                setFeedback(team, '✅ 回答正确！' + who + ' 拉动 1 格', 'ok');
+                if (!(state.isAI && team === 'B')) playSound('correct')
             } else {
-                teamState.answer = "";
-                teamState.selected = "";
-                setFeedback(team, "❌ 回答错误，请再试一次", "bad");
+                ts.answer = '';
+                ts.selected = '';
+                setFeedback(team, '❌ 回答错误，请再试一次', 'bad');
                 if (!(state.isAI && team === 'B')) playSound('wrong');
-                if (state.isAI && team === 'B') {
-                    clearAITimer();
-                    setTimeout(() => {
-                        if (!state.gameEnded && !state.teamB.locked) {
-                            aiAnswer();
-                        }
-                    }, 800);
-                }
+                if (state.isAI && team === 'B') { clearAI();
+                    setTimeout(() => { if (!state.ended && !state.teamB.locked) aiAnswer() }, 800) }
                 updateDisplay(team);
-                renderInputForTeam(team);
-                return;
+                renderInput(team);
+                return
             }
-
-            updateTopInfo();
+            updateTop();
             renderProgress();
             updateDisplay(team);
-            renderInputForTeam(team);
-
-            if (checkVictory()) return;
-
+            renderInput(team);
+            if (state.pull > MAX_PULL) state.pull = MAX_PULL;
+            if (state.pull < -MAX_PULL) state.pull = -MAX_PULL;
             if (correct) {
-                clearNextQuestionTimer(team);
-                const timerKey = team === "A" ? "nextQuestionTimerA" : "nextQuestionTimerB";
-                state[timerKey] = setTimeout(() => {
-                    state[timerKey] = null;
-                    if (!state.gameEnded && !checkVictory()) {
-                        loadQuestionForTeam(team);
-                    }
-                }, 900);
+                clearNextTimer(team);
+                const k = team === 'A' ? 'nextTimerA' : 'nextTimerB';
+                state[k] = setTimeout(() => { state[k] = null; if (!state.ended) loadQuestion(team) }, 900)
             }
         }
 
-        // ============================================================
-        // 登录 & 开始
-        // ============================================================
+        // ======= 开始 & 重置 =======
         function showLogin() {
-            els.loginOverlay.classList.remove('hidden');
-            els.loginName.value = '';
-            els.loginError.textContent = '';
-            els.loginSuccess.textContent = '';
-            els.loginBtn.disabled = false;
-            els.loginBtn.textContent = '✅ 验证并开始';
-            els.loginName.focus();
+            el.login.classList.remove('hidden');
+            el.loginName.value = '';
+            el.loginErr.textContent = '';
+            el.loginOk.textContent = '';
+            el.loginBtn.disabled = !1;
+            el.loginBtn.textContent = '✅ 验证并开始';
+            el.loginName.focus()
         }
 
         async function handleLogin() {
-            const classVal = els.loginClass.value;
-            const nameVal = els.loginName.value.trim();
-
-            els.loginError.textContent = '';
-            els.loginSuccess.textContent = '';
-
-            if (!nameVal) {
-                els.loginError.textContent = '⚠️ 请输入孩子姓名';
-                return;
-            }
-
-            els.loginBtn.disabled = true;
-            els.loginBtn.textContent = '⏳ 验证中...';
-
+            const cls = el.loginClass.value,
+                name = el.loginName.value.trim();
+            el.loginErr.textContent = '';
+            el.loginOk.textContent = '';
+            if (!name) { el.loginErr.textContent = '⚠️ 请输入孩子姓名'; return }
+            el.loginBtn.disabled = !0;
+            el.loginBtn.textContent = '⏳ 验证中...';
             try {
                 await fetchWhitelist();
-
-                if (!checkWhitelist(classVal, nameVal)) {
-                    els.loginError.textContent = '❌ 未找到匹配的班级和姓名，请确认后重试';
-                    els.loginBtn.disabled = false;
-                    els.loginBtn.textContent = '✅ 验证并开始';
-                    return;
-                }
-
-                state.userClass = classVal;
-                state.userName = nameVal;
-                state.isLoggedIn = true;
-                state.scoreSubmitted = false;
-
-                els.loginSuccess.textContent = `✅ 验证通过！欢迎 ${classVal} ${nameVal}`;
-                els.loginBtn.textContent = '✅ 已验证';
-
-                setTimeout(() => {
-                    els.loginOverlay.classList.add('hidden');
-                    doStartRound();
-                }, 500);
-
-            } catch (e) {
-                els.loginError.textContent = '⚠️ 网络连接失败，请稍后重试';
-                els.loginBtn.disabled = false;
-                els.loginBtn.textContent = '✅ 验证并开始';
-                console.error(e);
-            }
+                if (!checkWhitelist(cls, name)) { el.loginErr.textContent = '❌ 未找到匹配的班级和姓名，请确认后重试';
+                    el.loginBtn.disabled = !1;
+                    el.loginBtn.textContent = '✅ 验证并开始'; return }
+                state.userClass = cls;
+                state.userName = name;
+                state.loggedIn = !0;
+                state.submitted = !1;
+                el.loginOk.textContent = '✅ 验证通过！欢迎 ' + cls + ' ' + name;
+                el.loginBtn.textContent = '✅ 已验证';
+                setTimeout(() => { el.login.classList.add('hidden');
+                    doStart() }, 500)
+            } catch (e) { el.loginErr.textContent = '⚠️ 网络连接失败，请稍后重试';
+                el.loginBtn.disabled = !1;
+                el.loginBtn.textContent = '✅ 验证并开始';
+                console.error(e) }
         }
 
-        function doStartRound() {
-            if (state.gameEnded) {
-                alert("比赛已结束，请先点击“重置比赛”再开始。");
-                return;
-            }
-            if (!state.bank.length) {
-                alert("📚 题库为空，请先到比赛设置里生成或录入题目。");
-                return;
-            }
-
-            // 孩子默认已准备，检查孩子是否准备
-            if (!state.readyB) {
-                alert(`👶 请先让孩子（${state.teamNameB}）点击“准备”按钮！`);
-                return;
-            }
-
-            // 判断模式：家长准备 + 孩子准备 = 双人；家长未准备 + 孩子准备 = 单人AI
+        function doStart() {
+            if (state.ended) return alert('比赛已结束，请先点击“重置比赛”再开始。');
+            if (!state.bank.length) return alert('📚 题库为空，请先到比赛设置里生成或录入题目。');
+            if (!state.readyB) return alert('👶 请先让孩子（' + state.teamNameB + '）点击“准备”按钮！');
             if (state.readyA && state.readyB) {
                 state.mode = 'dual';
-                state.isAI = false;
-                els.readyBtnA.className = 'ready-btn ready';
-                els.readyBtnA.textContent = '✅ 已准备';
-                els.readyBtnA.disabled = true;
-                els.readyBtnB.className = 'ready-btn ready';
-                els.readyBtnB.textContent = '✅ 已准备';
-                els.readyBtnB.disabled = true;
+                state.isAI = !1;
+                el.readyA.className = 'ready-btn ready';
+                el.readyA.textContent = '✅ 已准备';
+                el.readyA.disabled = !0;
+                el.readyB.className = 'ready-btn ready';
+                el.readyB.textContent = '✅ 已准备';
+                el.readyB.disabled = !0
             } else if (!state.readyA && state.readyB) {
                 state.mode = 'single';
-                state.isAI = true;
-                els.readyBtnA.className = 'ready-btn not-ready';
-                els.readyBtnA.textContent = '⏳ 未准备 (AI)';
-                els.readyBtnA.disabled = true;
-                els.readyBtnB.className = 'ready-btn ai-mode';
-                els.readyBtnB.textContent = '🤖 AI对手';
-                els.readyBtnB.disabled = true;
-                // 强制红队为已准备（AI模式）
-                state.readyB = true;
-            } else {
-                alert('请至少让孩子准备！');
-                return;
-            }
-
-            els.difficultySelect.disabled = true;
-
-            currentRoundType = null;
-            els.startBtn.textContent = "进行中";
-            els.startBtn.disabled = true;
-            els.winnerOverlay.classList.remove("show");
-            els.winnerText.innerText = "";
-            els.winnerOverlay.querySelectorAll('.confetti').forEach(c => c.remove());
+                state.isAI = !0;
+                el.readyA.className = 'ready-btn not-ready';
+                el.readyA.textContent = '⏳ 未准备 (AI)';
+                el.readyA.disabled = !0;
+                el.readyB.className = 'ready-btn ai-mode';
+                el.readyB.textContent = '🤖 AI对手';
+                el.readyB.disabled = !0;
+                state.readyB = !0
+            } else return alert('请至少让孩子准备！');
+            el.diff.disabled = !0;
+            roundType = null;
+            el.start.textContent = '进行中';
+            el.start.disabled = !0;
+            el.winOverlay.classList.remove('show');
+            el.winText.textContent = '';
+            el.winOverlay.querySelectorAll('.confetti').forEach(c => c.remove());
             document.querySelector('.arena-stage').classList.add('is-playing');
-
-            state.usedQuestionsA = [];
-            state.usedQuestionsB = [];
-            state.aiProcessing = false;
-            clearAITimer();
-
-            loadQuestionForTeam("A");
-            loadQuestionForTeam("B");
-
-            if (!state.timerId) {
-                state.timerSec = state.durationSec;
-                startTimer();
-            }
+            state.usedA = [];
+            state.usedB = [];
+            state.aiProcessing = !1;
+            clearAI();
+            loadQuestion('A');
+            loadQuestion('B');
+            if (!state.timerId) { state.timerSec = state.duration;
+                startTimer() }
             renderProgress();
             updateModeStatus();
-            playSound('start');
+            playSound('start')
         }
 
-        // ============================================================
-        // 重置
-        // ============================================================
         function resetGame() {
             stopTimer();
-            clearNextQuestionTimer("A");
-            clearNextQuestionTimer("B");
-            clearAITimer();
+            clearNextTimer('A');
+            clearNextTimer('B');
+            clearAI();
             document.querySelector('.arena-stage').classList.remove('is-playing');
-            currentRoundType = null;
-            els.startBtn.textContent = "开始";
-            els.startBtn.disabled = false;
+            roundType = null;
+            el.start.textContent = '开始';
+            el.start.disabled = !1;
             state.scoreA = 0;
             state.scoreB = 0;
-            state.pullOffset = 0;
-            state.roundA = 0;
-            state.roundB = 0;
-            state.timerSec = state.durationSec;
-            state.activeQuestionA = null;
-            state.activeQuestionB = null;
-            state.gameEnded = false;
-            state.usedQuestionsA = [];
-            state.usedQuestionsB = [];
-            state.teamA = { answer: "", selected: "", locked: false };
-            state.teamB = { answer: "", selected: "", locked: false };
+            state.pull = 0;
+            state.timerSec = state.duration;
+            state.qA = null;
+            state.qB = null;
+            state.ended = !1;
+            state.usedA = [];
+            state.usedB = [];
+            state.teamA = { answer: '', selected: '', locked: !1 };
+            state.teamB = { answer: '', selected: '', locked: !1 };
             state.mode = 'idle';
-            state.isAI = false;
-            state.aiProcessing = false;
-            clearAITimer();
-
-            // 恢复准备状态：家长未准备，孩子已准备
-            state.readyA = false;
-            state.readyB = true;
-            els.readyBtnA.disabled = false;
-            els.readyBtnB.disabled = false;
-            els.difficultySelect.disabled = false;
-
-            els.questionA.textContent = "？？？？";
-            els.questionB.textContent = "？？？？";
-            els.inputA.innerHTML = "";
-            els.inputB.innerHTML = "";
-            els.winnerOverlay.classList.remove("show");
-            els.winnerText.innerText = "";
-            els.winnerOverlay.querySelectorAll('.confetti').forEach(c => c.remove());
-            updateQuestionMeta("A", null);
-            updateQuestionMeta("B", null);
-            setFeedback("A", "");
-            setFeedback("B", "");
-            updateDisplay("A");
-            updateDisplay("B");
+            state.isAI = !1;
+            state.aiProcessing = !1;
+            clearAI();
+            state.readyA = !1;
+            state.readyB = !0;
+            el.readyA.disabled = !1;
+            el.readyB.disabled = !1;
+            el.diff.disabled = !1;
+            el.qA.textContent = '？？？？';
+            el.qB.textContent = '？？？？';
+            el.iA.innerHTML = '';
+            el.iB.innerHTML = '';
+            el.winOverlay.classList.remove('show');
+            el.winText.textContent = '';
+            el.winOverlay.querySelectorAll('.confetti').forEach(c => c.remove());
+            updateMeta('A', null);
+            updateMeta('B', null);
+            setFeedback('A', '');
+            setFeedback('B', '');
+            updateDisplay('A');
+            updateDisplay('B');
             renderProgress();
-            updateTopInfo();
+            updateTop();
             updateReadyUI();
-            updateModeStatus();
+            updateModeStatus()
         }
 
-        // ============================================================
-        // 排行榜 (仅显示个人最佳)
-        // ============================================================
+        // ======= 排行榜 =======
         async function renderRank() {
-            const container = els.rankList;
-            container.innerHTML = '<div class="rank-loading">加载中...</div>';
-
+            const c = el.rankList;
+            c.innerHTML = '<div class="rank-loading">加载中...</div>';
             try {
-                const submissions = await fetchRank();
-                if (!submissions || submissions.length === 0) {
-                    container.innerHTML = '<div class="rank-empty">暂无记录，快来挑战吧！</div>';
-                    return;
+                const subs = await fetchRank();
+                if (!subs || !subs.length) { c.innerHTML = '<div class="rank-empty">暂无记录，快来挑战吧！</div>'; return }
+                const map = new Map();
+                for (const i of subs) {
+                    const cls = String(i.class || '未知班级').trim(),
+                        name = String(i.name || '匿名').trim(),
+                        key = cls + '|' + name,
+                        score = Number(i.score) || 0;
+                    if (!map.has(key) || score > map.get(key).score) map.set(key, { class: cls, name, score })
                 }
-
-                // 按 班级+姓名 分组，取最高分
-                const bestMap = new Map();
-                for (const item of submissions) {
-                    const cls = String(item.class || '未知班级').trim();
-                    const name = String(item.name || '匿名').trim();
-                    const key = cls + '|' + name;
-                    const score = Number(item.score) || 0;
-                    if (!bestMap.has(key) || score > bestMap.get(key).score) {
-                        bestMap.set(key, {
-                            class: cls,
-                            name: name,
-                            score: score
-                        });
-                    }
-                }
-
-                const bestList = Array.from(bestMap.values());
-                const sorted = bestList.sort((a, b) => b.score - a.score);
-                const top = sorted.slice(0, 20);
-
+                const sorted = Array.from(map.values()).sort((a, b) => b.score - a.score),
+                    top = sorted.slice(0, 20);
                 let html = '';
-                top.forEach((item, index) => {
-                    const cls = item.class;
-                    const name = item.name;
-                    const score = item.score;
-                    let numClass = 'rank-num';
-                    if (index === 0) numClass += ' gold';
-                    else if (index === 1) numClass += ' silver';
-                    else if (index === 2) numClass += ' bronze';
-
-                    html += `
-                        <div class="rank-item">
-                            <span class="${numClass}">${index + 1}</span>
-                            <span class="rank-class">${cls}</span>
-                            <span class="rank-name">${name}</span>
-                            <span class="rank-score">${score}</span>
-                        </div>
-                    `;
+                top.forEach((i, idx) => {
+                    let nc = 'rank-num';
+                    if (idx === 0) nc += ' gold';
+                    else if (idx === 1) nc += ' silver';
+                    else if (idx === 2) nc += ' bronze';
+                    html +=
+                        `<div class="rank-item"><span class="${nc}">${idx+1}</span><span class="rank-class">${i.class}</span><span class="rank-name">${i.name}</span><span class="rank-score">${i.score}</span></div>`
                 });
-                container.innerHTML = html;
-            } catch (e) {
-                container.innerHTML = '<div class="rank-empty">⚠️ 加载排行榜失败，请点击刷新重试</div>';
-                console.error(e);
-            }
+                c.innerHTML = html
+            } catch (e) { c.innerHTML = '<div class="rank-empty">⚠️ 加载排行榜失败，请点击刷新重试</div>';
+                console.error(e) }
         }
 
-        // ============================================================
-        // 批量录入 & 渲染题库
-        // ============================================================
-        function processBatchInput() {
-            const text = els.batchInput.value.trim();
-            if (!text) { alert("请输入题目内容。"); return; }
-            const lines = text.split("\n");
+        // ======= 批量录入 =======
+        function processBatch() {
+            const txt = el.batch.value.trim();
+            if (!txt) return alert('请输入题目内容。');
+            const lines = txt.split('\n');
             let added = 0;
             for (let i = 0; i < lines.length; i++) {
                 const line = lines[i].trim();
                 if (!line) continue;
-                const parts = line.split("/").map(p => p.trim()).filter(Boolean);
-                if (parts.length < 2) {
-                    alert(`第 ${i+1} 行格式不正确，跳过。\n内容：${line}`);
-                    continue;
-                }
-                const question = parts[0];
-                const answer = parts[1];
+                const parts = line.split('/').map(p => p.trim()).filter(Boolean);
+                if (parts.length < 2) { alert('第 ' + (i + 1) + ' 行格式不正确，跳过。\n内容：' + line); continue }
                 const isChoice = parts.length > 2;
-                const newQuestion = {
-                    id: crypto.randomUUID(),
-                    type: isChoice ? "choice" : "number",
-                    question,
-                    answer,
-                    options: isChoice ? parts.slice(1) : [],
-                    difficulty: "未设置"
-                };
-                state.bank.push(newQuestion);
-                added++;
+                state.bank.push({ id: crypto.randomUUID(), type: isChoice ? 'choice' : 'number', question: parts[0],
+                    answer: parts[1], options: isChoice ? parts.slice(1) : [] });
+                added++
             }
-            if (added > 0) {
-                saveBank();
-                alert(`✅ 成功批量录入 ${added} 道题目！`);
-                els.batchInput.value = "";
-            }
+            if (added) { saveBank();
+                alert('✅ 成功批量录入 ' + added + ' 道题目！');
+                el.batch.value = '' }
         }
 
         function renderBank() {
-            updateTopInfo();
-            if (!state.bank.length) {
-                els.bankList.innerHTML = '<div class="empty">📭 题库为空，请点击「重新生成今日题库」或手动录入。</div>';
-                return;
-            }
-            els.bankList.innerHTML = "";
-            state.bank.forEach((item) => {
-                const card = document.createElement("div");
-                card.className = "bank-item";
-                const left = document.createElement("div");
-                const title = document.createElement("h4");
-                title.textContent = item.question;
-                const detail = document.createElement("p");
-                const optionText = item.type === "choice" ? "\n选项: " + item.options.join(" / ") : "";
-                detail.textContent = "答案: " + item.answer + optionText;
-                left.append(title, detail);
-                const right = document.createElement("div");
-                right.className = "item-side";
-                const type = document.createElement("div");
-                type.className = "type-tag " + item.type;
-                type.textContent = item.type === "number" ? "数字题" : "选择题";
-                const del = document.createElement("button");
-                del.type = "button";
-                del.className = "tiny-btn";
-                del.textContent = "删除";
-                del.addEventListener("click", () => {
-                    state.bank = state.bank.filter(q => q.id !== item.id);
-                    saveBank();
-                });
-                right.append(type, del);
-                card.append(left, right);
-                els.bankList.appendChild(card);
-            });
+            updateTop();
+            if (!state.bank.length) { el.bankList.innerHTML = '<div class="empty">📭 题库为空，请点击「重新生成今日题库」或手动录入。</div>'; return }
+            el.bankList.innerHTML = '';
+            state.bank.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'bank-item';
+                const l = document.createElement('div');
+                const t = document.createElement('h4');
+                t.textContent = item.question;
+                const d = document.createElement('p');
+                d.textContent = '答案: ' + item.answer + (item.type === 'choice' ? '\n选项: ' + item.options.join(' / ') :
+                '');
+                l.append(t, d);
+                const r = document.createElement('div');
+                r.className = 'item-side';
+                const tag = document.createElement('div');
+                tag.className = 'type-tag ' + item.type;
+                tag.textContent = item.type === 'number' ? '数字题' : '选择题';
+                const del = document.createElement('button');
+                del.type = 'button';
+                del.className = 'tiny-btn';
+                del.textContent = '删除';
+                del.addEventListener('click', () => { state.bank = state.bank.filter(q => q.id !== item.id);
+                    saveBank() });
+                r.append(tag, del);
+                card.append(l, r);
+                el.bankList.appendChild(card)
+            })
         }
 
-        // ============================================================
-        // 旋转提示控制
-        // ============================================================
-        let rotateOverlayDismissed = false;
-
+        // ======= 旋转提示 =======
         function checkOrientation() {
-            if (window.innerWidth >= 1024 && window.innerHeight < window.innerWidth) {
-                els.rotateOverlay.classList.remove('show');
-                return;
-            }
-            if (rotateOverlayDismissed) {
-                els.rotateOverlay.classList.remove('show');
-                return;
-            }
-            const isPortrait = window.innerHeight > window.innerWidth;
-            if (isPortrait) {
-                els.rotateOverlay.classList.add('show');
-            } else {
-                els.rotateOverlay.classList.remove('show');
-            }
+            if (window.innerWidth >= 1024 && window.innerHeight < window.innerWidth) { el.rotate.classList.remove('show'); return }
+            if (rotateDismissed) { el.rotate.classList.remove('show'); return }
+            el.rotate.classList.toggle('show', window.innerHeight > window.innerWidth)
         }
 
-        function dismissRotateOverlay() {
-            rotateOverlayDismissed = true;
-            els.rotateOverlay.classList.remove('show');
-        }
+        function dismissRotate() { rotateDismissed = !0;
+            el.rotate.classList.remove('show') }
 
-        // ============================================================
-        // 事件绑定
-        // ============================================================
-        els.loginBtn.addEventListener('click', handleLogin);
-        els.loginName.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter') handleLogin();
+        // ======= 事件绑定 =======
+        el.loginBtn.addEventListener('click', handleLogin);
+        el.loginName.addEventListener('keydown', e => { if (e.key === 'Enter') handleLogin() });
+        el.readyA.addEventListener('click', () => toggleReady('A'));
+        el.readyB.addEventListener('click', () => toggleReady('B'));
+        el.diff.addEventListener('change', function() { state.difficulty = this.value; if (state.mode === 'idle')
+                updateModeStatus() });
+        el.start.addEventListener('click', () => { if (state.mode !== 'idle' && !state.ended) return; if (state.loggedIn)
+                doStart();
+            else showLogin() });
+        el.reset.addEventListener('click', resetGame);
+        el.fullscreen.addEventListener('click', async () => { try { await toggleFullscreen() } catch (e) { alert(
+                    '当前环境不支持全屏或被浏览器拦截。') }
+            updateFS() });
+        el.landscape.addEventListener('click', toggleLandscape);
+        el.sound.addEventListener('click', toggleSound);
+        el.zoomOut.addEventListener('click', () => changeScale(-.05));
+        el.zoomIn.addEventListener('click', () => changeScale(.05));
+        el.zoomReset.addEventListener('click', () => { state.scale = 1;
+            updateScale() });
+        el.countdown.addEventListener('change', function() {
+            const v = Number(this.value),
+                safe = Number.isFinite(v) ? Math.min(1800, Math.max(10, Math.round(v))) : 60;
+            this.value = String(safe);
+            state.duration = safe;
+            if (!state.timerId) { state.timerSec = safe;
+                updateTop() }
         });
 
-        els.readyBtnA.addEventListener('click', () => toggleReady('A'));
-        els.readyBtnB.addEventListener('click', () => toggleReady('B'));
-
-        els.difficultySelect.addEventListener('change', function() {
-            state.difficulty = this.value;
-            if (state.mode === 'idle') {
-                updateModeStatus();
-            }
-        });
-
-        els.startBtn.addEventListener('click', () => {
-            if (state.mode !== 'idle' && !state.gameEnded) {
-                return;
-            }
-            if (state.isLoggedIn) {
-                doStartRound();
-                return;
-            }
-            showLogin();
-        });
-
-        els.resetBtn.addEventListener('click', resetGame);
-
-        els.fullscreenBtn.addEventListener('click', handleFullscreenClick);
-        els.landscapeBtn.addEventListener('click', toggleLandscapeMode);
-        els.soundBtn.addEventListener('click', toggleSound);
-
-        els.zoomOutBtn.addEventListener('click', () => changeScale(-0.05));
-        els.zoomInBtn.addEventListener('click', () => changeScale(0.05));
-        els.zoomResetBtn.addEventListener('click', () => { state.uiScale = 1;
-            updateScale(); });
-
-        els.countdownInput.addEventListener('change', () => {
-            const value = Number(els.countdownInput.value);
-            const safeValue = Number.isFinite(value) ? Math.min(1800, Math.max(10, Math.round(value))) : 60;
-            els.countdownInput.value = String(safeValue);
-            state.durationSec = safeValue;
-            if (!state.timerId) { state.timerSec = safeValue;
-                updateTopInfo(); }
-        });
-
-        function updateTimerInput(delta) {
-            const current = Number(els.countdownInput.value) || 60;
-            const next = current + delta;
-            els.countdownInput.value = String(next);
-            els.countdownInput.dispatchEvent(new Event('change'));
-        }
-
-        function setupContinuousTimerControl(btn, delta) {
-            let intervalId = null,
-                timeoutId = null;
-            const start = (e) => {
-                if (e.type === 'touchstart') e.preventDefault();
-                updateTimerInput(delta);
-                timeoutId = setTimeout(() => {
-                    intervalId = setInterval(() => { updateTimerInput(delta); }, 100);
-                }, 500);
-            };
-            const stop = (e) => {
-                if (e && e.type === 'touchend') e.preventDefault();
-                clearTimeout(timeoutId);
-                clearInterval(intervalId);
-            };
+        function setupTimerBtn(btn, d) {
+            let iv = null,
+                to = null;
+            const start = e => { if (e.type === 'touchstart') e.preventDefault();
+                updateTimer(d);
+                to = setTimeout(() => { iv = setInterval(() => { updateTimer(d) }, 100) }, 500) };
+            const stop = e => { if (e && e.type === 'touchend') e.preventDefault();
+                clearTimeout(to);
+                clearInterval(iv) };
             btn.addEventListener('mousedown', start);
-            btn.addEventListener('touchstart', start, { passive: false });
+            btn.addEventListener('touchstart', start, { passive: !1 });
             btn.addEventListener('mouseup', stop);
             btn.addEventListener('mouseleave', stop);
             btn.addEventListener('touchend', stop);
-            btn.addEventListener('touchcancel', stop);
-        }
-        setupContinuousTimerControl(els.timerMinusBtn, -10);
-        setupContinuousTimerControl(els.timerPlusBtn, 10);
-
-        els.settingsBtn.addEventListener('click', () => els.settingsModal.classList.add('show'));
-        els.closeSettingsBtn.addEventListener('click', () => els.settingsModal.classList.remove('show'));
-        els.settingsModal.addEventListener('click', (event) => {
-            if (event.target === els.settingsModal) els.settingsModal.classList.remove('show');
-        });
-
-        els.useSampleBtn.addEventListener('click', () => {
-            if (confirm('确定重新生成今日题库（100道）吗？当前题库将被覆盖。')) {
-                regenerateTodayBank();
-            }
-        });
-        els.exportBankBtn.addEventListener('click', exportBank);
-        els.importBankBtn.addEventListener('click', importBankFromFile);
-        els.clearBatchBtn.addEventListener('click', () => { els.batchInput.value = ''; });
-        els.batchSaveBtn.addEventListener('click', processBatchInput);
-        els.clearBankBtn.addEventListener('click', () => {
-            if (confirm('确定清空全部题库吗？')) {
-                state.bank = [];
-                saveBank();
-            }
-        });
-
-        document.addEventListener('fullscreenchange', updateFullscreenButtonText);
-
-        els.teamNameInputA.addEventListener('change', () => {
-            state.teamNameA = els.teamNameInputA.value.trim() || '蓝队';
-            updateTeamNames();
-            saveBank();
-            renderProgress();
-            updateModeStatus();
-        });
-        els.teamNameInputB.addEventListener('change', () => {
-            state.teamNameB = els.teamNameInputB.value.trim() || '红队';
-            updateTeamNames();
-            saveBank();
-            renderProgress();
-            updateModeStatus();
-        });
-
-        els.refreshRankBtn.addEventListener('click', renderRank);
-
-        els.rotateCloseBtn.addEventListener('click', dismissRotateOverlay);
-        let orientationCheckTimer = null;
-        window.addEventListener('resize', () => {
-            if (orientationCheckTimer) clearTimeout(orientationCheckTimer);
-            orientationCheckTimer = setTimeout(checkOrientation, 300);
-        });
-        if (screen.orientation) {
-            screen.orientation.addEventListener('change', () => {
-                setTimeout(checkOrientation, 400);
-            });
+            btn.addEventListener('touchcancel', stop)
         }
 
-        // ============================================================
-        // 启动
-        // ============================================================
+        function updateTimer(d) {
+            const cur = Number(el.countdown.value) || 60,
+                next = cur + d;
+            el.countdown.value = String(next);
+            el.countdown.dispatchEvent(new Event('change'))
+        }
+        setupTimerBtn(el.minus, -10);
+        setupTimerBtn(el.plus, 10);
+        el.settingsBtn.addEventListener('click', () => el.settings.classList.add('show'));
+        el.closeSettings.addEventListener('click', () => el.settings.classList.remove('show'));
+        el.settings.addEventListener('click', e => { if (e.target === el.settings) el.settings.classList.remove('show') });
+        el.sample.addEventListener('click', () => { if (confirm('确定重新生成今日题库（100道）吗？当前题库将被覆盖。'))
+                regenerateBank() });
+        el.exportBtn.addEventListener('click', exportBank);
+        el.importBtn.addEventListener('click', importBank);
+        el.clearBatch.addEventListener('click', () => { el.batch.value = '' });
+        el.batchSave.addEventListener('click', processBatch);
+        el.clearBank.addEventListener('click', () => { if (confirm('确定清空全部题库吗？')) { state.bank = [];
+                saveBank() } });
+        document.addEventListener('fullscreenchange', updateFS);
+        el.inputNameA.addEventListener('change', function() { state.teamNameA = this.value.trim() || '蓝队';
+            updateNames();
+            saveBank();
+            renderProgress();
+            updateModeStatus() });
+        el.inputNameB.addEventListener('change', function() { state.teamNameB = this.value.trim() || '红队';
+            updateNames();
+            saveBank();
+            renderProgress();
+            updateModeStatus() });
+        el.refreshRank.addEventListener('click', renderRank);
+        el.rotateClose.addEventListener('click', dismissRotate);
+        let orientTimer = null;
+        window.addEventListener('resize', () => { if (orientTimer) clearTimeout(orientTimer);
+            orientTimer = setTimeout(checkOrientation, 300) });
+        if (screen.orientation) screen.orientation.addEventListener('change', () => { setTimeout(checkOrientation, 400) });
+
+        // ======= 启动 =======
         loadBank();
-        els.countdownInput.value = String(state.durationSec);
+        el.countdown.value = String(state.duration);
         updateScale();
-        updateFullscreenButtonText();
+        updateFS();
         resetGame();
-        els.soundBtn.textContent = '🔊';
-        els.appContainer.classList.add('force-landscape');
-        els.landscapeBtn.textContent = '退出横屏';
+        el.sound.textContent = '🔊';
+        el.app.classList.add('force-landscape');
+        el.landscape.textContent = '退出横屏';
         setTimeout(checkOrientation, 500);
         setTimeout(checkOrientation, 1200);
         updateReadyUI();
         updateModeStatus();
-
-        els.loginOverlay.classList.add('hidden');
+        el.login.classList.add('hidden');
         renderRank();
         fetchWhitelist().catch(() => {});
     </script>
