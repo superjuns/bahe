@@ -2644,14 +2644,27 @@
         }
 
         // ======= 排行榜 =======
+        function getBeijingTodayStr() {
+            var d = new Date();
+            d.setTime(d.getTime() + 8 * 3600 * 1000);
+            return d.toISOString().slice(0, 10);
+        }
+
         async function renderRank() {
             const c = el.rankList;
             c.innerHTML = '<div class="rank-loading">加载中...</div>';
             try {
                 const subs = await fetchRank();
                 if (!subs || !subs.length) { c.innerHTML = '<div class="rank-empty">暂无记录，快来挑战吧！</div>'; return }
+                // 只保留当天的提交记录（北京时间）
+                const todayStr = getBeijingTodayStr();
+                const todaySubs = subs.filter(function(item) {
+                    const dateStr = item.submitted_at || item.timestamp || item.createTime || '';
+                    return String(dateStr).slice(0, 10) === todayStr;
+                });
+                if (!todaySubs.length) { c.innerHTML = '<div class="rank-empty">今日暂无记录，快来挑战吧！</div>'; return }
                 const map = new Map();
-                for (const i of subs) {
+                for (const i of todaySubs) {
                     const cls = String(i.class || '未知班级').trim(),
                         name = String(i.name || '匿名').trim(),
                         key = cls + '|' + name,
