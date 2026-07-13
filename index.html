@@ -1485,84 +1485,6 @@
                 transform-origin: top center;
             }
         }
-
-        /* 横屏提示 */
-        .rotate-tip {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.85);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            z-index: 9999;
-            color: #fff;
-            font-size: 16px;
-            opacity: 1;
-            transition: opacity 0.5s ease;
-        }
-        .rotate-tip.hide {
-            opacity: 0;
-            pointer-events: none;
-        }
-        .rotate-phone {
-            width: 80px;
-            height: 140px;
-            border: 4px solid #fff;
-            border-radius: 12px;
-            position: relative;
-            margin-bottom: 30px;
-            animation: rotatePhone 2s ease-in-out infinite;
-        }
-        .rotate-phone::before {
-            content: '';
-            position: absolute;
-            top: 8px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 20px;
-            height: 4px;
-            background: #fff;
-            border-radius: 2px;
-        }
-        .rotate-phone::after {
-            content: '';
-            position: absolute;
-            bottom: 8px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 10px;
-            height: 10px;
-            border: 3px solid #fff;
-            border-radius: 50%;
-        }
-        @keyframes rotatePhone {
-            0%, 100% { transform: rotate(0deg); }
-            50% { transform: rotate(-90deg); }
-        }
-        .rotate-tip-text {
-            font-size: 18px;
-            font-weight: bold;
-            margin-bottom: 8px;
-        }
-        .rotate-tip-sub {
-            font-size: 13px;
-            opacity: 0.7;
-        }
-        .rotate-tip-close {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            font-size: 14px;
-            padding: 6px 14px;
-            border: 1px solid rgba(255,255,255,0.5);
-            border-radius: 20px;
-            cursor: pointer;
-            opacity: 0.8;
-        }
     </style>
 </head>
 <body>
@@ -2818,14 +2740,28 @@
         }
 
         // ======= 旋转提示 =======
+        let rotateAutoHideTimer = null;
         function checkOrientation() {
             if (window.innerWidth >= 1024 && window.innerHeight < window.innerWidth) { el.rotate.classList.remove('show'); return }
             if (rotateDismissed) { el.rotate.classList.remove('show'); return }
-            el.rotate.classList.toggle('show', window.innerHeight > window.innerWidth)
+            const isPortrait = window.innerHeight > window.innerWidth;
+            el.rotate.classList.toggle('show', isPortrait);
+            // 竖屏显示时，3秒后自动隐藏
+            if (isPortrait && !rotateAutoHideTimer) {
+                rotateAutoHideTimer = setTimeout(() => {
+                    dismissRotate();
+                }, 3000);
+            }
+            // 切到横屏时立即消失
+            if (!isPortrait) {
+                dismissRotate();
+            }
         }
 
         function dismissRotate() { rotateDismissed = !0;
-            el.rotate.classList.remove('show') }
+            el.rotate.classList.remove('show')
+            if (rotateAutoHideTimer) { clearTimeout(rotateAutoHideTimer); rotateAutoHideTimer = null; }
+        }
 
         // ======= 事件绑定 =======
         el.loginBtn.addEventListener('click', handleLogin);
@@ -2926,46 +2862,6 @@
         el.login.classList.add('hidden');
         renderRank();
         fetchWhitelist().catch(() => {});
-
-        // ---- 横屏提示 ----
-        function showRotateTip() {
-            if (window.innerWidth > window.innerHeight) return;
-
-            const tip = document.createElement('div');
-            tip.className = 'rotate-tip';
-            tip.id = 'rotateTip';
-            tip.innerHTML = `
-                <div class="rotate-tip-close" id="rotateTipClose">跳过</div>
-                <div class="rotate-phone"></div>
-                <div class="rotate-tip-text">建议横屏体验</div>
-                <div class="rotate-tip-sub">画面更宽，对战更爽</div>
-            `;
-            document.body.appendChild(tip);
-
-            let hideTimer = setTimeout(hideRotateTip, 3000);
-
-            function hideRotateTip() {
-                clearTimeout(hideTimer);
-                tip.classList.add('hide');
-                setTimeout(() => tip.remove(), 500);
-            }
-
-            document.getElementById('rotateTipClose').addEventListener('click', hideRotateTip);
-
-            function checkOrientation() {
-                if (window.innerWidth > window.innerHeight) {
-                    hideRotateTip();
-                    window.removeEventListener('resize', checkOrientation);
-                }
-            }
-            window.addEventListener('resize', checkOrientation);
-        }
-
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', showRotateTip);
-        } else {
-            showRotateTip();
-        }
     </script>
 </body>
 </html>
