@@ -1676,7 +1676,24 @@
         async function tryAutoLoginFromUrl() {
             const cls = getUrlParam('class') || getUrlParam('cls') || getUrlParam('班级');
             const name = getUrlParam('name') || getUrlParam('姓名');
-            if (!cls || !name) return false;
+            if (!cls || !name) {
+                // 没有URL参数时，从localStorage恢复登录状态
+                const savedCls = localStorage.getItem('bahe_class');
+                const savedName = localStorage.getItem('bahe_name');
+                if (savedCls && savedName) {
+                    try {
+                        await fetchWhitelist();
+                        if (checkWhitelist(savedCls, savedName)) {
+                            state.userClass = savedCls;
+                            state.userName = savedName;
+                            state.loggedIn = !0;
+                            updateReadyUI();
+                            return true;
+                        }
+                    } catch (e) {}
+                }
+                return false;
+            }
             const normCls = /^\d+$/.test(cls) ? cls + '班' : cls;
             try {
                 await fetchWhitelist();
@@ -1684,6 +1701,10 @@
                 if (!allowed) return false;
                 localStorage.setItem('bahe_class', normCls);
                 localStorage.setItem('bahe_name', name);
+                state.userClass = normCls;
+                state.userName = name;
+                state.loggedIn = !0;
+                updateReadyUI();
                 return true;
             } catch (e) { return false; }
         }
@@ -2537,24 +2558,19 @@
 
         // ======= 开始 & 重置 =======
         function showLogin() {
-            // 自动填充：从 localStorage 读取登录信息
-            const savedCls = localStorage.getItem('bahe_class');
-            const savedName = localStorage.getItem('bahe_name');
-            if (savedCls && savedName) {
-                const classInput = document.querySelector('[id*="class"], [id*="Class"]');
-                const nameInput = document.querySelector('[id*="name"], [id*="Name"]');
-                if (classInput) classInput.value = savedCls.replace('班', '');
-                if (nameInput) nameInput.value = savedName;
-            }
-
             el.login.classList.remove('hidden');
             el.loginName.value = '';
             el.loginErr.textContent = '';
             el.loginOk.textContent = '';
             el.loginBtn.disabled = !1;
-                localStorage.setItem('bahe_class', el.classInput ? el.classInput.value : '');
-                localStorage.setItem('bahe_name', el.nameInput ? el.nameInput.value : '');
             el.loginBtn.textContent = '✅ 验证并开始';
+            // 自动填充：从 localStorage 读取登录信息
+            const savedCls = localStorage.getItem('bahe_class');
+            const savedName = localStorage.getItem('bahe_name');
+            if (savedCls && savedName) {
+                if (el.loginClass) el.loginClass.value = savedCls;
+                if (el.loginName && !el.loginName.value) el.loginName.value = savedName;
+            }
             el.loginName.focus()
         }
 
