@@ -1663,6 +1663,29 @@
             MAX_PULL = 15;
         let soundEnabled = !0,
             whitelistCache = null,
+
+        // URL参数自动登录工具函数
+        function getUrlParam(name) {
+            return new URLSearchParams(window.location.search).get(name) || '';
+        }
+        function normStr(s) {
+            return String(s || '').replace(/班/g, '').replace(/\s/g, '').toLowerCase();
+        }
+        // URL参数自动登录（平台跳转时免输入）
+        async function tryAutoLoginFromUrl() {
+            const cls = getUrlParam('class') || getUrlParam('cls') || getUrlParam('班级');
+            const name = getUrlParam('name') || getUrlParam('姓名');
+            if (!cls || !name) return false;
+            const normCls = /^\d+$/.test(cls) ? cls + '班' : cls;
+            try {
+                await fetchWhitelist();
+                const allowed = checkWhitelist(normCls, name);
+                if (!allowed) return false;
+                localStorage.setItem('bahe_class', normCls);
+                localStorage.setItem('bahe_name', name);
+                return true;
+            } catch (e) { return false; }
+        }
             rotateDismissed = !1;
 
         // ======= 音效 =======
@@ -2514,11 +2537,23 @@
 
         // ======= 开始 & 重置 =======
         function showLogin() {
+            // 自动填充：从 localStorage 读取登录信息
+            const savedCls = localStorage.getItem('bahe_class');
+            const savedName = localStorage.getItem('bahe_name');
+            if (savedCls && savedName) {
+                const classInput = document.querySelector('[id*="class"], [id*="Class"]');
+                const nameInput = document.querySelector('[id*="name"], [id*="Name"]');
+                if (classInput) classInput.value = savedCls.replace('班', '');
+                if (nameInput) nameInput.value = savedName;
+            }
+
             el.login.classList.remove('hidden');
             el.loginName.value = '';
             el.loginErr.textContent = '';
             el.loginOk.textContent = '';
             el.loginBtn.disabled = !1;
+                localStorage.setItem('bahe_class', el.classInput ? el.classInput.value : '');
+                localStorage.setItem('bahe_name', el.nameInput ? el.nameInput.value : '');
             el.loginBtn.textContent = '✅ 验证并开始';
             el.loginName.focus()
         }
@@ -2862,6 +2897,9 @@
         el.login.classList.add('hidden');
         renderRank();
         fetchWhitelist().catch(() => {});
+    
+        // URL参数自动登录（平台跳转时免输入）
+        tryAutoLoginFromUrl();
     </script>
 </body>
 </html>
