@@ -1663,6 +1663,7 @@
             MAX_PULL = 15;
         let soundEnabled = !0,
             whitelistCache = null,
+            rotateDismissed = !1;
 
         // URL参数自动登录工具函数
         function getUrlParam(name) {
@@ -1686,7 +1687,6 @@
                 return true;
             } catch (e) { return false; }
         }
-            rotateDismissed = !1;
 
         // ======= 音效 =======
         function playSound(t) {
@@ -2899,7 +2899,7 @@
         fetchWhitelist().catch(() => {});
     
         // URL参数自动登录（平台跳转时免输入）
-        tryAutoLoginFromUrl();
+        tryAutoLoginFromUrl().catch(() => {});
     </script>
 </body>
 </html>
