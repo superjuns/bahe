@@ -1655,10 +1655,27 @@
     </div>
 
     <script>
+// === Supabase 配置（自动生成）===
+const SUPABASE_KEY = 'sb_publishable_EAfnJgOY7VsXPdZkEcrvBA_0qkNGlyD';
+const _origFetch = window.fetch;
+window.fetch = function(url, options) {
+    options = options || {};
+    var u = (typeof url === 'string') ? url : (url && url.url) || '';
+    if (u.indexOf('bjugehxenrvaqtodjkbc.supabase.co') !== -1) {
+        options.headers = Object.assign({}, options.headers || {}, {
+            'apikey': SUPABASE_KEY,
+            'Authorization': 'Bearer ' + SUPABASE_KEY,
+            'Content-Type': 'application/json'
+        });
+    }
+    return _origFetch.call(this, url, options);
+};
+// === Supabase 配置结束 ===
+
         // ======= 配置 =======
-        const API_WHITELIST = 'https://wzkjgz.site/api/5tmbx2o6rg/all',
-            API_RANK = 'https://wzkjgz.site/api/sc37wirvgg/all',
-            API_SUBMIT = 'https://wzkjgz.site/api/sc37wirvgg',
+        const API_WHITELIST = 'https://bjugehxenrvaqtodjkbc.supabase.co/rest/v1/whitelist?select=*',
+            API_RANK = 'https://bjugehxenrvaqtodjkbc.supabase.co/rest/v1/scores_bahe?select=*',
+            API_SUBMIT = 'https://bjugehxenrvaqtodjkbc.supabase.co/rest/v1/scores_bahe',
             STORAGE_KEY = 'math-tug-of-war-bank-v4',
             MAX_PULL = 15;
         let soundEnabled = !0,
@@ -1903,7 +1920,7 @@
         // ======= API =======
         async function fetchWhitelist() {
             try { const r = await fetch(API_WHITELIST); if (!r.ok) throw Error(); const d = await r.json(); if (d && d
-                    .submissions) { whitelistCache = d.submissions; return whitelistCache } return [] } catch (e) { return[] }
+                    ) { whitelistCache = d; return whitelistCache } return [] } catch (e) { return[] }
         }
 
         function checkWhitelist(cls, name) {
@@ -1918,7 +1935,7 @@
             return r.json()
         }
         async function fetchRank() { try { const r = await fetch(API_RANK); if (!r.ok) throw Error(); const d = await r
-                .json(); return d.submissions || [] } catch (e) { return[] } }
+                .json(); return d || [] } catch (e) { return[] } }
 
         // ======= 状态 =======
         const state = {
