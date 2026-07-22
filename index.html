@@ -1930,7 +1930,7 @@ window.fetch = function(url, options) {
         }
         async function submitScore(cls, name, score) {
             const r = await fetch(API_SUBMIT, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON
-                    .stringify({ class: cls, name: name.trim(), score }) });
+                    .stringify({ class: cls, name: name.trim(), score, submitted_at: new Date().toISOString() }) });
             if (!r.ok) throw Error(await r.text());
             return r.json()
         }
